@@ -84,8 +84,8 @@ The Passlings in your town can be used across multiple fun minigames aswell!
 
 
 ### Building APK to download on Android Phones
-1. Paste this command `npx expo run:android --variant release --device`
-2. To get APK just run on an emulator and retrieve from `android/app/build/outputs/apk/release/app-release.apk`
+1. Paste this command `cd android && ./gradlew assembleRelease` while in the root project folder
+2. Retrieve APK from `android/app/build/outputs/apk/release/app-release.apk`
 3. Ensure developer mode is enabled on Phone
 4. Install the APK on the Phone
 
