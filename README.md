@@ -160,7 +160,7 @@ The Passlings in your town can be used across multiple fun minigames aswell!
    * Mac/Linux:
 
      ```
-     cd android && .\gradlew assembleRelease
+     cd android && ./gradlew assembleRelease
      ```
      
 3. Retrieve APK from `android/app/build/outputs/apk/release/app-release.apk`
