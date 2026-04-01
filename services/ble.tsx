@@ -4,7 +4,9 @@ import {
   Platform,
   StyleSheet,
   Text,
+  TextInput,
   TouchableOpacity,
+  useColorScheme,
   View,
 } from "react-native";
 
@@ -18,6 +20,7 @@ import {
   stopScan,
 } from "munim-bluetooth";
 
+import { check, PERMISSIONS, request, RESULTS } from "react-native-permissions";
 // Full 128-bit UUID — munim requires this format.
 // The 128-bit form takes ~18 bytes in the packet, so we drop localName
 // to stay within Android's 31-byte advertisement limit.
@@ -40,13 +43,44 @@ const hexToString = (hex: string): string => {
 };
 
 const BleNearbyUsers: React.FC = () => {
-  const [username, setUsername] = useState<string | null>(null);
+  const colorScheme = useColorScheme();
+
+  // Define dynamic colors based on the theme
+  const textColor = colorScheme === "dark" ? "#FFFFFF" : "#000000";
+  const backgroundColor = colorScheme === "dark" ? "#121212" : "#FFFFFF";
+
+  const [scanning, setScanning] = useState<boolean>(false);
+  const [username, setUsername] = useState<string>("");
   const [nearbyUsers, setNearbyUsers] = useState<string[]>([]);
   const [scanSubscription, setScanSubscription] = useState<(() => void) | null>(
     null,
   );
 
   const requestPermissions = async (): Promise<boolean> => {
+    // Commented out until can figure out how to properly activate location services on iOS
+    if (Platform.OS === "ios") {
+      // 1. Check current status first
+      const currentStatus = await check(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE);
+
+      if (currentStatus === RESULTS.DENIED) {
+        // 2. Only request if not yet asked
+        const whenInUseResult = await request(
+          PERMISSIONS.IOS.LOCATION_WHEN_IN_USE,
+        );
+
+        if (whenInUseResult === RESULTS.GRANTED) {
+          // 3. Only request ALWAYS after WHEN_IN_USE is granted
+          const alwaysResult = await request(PERMISSIONS.IOS.LOCATION_ALWAYS);
+          console.log("Always permission:", alwaysResult);
+        }
+      } else if (currentStatus === RESULTS.BLOCKED) {
+        // Permission was denied — prompt user to go to Settings
+        console.log("Permission blocked, open Settings");
+      } else {
+        console.log("Current status:", currentStatus);
+      }
+    }
+
     if (Platform.OS === "android" && Platform.Version >= 31) {
       const results = await PermissionsAndroid.requestMultiple([
         PermissionsAndroid.PERMISSIONS.BLUETOOTH_SCAN,
@@ -70,12 +104,16 @@ const BleNearbyUsers: React.FC = () => {
   const stopBLE = () => {
     stopScan();
     stopAdvertising();
+
+    // Deactivate Scanning Flag
+    setScanning(false);
+
     removeListeners(1);
     if (scanSubscription) {
       scanSubscription();
       setScanSubscription(null);
     }
-    setUsername(null);
+    setUsername("");
   };
 
   const startBLE = async (name: string) => {
@@ -90,6 +128,9 @@ const BleNearbyUsers: React.FC = () => {
     const localName = `PM:${name}`;
     const localNameHex = stringToHex(localName);
     console.log("📡 Advertising as:", localName, "→ hex:", localNameHex);
+
+    // Activate Scanning Flag
+    setScanning(true);
 
     try {
       setServices([{ uuid: APP_SERVICE_UUID, characteristics: [] }]);
@@ -186,13 +227,40 @@ const BleNearbyUsers: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>BLE Nearby</Text>
+      <Text style={[styles.title, { color: textColor }]}>BLE Nearby</Text>
 
-      <Text style={styles.status}>
+      <Text style={[styles.status, { color: textColor }]}>
         {username ? `📡 Advertising as "${username}"` : "Not advertising"}
       </Text>
 
+      {
+        // Temporary way to allow custom usernames without hardcoding them as buttons.
+      }
+      <View style={{ marginBottom: 20 }}>
+        <TextInput
+          style={[{ color: textColor }]}
+          placeholder="Type here..."
+          // 2. Set the state variable into the input
+          value={username}
+          // 3. Update the variable as the user types
+          onChangeText={setUsername}
+        />
+        <Text style={[{ color: textColor }]}>
+          The variable currently holds: {username}
+        </Text>
+      </View>
+
       <View style={styles.buttonGrid}>
+        <TouchableOpacity
+          key={"start"}
+          style={[styles.button, username && styles.buttonActive]}
+          onPress={() => startBLE(username)}
+        >
+          <Text style={styles.buttonText}>Start BLE</Text>
+        </TouchableOpacity>
+      </View>
+
+      {/* <View style={styles.buttonGrid}>
         {TEST_NAMES.map((name) => (
           <TouchableOpacity
             key={name}
@@ -202,25 +270,25 @@ const BleNearbyUsers: React.FC = () => {
             <Text style={styles.buttonText}>{name}</Text>
           </TouchableOpacity>
         ))}
-      </View>
+      </View> */}
 
-      {username && (
+      {username && scanning && (
         <TouchableOpacity style={styles.stopButton} onPress={stopBLE}>
           <Text style={styles.stopButtonText}>Stop BLE</Text>
         </TouchableOpacity>
       )}
 
-      <Text style={styles.scannerTitle}>
+      <Text style={[styles.scannerTitle, { color: textColor }]}>
         👥 Nearby Users ({nearbyUsers.length})
       </Text>
       {nearbyUsers.length === 0 ? (
-        <Text style={styles.empty}>
+        <Text style={[styles.empty, { color: textColor }]}>
           {username ? "Scanning…" : "Start advertising to scan"}
         </Text>
       ) : (
         nearbyUsers.map((user) => (
           <View key={user} style={styles.userRow}>
-            <Text style={styles.userName}>{user}</Text>
+            <Text style={[styles.userName, { color: textColor }]}>{user}</Text>
           </View>
         ))
       )}
