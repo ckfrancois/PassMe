@@ -39,7 +39,14 @@ The Passlings in your town can be used across multiple fun minigames aswell!
 
 1. Clone the PassMe Repository
 2. Enter the Project Folder and open terminal at Project root folder 
-3. Run `npm install`
+3. Run this to download plugins and libraries that are utilized in the app
+```
+npm install
+```
+5. Run this to download necessary libraries from [react-native-godot](https://github.com/borndotcom/react-native-godot)
+```
+yarn download-prebuild
+```
 
 </details>
 
