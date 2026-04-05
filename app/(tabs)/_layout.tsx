@@ -43,6 +43,15 @@ export default function TabLayout() {
           ),
         }}
       />
+      <Tabs.Screen
+        name="godotTab"
+        options={{
+          title: "godot",
+          tabBarIcon: ({ color }) => (
+            <IconSymbol size={28} name="fish" color={color} />
+          ),
+        }}
+      />
     </Tabs>
   );
 }
