@@ -16,16 +16,18 @@
           "bluetooth-central",
           "bluetooth-peripheral",
           "location"
-        ], // <-- added "location"
+        ],
         "NSBluetoothAlwaysUsageDescription": "This app uses Bluetooth to connect to nearby devices.",
         "NSBluetoothPeripheralUsageDescription": "This app uses Bluetooth to communicate with devices.",
-        // ADD THESE THREE
         "NSLocationWhenInUseUsageDescription": "PassMe uses your location to find nearby devices.",
         "NSLocationAlwaysAndWhenInUseUsageDescription": "PassMe uses your location in the background to maintain connections with nearby devices.",
         "NSLocationAlwaysUsageDescription": "PassMe uses your location in the background to maintain connections with nearby devices."
       }
     },
     "android": {
+      "supportedAbis": ["arm64-v8a", "armeabi-v7a"],
+      
+      "minSdkVersion": 29,
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
@@ -51,6 +53,22 @@
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
+      [
+        "./plugins/withReactNativeArchitectures"
+      ],
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "minSdkVersion": 29,
+            "compileSdkVersion": 36,
+            "targetSdkVersion": 36,
+            "extraGradleProperties": {
+              "reactNativeArchitectures": "arm64-v8a,armeabi-v7a"
+            }
+          }
+        }
+      ],
       "expo-router",
       [
         "expo-splash-screen",
@@ -64,13 +82,16 @@
           }
         }
       ],
-      // ADD THIS
       [
         "react-native-permissions",
         {
-          "iosPermissions": ["LocationWhenInUse", "LocationAlways"]
+          "iosPermissions": [
+            "LocationWhenInUse",
+            "LocationAlways"
+          ]
         }
-      ]
+      ],
+      "expo-build-properties"
     ],
     "experiments": {
       "typedRoutes": true,
