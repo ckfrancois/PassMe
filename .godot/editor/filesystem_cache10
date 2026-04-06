@@ -1,0 +1,14 @@
+ea4bc82a6ad023ab7ee23ee620429895
+::res://::1775518614
+icon.svg::CompressedTexture2D/CompressedTexture2D::2336323613874960081::1774159535::1774159541::1::::<><><>0<>0<>d8c3f30b4e479ff7d82ab6fd4560e9ac<>res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex::
+README.md::TextFile::-1::1775518350::0::1::::<><><>0<>0<><>::
+::res://Assets/::1774159612
+::res://Assets/Acc/::1774159578
+::res://Assets/Body/::1774159603
+::res://Assets/Hair/::1774159607
+::res://Assets/Outfit/::1774159612
+::res://Scenes/::1775518380
+Main.tscn::PackedScene/PackedScene::8980138412581528828::1774160385::0::1::::<><><>0<>0<><>::
+player.tscn::PackedScene::8607789582010370642::1775518380::0::1::::<><><>0<>0<><>::
+::res://Scripts/::1774159813
+player.gd::GDScript/GDScript::5506849817956234705::1774159792::0::1::::<>CharacterBody2D<><>0<>0<><>::
