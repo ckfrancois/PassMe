@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   PermissionsAndroid,
   Platform,
@@ -10,74 +10,58 @@ import {
   View,
 } from "react-native";
 
+import { Buffer } from "buffer";
+import { BleError, BleManager, Device } from "react-native-ble-plx";
+
 import {
-  addDeviceFoundListener,
-  removeListeners,
   setServices,
   startAdvertising,
-  startScan,
   stopAdvertising,
-  stopScan,
 } from "munim-bluetooth";
 
 import { check, PERMISSIONS, request, RESULTS } from "react-native-permissions";
-// Full 128-bit UUID — munim requires this format.
-// The 128-bit form takes ~18 bytes in the packet, so we drop localName
-// to stay within Android's 31-byte advertisement limit.
+
 const APP_SERVICE_UUID = "0000ABCD-0000-1000-8000-00805F9B34FB";
+const USERNAME_CHARACTERISTIC_UUID = "0000DCBA-0000-1000-8000-00805F9B34FB";
 
-const TEST_NAMES = ["T1", "T2", "T3", "T4"];
+const bleManager = new BleManager();
 
-/** Convert a UTF-8 string to a hex string (e.g. "PM:T1" → "504D3A5431") */
-const stringToHex = (str: string): string => {
-  return Array.from(new TextEncoder().encode(str))
+// ─── Helpers ─────────────────────────────────────────────────────────────────
+
+const stringToHex = (str: string): string =>
+  Array.from(new TextEncoder().encode(str))
     .map((b) => b.toString(16).padStart(2, "0"))
     .join("")
     .toUpperCase();
-};
 
-/** Convert a hex string back to a UTF-8 string */
-const hexToString = (hex: string): string => {
-  const bytes = hex.match(/.{1,2}/g) ?? [];
-  return bytes.map((b) => String.fromCharCode(parseInt(b, 16))).join("");
-};
+// ─── Component ───────────────────────────────────────────────────────────────
 
 const BleNearbyUsers: React.FC = () => {
   const colorScheme = useColorScheme();
-
-  // Define dynamic colors based on the theme
   const textColor = colorScheme === "dark" ? "#FFFFFF" : "#000000";
-  const backgroundColor = colorScheme === "dark" ? "#121212" : "#FFFFFF";
 
-  const [scanning, setScanning] = useState<boolean>(false);
-  const [username, setUsername] = useState<string>("");
+  const lastSeen = useRef<Map<string, number>>(new Map());
+
+  const [scanning, setScanning] = useState(false);
+  const [username, setUsername] = useState("");
   const [nearbyUsers, setNearbyUsers] = useState<string[]>([]);
-  const [scanSubscription, setScanSubscription] = useState<(() => void) | null>(
-    null,
-  );
+  const [statusMessage, setStatusMessage] = useState("");
+
+  const connectingDevices = useRef<Set<string>>(new Set());
+
+  // ─── Permissions ───────────────────────────────────────────────────────────
 
   const requestPermissions = async (): Promise<boolean> => {
-    // Commented out until can figure out how to properly activate location services on iOS
     if (Platform.OS === "ios") {
-      // 1. Check current status first
       const currentStatus = await check(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE);
-
       if (currentStatus === RESULTS.DENIED) {
-        // 2. Only request if not yet asked
-        const whenInUseResult = await request(
-          PERMISSIONS.IOS.LOCATION_WHEN_IN_USE,
-        );
-
-        if (whenInUseResult === RESULTS.GRANTED) {
-          // 3. Only request ALWAYS after WHEN_IN_USE is granted
-          const alwaysResult = await request(PERMISSIONS.IOS.LOCATION_ALWAYS);
-          console.log("Always permission:", alwaysResult);
+        const whenInUse = await request(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE);
+        if (whenInUse === RESULTS.GRANTED) {
+          await request(PERMISSIONS.IOS.LOCATION_ALWAYS);
         }
       } else if (currentStatus === RESULTS.BLOCKED) {
-        // Permission was denied — prompt user to go to Settings
-        console.log("Permission blocked, open Settings");
-      } else {
-        console.log("Current status:", currentStatus);
+        setStatusMessage("❌ Location permission blocked. Enable in Settings.");
+        return false;
       }
     }
 
@@ -94,185 +78,225 @@ const BleNearbyUsers: React.FC = () => {
       );
 
       if (!allGranted) {
-        console.warn("❌ Missing BLE permissions:", results);
+        setStatusMessage("❌ Missing Bluetooth permissions.");
         return false;
       }
     }
+
     return true;
   };
 
-  const stopBLE = () => {
-    stopScan();
-    stopAdvertising();
+  // ─── Device Discovery ──────────────────────────────────────────────────────
 
-    // Deactivate Scanning Flag
-    setScanning(false);
+  const handleDiscoveredDevice = async (device: Device) => {
+    const deviceId = device.id;
 
-    removeListeners(1);
-    if (scanSubscription) {
-      scanSubscription();
-      setScanSubscription(null);
+    const now = Date.now();
+    const last = lastSeen.current.get(deviceId) || 0;
+
+    if (now - last < 10000) return; // 10s cooldown
+
+    lastSeen.current.set(deviceId, now);
+
+    // On Android (no UUID filter), skip weak signals to avoid
+    // hammering every BLE device in range
+    if (Platform.OS === "android" && (device.rssi ?? -100) < -85) {
+      console.log("⏭️ Signal too weak, skipping:", deviceId, device.rssi);
+      return;
     }
-    setUsername("");
+
+    if (connectingDevices.current.has(deviceId)) return;
+    connectingDevices.current.add(deviceId);
+
+    console.log(Platform.OS + ": 🔍 Discovered:", {
+      id: deviceId,
+      name: device.name ?? "unnamed",
+      rssi: device.rssi,
+    });
+
+    try {
+      // ── Connect ───────────────────────────────────────────────────
+      // Android gets a longer timeout since backgrounded iOS is slower
+      // to respond to incoming connections
+      const connected = await device.connect({
+        timeout: Platform.OS === "android" ? 20000 : 20000,
+        requestMTU: 512,
+      });
+      console.log(Platform.OS + ": 🔗 Connected to:", deviceId);
+
+      // Request high connection priority on Android to reduce
+      // GATT latency with backgrounded iOS peripheral
+      if (Platform.OS === "android") {
+        await connected.requestConnectionPriority(0);
+      }
+
+      await new Promise((res) => setTimeout(res, 500));
+
+      // ── Discover services and characteristics ─────────────────────
+      const discovered =
+        await connected.discoverAllServicesAndCharacteristics();
+      console.log(Platform.OS + ": 🔎 Services discovered for:", deviceId);
+
+      // ── Read characteristic ───────────────────────────────────────
+      const characteristic = await discovered.readCharacteristicForService(
+        APP_SERVICE_UUID,
+        USERNAME_CHARACTERISTIC_UUID,
+      );
+
+      if (!characteristic.value) {
+        console.warn(Platform.OS + ": ⚠️ Empty value from:", deviceId);
+        return;
+      }
+
+      // ble-plx returns base64 on both platforms
+      const decoded = Buffer.from(characteristic.value, "base64").toString(
+        "utf-8",
+      );
+      console.log(Platform.OS + ": 📖 Decoded:", decoded, "from:", deviceId);
+
+      if (decoded.startsWith("PM:")) {
+        const foundUser = decoded.slice(3);
+        console.log(Platform.OS + ": 🔵 Found user:", foundUser);
+        setNearbyUsers((prev) =>
+          prev.includes(foundUser) ? prev : [...prev, foundUser],
+        );
+      } else {
+        console.log(
+          Platform.OS + ": ⏭️ Not a PassMe device:",
+          deviceId,
+          "value:",
+          decoded,
+        );
+      }
+    } catch (err) {
+      const bleErr = err as BleError;
+      console.log(
+        Platform.OS + ": ⏭️ Skipping",
+        deviceId,
+        "—",
+        bleErr?.message ?? String(err),
+      );
+    } finally {
+      try {
+        await bleManager.cancelDeviceConnection(deviceId);
+        console.log(Platform.OS + ": 🔌 Disconnected from:", deviceId);
+      } catch {}
+      connectingDevices.current.delete(deviceId);
+    }
+  };
+
+  // ─── BLE Control ───────────────────────────────────────────────────────────
+
+  const stopBLE = () => {
+    bleManager.stopDeviceScan();
+    stopAdvertising();
+    setScanning(false);
+    connectingDevices.current.clear();
+    setStatusMessage("");
   };
 
   const startBLE = async (name: string) => {
+    if (name.length < 2) {
+      setStatusMessage("⚠️ Username must be at least 2 characters.");
+      return;
+    }
+
     const granted = await requestPermissions();
     if (!granted) return;
 
     stopBLE();
-
-    setUsername(name);
     setNearbyUsers([]);
 
     const localName = `PM:${name}`;
-    const localNameHex = stringToHex(localName);
-    console.log("📡 Advertising as:", localName, "→ hex:", localNameHex);
-
-    // Activate Scanning Flag
+    console.log("📡 Advertising as:", localName, "on", Platform.OS);
     setScanning(true);
+    setStatusMessage("📡 Starting...");
 
+    // ── Peripheral: munim-bluetooth handles GATT server + advertising ──
     try {
-      setServices([{ uuid: APP_SERVICE_UUID, characteristics: [] }]);
+      await setServices([
+        {
+          uuid: APP_SERVICE_UUID,
+          characteristics: [
+            {
+              uuid: USERNAME_CHARACTERISTIC_UUID,
+              properties: ["read"],
+              value: stringToHex(localName),
+            },
+          ],
+        },
+      ]);
 
-      // No localName here — dropping it saves ~8 bytes and keeps us
-      // within the 31-byte BLE advertisement limit alongside the
-      // 128-bit service UUID (~18 bytes) and manufacturerData (~7 bytes).
-      if (Platform.OS === "android") {
-        await startAdvertising({
-          serviceUUIDs: [APP_SERVICE_UUID],
-          manufacturerData: localNameHex,
-        });
-      } else {
-        // iOS doesn't reliably broadcast manufacturerData, but it does broadcast localName — so we set that instead.
-        await startAdvertising({
-          serviceUUIDs: [APP_SERVICE_UUID],
-          localName: localName,
-        });
-      }
+      await startAdvertising({
+        serviceUUIDs: [APP_SERVICE_UUID],
+      });
 
       console.log("✅ Advertising started");
+      setStatusMessage(`✅ Advertising as "${localName}"`);
     } catch (err) {
       console.error("❌ Failed to start advertising:", err);
+      setStatusMessage("❌ Failed to start advertising. Please try again.");
+      setScanning(false);
       return;
     }
 
-    const subscription = addDeviceFoundListener((device: any) => {
-      console.log("🔍 Raw device:", JSON.stringify(device));
-
-      // --- Primary: manufacturerData (reliable on Android) ---
-      const rawMfr: string | undefined =
-        device.advertisingData?.manufacturerData ?? device.manufacturerData;
-
-      console.log("🔍 RAW manufacturerData:", rawMfr);
-
-      if (rawMfr && typeof rawMfr === "string") {
-        try {
-          const decoded = hexToString(rawMfr.slice(4));
-          console.log("🔍 Decoded manufacturerData:", decoded);
-
-          if (decoded.startsWith("PM:")) {
-            const foundUser = decoded.slice(3);
-            console.log("🔵 Found user via manufacturerData:", foundUser);
-            if (foundUser) {
-              setNearbyUsers((prev) =>
-                prev.includes(foundUser) ? prev : [...prev, foundUser],
-              );
-              return; // Skip fallback
-            }
-          }
-        } catch (e) {
-          console.warn("⚠️ Failed to decode manufacturerData:", e);
+    // ── Central: ble-plx handles scanning + service discovery + reading ──
+    // iOS: filter by UUID since it can see other iOS overflow advertisements
+    // Android: no UUID filter since it can't see backgrounded iOS overflow UUIDs
+    bleManager.startDeviceScan(
+      Platform.OS === "android" ? null : [APP_SERVICE_UUID],
+      { allowDuplicates: true },
+      (error, device) => {
+        if (error) {
+          console.error("❌ Scan error:", error);
+          setStatusMessage("❌ Scan error: " + error.message);
+          return;
         }
-      }
-
-      // --- Fallback: local name (reliable on iOS, not set on Android) ---
-      const deviceName: string =
-        device.name ??
-        device.localName ??
-        device.advertisingData?.completeLocalName ??
-        device.advertisingData?.kCBAdvDataLocalName ??
-        "";
-
-      console.log("🔍 Device name (fallback):", deviceName);
-
-      if (deviceName.startsWith("PM:")) {
-        const foundUser = deviceName.slice(3);
-        console.log("🔵 Found user via localName:", foundUser);
-        if (foundUser) {
-          setNearbyUsers((prev) =>
-            prev.includes(foundUser) ? prev : [...prev, foundUser],
-          );
+        if (device) {
+          handleDiscoveredDevice(device);
         }
-      }
-    });
+      },
+    );
 
-    try {
-      await startScan({
-        serviceUUIDs: [APP_SERVICE_UUID],
-        allowDuplicates: false,
-        scanMode: "balanced",
-      });
-      console.log("🔍 Scan started");
-    } catch (err) {
-      console.error("❌ Failed to start scan:", err);
-    }
-
-    setScanSubscription(() => subscription);
+    console.log("🔍 Scan started");
   };
 
   useEffect(() => {
-    return () => stopBLE();
+    return () => {
+      stopBLE();
+      bleManager.destroy();
+    };
   }, []);
+
+  // ─── Render ────────────────────────────────────────────────────────────────
 
   return (
     <View style={styles.container}>
       <Text style={[styles.title, { color: textColor }]}>BLE Nearby</Text>
 
-      <Text style={[styles.status, { color: textColor }]}>
-        {username ? `📡 Advertising as "${username}"` : "Not advertising"}
-      </Text>
+      <Text style={[styles.status, { color: textColor }]}>{statusMessage}</Text>
 
-      {
-        // Temporary way to allow custom usernames without hardcoding them as buttons.
-      }
       <View style={{ marginBottom: 20 }}>
         <TextInput
-          style={[{ color: textColor }]}
-          placeholder="Type here..."
-          // 2. Set the state variable into the input
+          style={[styles.input, { color: textColor, borderColor: textColor }]}
+          placeholder="Enter your name..."
+          placeholderTextColor={colorScheme === "dark" ? "#888" : "#AAA"}
           value={username}
-          // 3. Update the variable as the user types
           onChangeText={setUsername}
         />
-        <Text style={[{ color: textColor }]}>
-          The variable currently holds: {username}
-        </Text>
       </View>
 
       <View style={styles.buttonGrid}>
         <TouchableOpacity
-          key={"start"}
-          style={[styles.button, username && styles.buttonActive]}
+          style={[styles.button, username.length >= 2 && styles.buttonActive]}
           onPress={() => startBLE(username)}
+          disabled={username.length < 2}
         >
           <Text style={styles.buttonText}>Start BLE</Text>
         </TouchableOpacity>
       </View>
 
-      {/* <View style={styles.buttonGrid}>
-        {TEST_NAMES.map((name) => (
-          <TouchableOpacity
-            key={name}
-            style={[styles.button, username === name && styles.buttonActive]}
-            onPress={() => startBLE(name)}
-          >
-            <Text style={styles.buttonText}>{name}</Text>
-          </TouchableOpacity>
-        ))}
-      </View> */}
-
-      {username && scanning && (
+      {scanning && (
         <TouchableOpacity style={styles.stopButton} onPress={stopBLE}>
           <Text style={styles.stopButtonText}>Stop BLE</Text>
         </TouchableOpacity>
@@ -281,9 +305,10 @@ const BleNearbyUsers: React.FC = () => {
       <Text style={[styles.scannerTitle, { color: textColor }]}>
         👥 Nearby Users ({nearbyUsers.length})
       </Text>
+
       {nearbyUsers.length === 0 ? (
         <Text style={[styles.empty, { color: textColor }]}>
-          {username ? "Scanning…" : "Start advertising to scan"}
+          {scanning ? "Scanning…" : "Start BLE to scan"}
         </Text>
       ) : (
         nearbyUsers.map((user) => (
@@ -302,6 +327,13 @@ const styles = StyleSheet.create({
   container: { flex: 1, padding: 20, marginTop: 50 },
   title: { fontSize: 24, fontWeight: "bold", marginBottom: 12 },
   status: { fontSize: 14, color: "#666", marginBottom: 16 },
+  input: {
+    borderWidth: 1,
+    borderRadius: 8,
+    padding: 10,
+    fontSize: 16,
+    marginBottom: 8,
+  },
   buttonGrid: {
     flexDirection: "row",
     flexWrap: "wrap",
@@ -310,7 +342,7 @@ const styles = StyleSheet.create({
   },
   button: {
     width: "47%",
-    backgroundColor: "#007AFF",
+    backgroundColor: "#555",
     padding: 14,
     borderRadius: 10,
     alignItems: "center",
