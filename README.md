@@ -55,15 +55,91 @@ yarn download-prebuild
 <summary>Windows Project Setup</summary>
    
 ### Windows Project Setup
-1. Open the project root in terminal.
-> <img width="735" height="477" alt="Screenshot 2026-03-30 at 6 39 05 PM" src="https://github.com/user-attachments/assets/075ef798-f312-49ea-8caa-0f32d30fcdc7" />
-
-
-2. Run `npm install`
-    - This may take a while
-    - It should look like this: 
-> <img width="835" height="468" alt="image" src="https://github.com/user-attachments/assets/b363d6d1-6118-4a07-a71a-b0de931f5b0f" />
-
+1. Install [WSL](https://learn.microsoft.com/en-us/windows/wsl/install)
+2. Enter WSL
+3. Clone this repository
+   ```
+   git clone https://github.com/chrisgw4/PassMe.git
+   ```
+4. Go to Root Directory
+   ```
+   cd ~
+   ```   
+5. Run these commands in order to get Homebrew
+   ```
+   sudo apt-get update && sudo apt-get install build-essential curl file git
+   ```
+   ```
+   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+   ```
+   ```
+   echo >> /home/$USER/.bashrc
+   ```
+   ```
+   echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv bash)"' >> /home/$USER/.bashrc
+   ```
+   ```
+   eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv bash)"
+   ```
+   ```
+   brew install asdf
+   ```
+6. Then run these to get unzip function (Used later for Android SDK installation)
+   ```
+   sudo apt-get install build-essential
+   sudo apt install unzip
+   ```
+7. Run these to get NVM
+   ```
+   curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash
+   export NVM_DIR="$HOME/.nvm"
+   ```
+8. Restart terminal
+9. Run these to install yarn
+   ```
+   curl -o- -L https://yarnpkg.com/install.sh | bash
+   export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+   ```
+10. Install Node
+      ```
+      nvm install node
+      export PATH=$PATH:/path/to/node/bin
+      ```
+11. Go to PassMe root directory
+      ```
+      cd ~/PassMe  # If PassMe was cloned into root
+      ```
+12. Run these to get necessary dependencies from yarn
+      ```
+      yarn add @borndotcom/react-native-godot
+      yarn download-prebuilt
+      yarn add expo-file-system
+      ```
+13. Install Java-17
+      ```
+      sudo apt install openjdk-17-jdk -y
+      ```
+14. Export java as the version
+      ```
+      export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+      export PATH="$JAVA_HOME/bin:$PATH" 
+      ```
+15. Install proper Android Build Version
+      ```
+      cd ~ # Make sure you are at home
+      curl https://dl.google.com/android/repository/commandlinetools-linux-8512546_latest.zip -o /tmp/cmd-tools.zip
+      mkdir -p android/cmdline-tools
+      unzip -q -d android/cmdline-tools /tmp/cmd-tools.zip
+      mv android/cmdline-tools/cmdline-tools android/cmdline-tools/latest
+      rm /tmp/cmd-tools.zip # delete the zip file (optional)
+      export ANDROID_HOME="$HOME/android"
+      export ANDROID_SDK_ROOT=${ANDROID_HOME}
+      export PATH=${ANDROID_HOME}/cmdline-tools/latest/bin:${ANDROID_HOME}/platform-tools:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${PATH}
+      sudo apt install google-android-cmdline-tools-7.0-installer
+      yes | sdkmanager --licenses
+      sdkmanager --update
+      sdkmanager "platforms;android-30" "build-tools;30.0.3" 
+      ```
 </details>
 
 
