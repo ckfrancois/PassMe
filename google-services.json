@@ -1,26 +1,43 @@
 {
   "project_info": {
-    "project_number": "1030643825993",
-    "project_id": "passme-73d13",
-    "storage_bucket": "passme-73d13.firebasestorage.app"
+    "project_number": "602959661411",
+    "project_id": "passme-694d3",
+    "storage_bucket": "passme-694d3.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1030643825993:android:50135bfde0372a7da5ee98",
+        "mobilesdk_app_id": "1:602959661411:android:cf4aeb6e839b767064ab56",
         "android_client_info": {
-          "package_name": "com.example.pass_me"
+          "package_name": "com.bodacious.passme"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "602959661411-rgl6ec885do0jublk0cqd6nh9q7mj30s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
-          "current_key": "AIzaSyAmWsW8FLa3ek0JcBewx6wkPLuL0KPSVSo"
+          "current_key": "AIzaSyAti1h-9jl9Dz4nZgXDshxaUtWanOG9wp8"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "602959661411-rgl6ec885do0jublk0cqd6nh9q7mj30s.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "602959661411-9sdvrja7dvdfl2lfb7na3qv54b1hhq08.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.bodacious.passme"
+              }
+            }
+          ]
         }
       }
     }
