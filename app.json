@@ -11,7 +11,7 @@
     "ios": {
       "googleServicesFile": "./GoogleService-Info.plist",
       "supportsTablet": true,
-      "bundleIdentifier": "com.chrisgw4.PassMe",
+      "bundleIdentifier": "com.bodacious.passme",
       "infoPlist": {
         "UIBackgroundModes": [
           "bluetooth-central",
@@ -45,7 +45,7 @@
         "android.permission.BLUETOOTH_SCAN",
         "android.permission.NEARBY_WIFI_DEVICES"
       ],
-      "package": "com.chrisgw4.passme"
+      "package": "com.bodacious.passme"
     },
     "web": {
       "output": "static",
@@ -90,11 +90,13 @@
         "expo-build-properties",
         {
           "ios": {
-            "useFrameworks": "static"
+            "useFrameworks": "static",
+            "extraPodfileConfig": "modular_headers_for_all_pods!"
           }
         }
       ],
-      "@react-native-firebase/auth"
+      "@react-native-firebase/auth",
+      "@react-native-google-signin/google-signin"
     ],
     "experiments": {
       "typedRoutes": true,
