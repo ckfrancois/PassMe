@@ -31,13 +31,23 @@ func set_sprite_keys():
 
 # Update textures and modulate
 func update_sprite():
-	#var curernt_sprite = body_color_keys[current_body_index]
+	var current_sprite = outfit_keys[current_outfit_index]
+	# Change textures of outlines
+	leftArmO_sprite.texture = Global.leftArmO_collection[current_sprite]
+	rightArmO_sprite.texture = Global.rightArmO_collection[current_sprite]
+	torsoO_sprite.texture = Global.torsoO_collection[current_sprite]
+	# Change textures of colors
+	leftArmC_sprite.texture = Global.leftArmC_collection[current_sprite]
+	rightArmC_sprite.texture = Global.rightArmC_collection[current_sprite]
+	torsoC_sprite.texture = Global.torsoC_collection[current_sprite]
+	# Change colors
 	leftArmC_sprite.modulate = Global.colors[current_color_index]
 	rightArmC_sprite.modulate = Global.colors[current_color_index]
 	torsoC_sprite.modulate = Global.colors[current_color_index]
 	#headC_sprite.modulate = Global.colors[current_color_index]
 	
 	Global.selected_outfit_color = Global.colors[current_color_index]
+	Global.selected_outfit = current_sprite
 	
 	#Global.selected_body_color = Global.body_color_options[current_color_index]
 

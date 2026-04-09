@@ -216,21 +216,21 @@ offset_bottom = 107.0
 grow_horizontal = 0
 text = "->"
 
-[node name="Outfit" type="ColorRect" parent="CreatorScreen/ColorRect"]
+[node name="Shirt" type="ColorRect" parent="CreatorScreen/ColorRect"]
 offset_left = 6.0
 offset_top = 194.0
 offset_right = 379.0
 offset_bottom = 234.0
 color = Color(1, 1, 1, 0)
 
-[node name="Label" type="Label" parent="CreatorScreen/ColorRect/Outfit"]
+[node name="Label" type="Label" parent="CreatorScreen/ColorRect/Shirt"]
 layout_mode = 0
 offset_right = 200.0
 offset_bottom = 50.0
 theme_override_font_sizes/font_size = 25
-text = "Outfit"
+text = "Shirt"
 
-[node name="CollectionButton" type="Button" parent="CreatorScreen/ColorRect/Outfit"]
+[node name="CollectionButton" type="Button" parent="CreatorScreen/ColorRect/Shirt"]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -240,7 +240,7 @@ offset_bottom = 50.0
 grow_horizontal = 0
 text = "->"
 
-[node name="Label2" type="Label" parent="CreatorScreen/ColorRect/Outfit"]
+[node name="Label2" type="Label" parent="CreatorScreen/ColorRect/Shirt"]
 offset_left = -2.0
 offset_top = 57.0
 offset_right = 198.0
@@ -248,7 +248,7 @@ offset_bottom = 107.0
 theme_override_font_sizes/font_size = 25
 text = "Color"
 
-[node name="ColorButton" type="Button" parent="CreatorScreen/ColorRect/Outfit"]
+[node name="ColorButton" type="Button" parent="CreatorScreen/ColorRect/Shirt"]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -272,7 +272,51 @@ offset_bottom = 384.0
 grow_horizontal = 0
 text = "Confirm"
 
+[node name="Pants" type="ColorRect" parent="CreatorScreen/ColorRect"]
+offset_left = 414.0
+offset_top = 9.0
+offset_right = 787.0
+offset_bottom = 49.0
+color = Color(1, 1, 1, 0)
+
+[node name="Label" type="Label" parent="CreatorScreen/ColorRect/Pants"]
+layout_mode = 0
+offset_right = 200.0
+offset_bottom = 50.0
+theme_override_font_sizes/font_size = 25
+text = "Pants"
+
+[node name="CollectionButton" type="Button" parent="CreatorScreen/ColorRect/Pants"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -200.0
+offset_bottom = 50.0
+grow_horizontal = 0
+text = "->"
+
+[node name="Label2" type="Label" parent="CreatorScreen/ColorRect/Pants"]
+offset_left = -2.0
+offset_top = 57.0
+offset_right = 198.0
+offset_bottom = 107.0
+theme_override_font_sizes/font_size = 25
+text = "Color"
+
+[node name="ColorButton" type="Button" parent="CreatorScreen/ColorRect/Pants"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -202.0
+offset_top = 57.0
+offset_right = -2.0
+offset_bottom = 107.0
+grow_horizontal = 0
+text = "->"
+
 [connection signal="pressed" from="CreatorScreen/ColorRect/Hair/CollectionButton" to="Skeleton/Hair" method="_on_collection_button_pressed"]
 [connection signal="pressed" from="CreatorScreen/ColorRect/Hair/ColorButton" to="Skeleton/Hair" method="_on_color_button_pressed"]
-[connection signal="pressed" from="CreatorScreen/ColorRect/Outfit/CollectionButton" to="Skeleton/Body" method="_on_collection_button_pressed"]
-[connection signal="pressed" from="CreatorScreen/ColorRect/Outfit/ColorButton" to="Skeleton/Body" method="_on_color_button_pressed"]
+[connection signal="pressed" from="CreatorScreen/ColorRect/Shirt/CollectionButton" to="Skeleton/Body" method="_on_collection_button_pressed"]
+[connection signal="pressed" from="CreatorScreen/ColorRect/Shirt/ColorButton" to="Skeleton/Body" method="_on_color_button_pressed"]
