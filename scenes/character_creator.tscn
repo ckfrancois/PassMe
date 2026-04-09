@@ -1,0 +1,154 @@
+[gd_scene load_steps=22 format=3 uid="uid://bs6dxdah3hck7"]
+
+[ext_resource type="Texture2D" uid="uid://cvn2ixbfbhrs4" path="res://assets/character_sprite/body/base/color/Base_RightArmT.png" id="1_dk5wx"]
+[ext_resource type="Script" uid="uid://dggv0c7pp5aab" path="res://scripts/hair_back.gd" id="1_p0l4m"]
+[ext_resource type="Texture2D" uid="uid://bij6cdicryl66" path="res://assets/character_sprite/body/base/outline/Base_RightArm.png" id="2_8ugf3"]
+[ext_resource type="Script" uid="uid://btfdpa0etodth" path="res://scripts/body.gd" id="2_y4ojd"]
+[ext_resource type="Texture2D" uid="uid://v6n6xv8j41dm" path="res://assets/character_sprite/body/base/color/Base_LegT.png" id="3_s8202"]
+[ext_resource type="Texture2D" uid="uid://b18ajkn6gxvxg" path="res://assets/character_sprite/body/base/outline/Base_Leg.png" id="4_in210"]
+[ext_resource type="Texture2D" uid="uid://dl5ts5xkruodc" path="res://assets/character_sprite/body/base/color/Base_TorsoT.png" id="5_p0l4m"]
+[ext_resource type="Texture2D" uid="uid://corgq7tbe8sv" path="res://assets/character_sprite/body/base/outline/Base_Torso.png" id="6_y4ojd"]
+[ext_resource type="Texture2D" uid="uid://dme25jpx00d8d" path="res://assets/character_sprite/body/base/color/Base_HeadT.png" id="7_xhj85"]
+[ext_resource type="Texture2D" uid="uid://dq540rxl0hjtf" path="res://assets/character_sprite/body/base/outline/Base_Head.png" id="8_rqrh5"]
+[ext_resource type="Texture2D" uid="uid://02quh5rxbukn" path="res://assets/character_sprite/body/head/mouth/Mouth1.png" id="9_x7ufa"]
+[ext_resource type="Texture2D" uid="uid://dxq4wxllfi2" path="res://assets/character_sprite/body/head/nose/color/Nose1C.png" id="10_ix263"]
+[ext_resource type="Texture2D" uid="uid://bhf3bwwbbiw43" path="res://assets/character_sprite/body/head/nose/outline/Nose1.png" id="11_n1i1y"]
+[ext_resource type="Texture2D" uid="uid://cmy4vv6rh36bw" path="res://assets/character_sprite/body/head/eyes/Eyes1.png" id="12_nj4er"]
+[ext_resource type="Texture2D" uid="uid://dlhofalnmwqlp" path="res://assets/character_sprite/body/base/color/Base_LeftArmT.png" id="13_1uaso"]
+[ext_resource type="Texture2D" uid="uid://djmnwipcr2jea" path="res://assets/character_sprite/body/base/outline/Base_LeftArm.png" id="14_7lds4"]
+[ext_resource type="Texture2D" uid="uid://bhxnbsmmg505x" path="res://assets/character_sprite/hair/color/Hair1C.png" id="15_hx0hx"]
+[ext_resource type="Texture2D" uid="uid://b23jsh3clcpmw" path="res://assets/character_sprite/hair/outline/Hair1.png" id="16_axsho"]
+[ext_resource type="Texture2D" uid="uid://bbyg0a63kh3u0" path="res://assets/character_sprite/hair/eyebrows/Eyebrows1.png" id="17_xfpfe"]
+[ext_resource type="Script" uid="uid://fuprbdt6dba1" path="res://scripts/hair.gd" id="17_xhj85"]
+[ext_resource type="Script" uid="uid://gb3f5enhydrv" path="res://scripts/accessory.gd" id="21_rqrh5"]
+
+[node name="CharacterCreator" type="Node2D"]
+
+[node name="Skeleton" type="Node2D" parent="."]
+position = Vector2(184, 325)
+
+[node name="Hair_Back" type="Node2D" parent="Skeleton"]
+script = ExtResource("1_p0l4m")
+
+[node name="Outline" type="Sprite2D" parent="Skeleton/Hair_Back"]
+
+[node name="Color" type="Sprite2D" parent="Skeleton/Hair_Back"]
+
+[node name="Body" type="Node2D" parent="Skeleton"]
+script = ExtResource("2_y4ojd")
+
+[node name="RightArm" type="Sprite2D" parent="Skeleton/Body"]
+
+[node name="Base_Color" type="Sprite2D" parent="Skeleton/Body/RightArm"]
+texture = ExtResource("1_dk5wx")
+
+[node name="Base_Outline" type="Sprite2D" parent="Skeleton/Body/RightArm"]
+texture = ExtResource("2_8ugf3")
+
+[node name="Outfit_Color" type="Sprite2D" parent="Skeleton/Body/RightArm"]
+
+[node name="Outfit_Outline" type="Sprite2D" parent="Skeleton/Body/RightArm"]
+
+[node name="Legs" type="Sprite2D" parent="Skeleton/Body"]
+
+[node name="Base_Color" type="Sprite2D" parent="Skeleton/Body/Legs"]
+texture = ExtResource("3_s8202")
+
+[node name="Base_Outline" type="Sprite2D" parent="Skeleton/Body/Legs"]
+texture = ExtResource("4_in210")
+
+[node name="Outfit_Color" type="Sprite2D" parent="Skeleton/Body/Legs"]
+
+[node name="Outfit_Outline" type="Sprite2D" parent="Skeleton/Body/Legs"]
+
+[node name="Torso" type="Sprite2D" parent="Skeleton/Body"]
+
+[node name="Base_Color" type="Sprite2D" parent="Skeleton/Body/Torso"]
+texture = ExtResource("5_p0l4m")
+
+[node name="Base_Outline" type="Sprite2D" parent="Skeleton/Body/Torso"]
+texture = ExtResource("6_y4ojd")
+
+[node name="Outfit_Color" type="Sprite2D" parent="Skeleton/Body/Torso"]
+
+[node name="Outfit_Outline" type="Sprite2D" parent="Skeleton/Body/Torso"]
+
+[node name="Head" type="Sprite2D" parent="Skeleton/Body"]
+
+[node name="Base_Color" type="Sprite2D" parent="Skeleton/Body/Head"]
+texture = ExtResource("7_xhj85")
+
+[node name="Base_Outline" type="Sprite2D" parent="Skeleton/Body/Head"]
+texture = ExtResource("8_rqrh5")
+
+[node name="Mouth" type="Sprite2D" parent="Skeleton/Body/Head"]
+texture = ExtResource("9_x7ufa")
+
+[node name="Nose" type="Sprite2D" parent="Skeleton/Body/Head"]
+
+[node name="Color" type="Sprite2D" parent="Skeleton/Body/Head/Nose"]
+texture = ExtResource("10_ix263")
+
+[node name="Outline" type="Sprite2D" parent="Skeleton/Body/Head/Nose"]
+texture = ExtResource("11_n1i1y")
+
+[node name="Eyes" type="Sprite2D" parent="Skeleton/Body/Head"]
+texture = ExtResource("12_nj4er")
+
+[node name="LeftArm" type="Sprite2D" parent="Skeleton/Body"]
+
+[node name="Base_Color" type="Sprite2D" parent="Skeleton/Body/LeftArm"]
+texture = ExtResource("13_1uaso")
+
+[node name="Base_Outline" type="Sprite2D" parent="Skeleton/Body/LeftArm"]
+texture = ExtResource("14_7lds4")
+
+[node name="Outfit_Color" type="Sprite2D" parent="Skeleton/Body/LeftArm"]
+
+[node name="Outfit_Outline" type="Sprite2D" parent="Skeleton/Body/LeftArm"]
+
+[node name="Shoes" type="Sprite2D" parent="Skeleton/Body"]
+
+[node name="Outfit_Color" type="Sprite2D" parent="Skeleton/Body/Shoes"]
+
+[node name="Outfit_Outline" type="Sprite2D" parent="Skeleton/Body/Shoes"]
+
+[node name="Hair" type="Node2D" parent="Skeleton"]
+script = ExtResource("17_xhj85")
+
+[node name="Color" type="Sprite2D" parent="Skeleton/Hair"]
+texture = ExtResource("15_hx0hx")
+
+[node name="Outline" type="Sprite2D" parent="Skeleton/Hair"]
+texture = ExtResource("16_axsho")
+
+[node name="Eyebrows" type="Sprite2D" parent="Skeleton/Hair"]
+texture = ExtResource("17_xfpfe")
+
+[node name="Accessory" type="Node2D" parent="Skeleton"]
+script = ExtResource("21_rqrh5")
+
+[node name="Outline" type="Sprite2D" parent="Skeleton/Accessory"]
+
+[node name="Color" type="Sprite2D" parent="Skeleton/Accessory"]
+
+[node name="CreatorScreen" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="CreatorScreen"]
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -800.0
+offset_top = -200.0
+offset_bottom = 200.0
+grow_horizontal = 0
+grow_vertical = 2
+color = Color(0.747749, 0.322947, 0.139765, 1)
+
+[node name="ColorRect" type="ColorRect" parent="CreatorScreen/ColorRect"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+color = Color(1, 1, 1, 0)

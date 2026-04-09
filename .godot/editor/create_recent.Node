@@ -1,6 +1,8 @@
+ColorRect
+CanvasLayer
+Node2D
 Sprite2D
 CollisionShape2D
 CharacterBody2D
 Label
-Node2D
 Camera2D
