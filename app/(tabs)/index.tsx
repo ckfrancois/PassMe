@@ -1,14 +1,26 @@
-import { GoogleAuthProvider, getAuth, onAuthStateChanged, signInWithCredential } from '@react-native-firebase/auth';
-import { GoogleSignin, GoogleSigninButton } from '@react-native-google-signin/google-signin';
-import { router } from 'expo-router';
-import { getApps, initializeApp } from 'firebase/app';
-import { GoogleAuthProvider as WebGoogleAuthProvider, getAuth as getWebAuth, signInWithCredential as webSignInWithCredential } from 'firebase/auth';
-import { doc, getDoc, getFirestore, setDoc } from 'firebase/firestore';
-import { useEffect } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import {
+  GoogleAuthProvider,
+  getAuth,
+  onAuthStateChanged,
+  signInWithCredential,
+} from "@react-native-firebase/auth";
+import {
+  GoogleSignin,
+  GoogleSigninButton,
+} from "@react-native-google-signin/google-signin";
+import { router } from "expo-router";
+import { getApps, initializeApp } from "firebase/app";
+import {
+  GoogleAuthProvider as WebGoogleAuthProvider,
+  getAuth as getWebAuth,
+  signInWithCredential as webSignInWithCredential,
+} from "firebase/auth";
+import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
+import { useEffect } from "react";
+import { StyleSheet, Text, View } from "react-native";
 
 GoogleSignin.configure({
-  webClientId: "602959661411-rgl6ec885do0jublk0cqd6nh9q7mj30s.apps.googleusercontent.com",
+  webClientId: process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID,
 });
 
 const firebaseConfig = {
@@ -21,7 +33,6 @@ const firebaseConfig = {
 };
 
 if (!getApps().length) {
-  
   initializeApp(firebaseConfig);
 }
 
@@ -31,15 +42,15 @@ export default function SignInScreen() {
   const auth = getAuth();
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, user => {
-      if (user) router.replace('/(tabs)/BLETab');
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) router.replace("/(tabs)/BLETab");
     });
     return unsubscribe;
   }, []);
 
   const createUserIfNotExists = async (user: any) => {
     try {
-      const userRef = doc(db, 'Users', user.uid);
+      const userRef = doc(db, "Users", user.uid);
       const userSnap = await getDoc(userRef);
 
       if (!userSnap.exists()) {
@@ -49,36 +60,50 @@ export default function SignInScreen() {
           displayName: user.displayName,
           photoURL: user.photoURL,
           usersPassed: [],
+          usersPassedCount: 0,
+          favoriteColor: "",
+          passCoins: 0,
           createdAt: new Date().toISOString(),
         });
-        console.log('✅ Created new user document in Firestore');
+        console.log("✅ Created new user document in Firestore");
       } else {
-        console.log('ℹ️ User document already exists');
+        console.log("ℹ️ User document already exists");
       }
     } catch (err) {
-      console.error('❌ Firestore error:', err);
+      console.error("❌ Firestore error:", err);
     }
   };
 
   async function onGoogleButtonPress() {
-    await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
-    const signInResult = await GoogleSignin.signIn();
+    try {
+      console.log("🔵 Starting sign in...");
+      await GoogleSignin.hasPlayServices({
+        showPlayServicesUpdateDialog: true,
+      });
 
-    const idToken =
-      signInResult?.data?.idToken ||
-      (signInResult as any)?.idToken;
+      console.log("🔵 Has play services, signing in...");
+      const signInResult = await GoogleSignin.signIn();
+      console.log("🔵 Sign in result:", JSON.stringify(signInResult));
 
-    if (!idToken) throw new Error('No ID token found');
+      const idToken =
+        signInResult?.data?.idToken || (signInResult as any)?.idToken;
+      console.log("🔵 ID token exists:", !!idToken);
 
-    // Sign in with native Firebase SDK
-    const googleCredential = GoogleAuthProvider.credential(idToken);
-    const userCredential = await signInWithCredential(auth, googleCredential);
+      if (!idToken) throw new Error("No ID token found");
 
-    // Also sign in the JS SDK so Firestore can authenticate
-    const webCredential = WebGoogleAuthProvider.credential(idToken);
-    await webSignInWithCredential(getWebAuth(), webCredential);
+      const googleCredential = GoogleAuthProvider.credential(idToken);
+      const userCredential = await signInWithCredential(auth, googleCredential);
+      console.log("🔵 Firebase user:", userCredential.user.uid);
 
-    await createUserIfNotExists(userCredential.user);
+      const webCredential = WebGoogleAuthProvider.credential(idToken);
+      await webSignInWithCredential(getWebAuth(), webCredential);
+      console.log("🔵 Web auth done");
+
+      await createUserIfNotExists(userCredential.user);
+    } catch (error: any) {
+      console.error("❌ Code:", error.code);
+      console.error("❌ Message:", error.message);
+    }
   }
 
   return (
@@ -94,6 +119,11 @@ export default function SignInScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: 'center', alignItems: 'center', gap: 24 },
-  title: { fontSize: 28, fontWeight: 'bold' },
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    gap: 24,
+  },
+  title: { fontSize: 28, fontWeight: "bold" },
 });

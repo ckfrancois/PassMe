@@ -21,7 +21,13 @@ import {
 
 import { getAuth } from "@react-native-firebase/auth";
 import { getApps, initializeApp } from "firebase/app";
-import { arrayUnion, doc, getFirestore, setDoc } from "firebase/firestore";
+import {
+  arrayUnion,
+  doc,
+  getDoc,
+  getFirestore,
+  setDoc,
+} from "firebase/firestore";
 import { check, PERMISSIONS, request, RESULTS } from "react-native-permissions";
 
 const APP_SERVICE_UUID = "0000ABCD-0000-1000-8000-00805F9B34FB";
@@ -87,7 +93,7 @@ const BleNearbyUsers: React.FC = () => {
           email: currentUser.email,
           displayName: currentUser.displayName,
         },
-        { merge: true }
+        { merge: true },
       );
 
       console.log("Saved passed user to Firestore:", foundUser);
@@ -192,15 +198,24 @@ const BleNearbyUsers: React.FC = () => {
 
       if (decoded.startsWith("PM:")) {
         const foundUser = decoded.slice(3);
+        const foundUserID = foundUser; // Assuming the UID is being broadcasted for uniqueness
         console.log(Platform.OS + ": 🔵 Found user:", foundUser);
 
+        // Get data from Firestore to display the displayName instead of UID, and to verify the user exists
+        const docRef = doc(db, "Users", foundUser);
+        const foundData = (await getDoc(docRef)).data();
+
+        console.log("Firestore lookup for", foundUser, "result:", foundData);
+        const displayName = foundData?.displayName || foundUser;
+
         setNearbyUsers((prev) =>
-          prev.includes(foundUser) ? prev : [...prev, foundUser],
+          prev.includes(displayName) ? prev : [...prev, displayName],
         );
 
         // Save to Firestore if not already in the list
-        if (!nearbyUsers.includes(foundUser)) {
-          await savePassedUser(foundUser);
+        // Save the ID since it is unique and won't change, while displayName can be non-unique and can change
+        if (!nearbyUsers.includes(foundUserID)) {
+          await savePassedUser(foundUserID);
         }
       } else {
         console.log(
@@ -249,7 +264,8 @@ const BleNearbyUsers: React.FC = () => {
     stopBLE();
     setNearbyUsers([]);
 
-    const localName = `PM:${name}`;
+    // const localName = `PM:${name}`;
+    const localName = `PM:${getAuth().currentUser?.uid || "Unknown"}`;
     console.log("📡 Advertising as:", localName, "on", Platform.OS);
     setScanning(true);
     setStatusMessage("📡 Starting...");

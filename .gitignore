@@ -43,3 +43,6 @@ app-example
 /android
 env
 .env
+google-services.json
+GoogleService-Info.plist
+
