@@ -1,22 +1,28 @@
-[gd_scene load_steps=19 format=3 uid="uid://duvxbispytacw"]
+[gd_scene load_steps=25 format=3 uid="uid://duvxbispytacw"]
 
 [ext_resource type="Texture2D" uid="uid://dq540rxl0hjtf" path="res://assets/character_sprite/body/base/outline/Base_Head.png" id="1_qlg0r"]
 [ext_resource type="Texture2D" uid="uid://cvn2ixbfbhrs4" path="res://assets/character_sprite/body/base/color/Base_RightArmT.png" id="1_y4r1p"]
 [ext_resource type="Texture2D" uid="uid://djmnwipcr2jea" path="res://assets/character_sprite/body/base/outline/Base_LeftArm.png" id="2_tuyoq"]
+[ext_resource type="Texture2D" uid="uid://c03772g4770q2" path="res://assets/character_sprite/body/right_arm/color/Top7C_R.png" id="3_4ni07"]
 [ext_resource type="Texture2D" uid="uid://v6n6xv8j41dm" path="res://assets/character_sprite/body/base/color/Base_LegT.png" id="3_d2wvv"]
 [ext_resource type="Texture2D" uid="uid://corgq7tbe8sv" path="res://assets/character_sprite/body/base/outline/Base_Torso.png" id="3_fjrip"]
+[ext_resource type="Texture2D" uid="uid://d0urnjyan4lo0" path="res://assets/character_sprite/body/right_arm/outline/Top7_R.png" id="4_l71n6"]
 [ext_resource type="Texture2D" uid="uid://bij6cdicryl66" path="res://assets/character_sprite/body/base/outline/Base_RightArm.png" id="4_smehm"]
 [ext_resource type="Texture2D" uid="uid://dl5ts5xkruodc" path="res://assets/character_sprite/body/base/color/Base_TorsoT.png" id="5_3v2ag"]
 [ext_resource type="Texture2D" uid="uid://b18ajkn6gxvxg" path="res://assets/character_sprite/body/base/outline/Base_Leg.png" id="5_ur7pv"]
 [ext_resource type="Texture2D" uid="uid://dme25jpx00d8d" path="res://assets/character_sprite/body/base/color/Base_HeadT.png" id="7_jej6c"]
 [ext_resource type="Texture2D" uid="uid://dlhofalnmwqlp" path="res://assets/character_sprite/body/base/color/Base_LeftArmT.png" id="9_f1ej7"]
 [ext_resource type="Texture2D" uid="uid://dxq4wxllfi2" path="res://assets/character_sprite/body/head/nose/color/Nose1C.png" id="9_jej6c"]
+[ext_resource type="Texture2D" uid="uid://juuroom0syxr" path="res://assets/character_sprite/body/torso/color/Top7C_T.png" id="9_ke2ow"]
 [ext_resource type="Texture2D" uid="uid://02quh5rxbukn" path="res://assets/character_sprite/body/head/mouth/Mouth1.png" id="9_qfm1y"]
 [ext_resource type="Texture2D" uid="uid://bhf3bwwbbiw43" path="res://assets/character_sprite/body/head/nose/outline/Nose1.png" id="10_f1ej7"]
+[ext_resource type="Texture2D" uid="uid://doxfhx4ixv16h" path="res://assets/character_sprite/body/torso/outline/Top7_T.png" id="10_ujl30"]
 [ext_resource type="Texture2D" uid="uid://cmy4vv6rh36bw" path="res://assets/character_sprite/body/head/eyes/Eyes1.png" id="11_oprun"]
 [ext_resource type="Texture2D" uid="uid://bhxnbsmmg505x" path="res://assets/character_sprite/hair/color/Hair1C.png" id="15_fulsm"]
 [ext_resource type="Texture2D" uid="uid://b23jsh3clcpmw" path="res://assets/character_sprite/hair/outline/Hair1.png" id="16_4r5pv"]
 [ext_resource type="Texture2D" uid="uid://bbyg0a63kh3u0" path="res://assets/character_sprite/hair/eyebrows/Eyebrows1.png" id="17_60mlk"]
+[ext_resource type="Texture2D" uid="uid://b2kgn0wb4tnll" path="res://assets/character_sprite/body/left_arm/color/Top7C_L.png" id="19_31cv2"]
+[ext_resource type="Texture2D" uid="uid://pnqu7ha8rg6c" path="res://assets/character_sprite/body/left_arm/outline/Top7_L.png" id="20_pf23h"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_uk8bg"]
 
@@ -47,8 +53,10 @@ texture = ExtResource("1_y4r1p")
 texture = ExtResource("4_smehm")
 
 [node name="Outfit_Color" type="Sprite2D" parent="Skeleton/Body/RightArm"]
+texture = ExtResource("3_4ni07")
 
 [node name="Outfit_Outline" type="Sprite2D" parent="Skeleton/Body/RightArm"]
+texture = ExtResource("4_l71n6")
 
 [node name="Legs" type="Sprite2D" parent="Skeleton/Body"]
 
@@ -71,8 +79,10 @@ texture = ExtResource("5_3v2ag")
 texture = ExtResource("3_fjrip")
 
 [node name="Outfit_Color" type="Sprite2D" parent="Skeleton/Body/Torso"]
+texture = ExtResource("9_ke2ow")
 
 [node name="Outfit_Outline" type="Sprite2D" parent="Skeleton/Body/Torso"]
+texture = ExtResource("10_ujl30")
 
 [node name="Head" type="Sprite2D" parent="Skeleton/Body"]
 
@@ -105,8 +115,10 @@ texture = ExtResource("9_f1ej7")
 texture = ExtResource("2_tuyoq")
 
 [node name="Outfit_Color" type="Sprite2D" parent="Skeleton/Body/LeftArm"]
+texture = ExtResource("19_31cv2")
 
 [node name="Outfit_Outline" type="Sprite2D" parent="Skeleton/Body/LeftArm"]
+texture = ExtResource("20_pf23h")
 
 [node name="Shoes" type="Sprite2D" parent="Skeleton/Body"]
 

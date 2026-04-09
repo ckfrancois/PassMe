@@ -14,33 +14,33 @@ var hairO_collection = {
 
 # Torso color sprite collection
 var torsoC_collection = {
-	"none" : null,
+	#"none" : null,
 	"01" : preload("res://assets/character_sprite/body/torso/color/Top7C_T.png")
 }
 # Left arm color sprite collection
 var leftArmC_collection = {
-	"none" : null,
+	#"none" : null,
 	"01" : preload("res://assets/character_sprite/body/left_arm/color/Top7C_L.png")
 }
 # Right arm color sprite collection
 var rightArmC_collection = {
-	"none" : null,
+	#"none" : null,
 	"01" : preload("res://assets/character_sprite/body/right_arm/color/Top7C_R.png")
 }
 
 # Torso outline sprite collection
 var torsoO_collection = {
-	"none" : null,
+	#"none" : null,
 	"01" : preload("res://assets/character_sprite/body/torso/outline/Top7_T.png")
 }
 # Left arm outline sprite collection
 var leftArmO_collection = {
-	"none" : null,
+	#"none" : null,
 	"01" : preload("res://assets/character_sprite/body/left_arm/outline/Top7_L.png")
 }
 # Right arm outline sprite collection
 var rightArmO_collection = {
-	"none" : null,
+	#"none" : null,
 	"01" : preload("res://assets/character_sprite/body/right_arm/outline/Top7_R.png")
 }
 

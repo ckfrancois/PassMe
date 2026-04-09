@@ -4,3 +4,4 @@ res://scripts/global.gd
 res://scenes/character_creator.tscn
 res://scripts/body.gd
 res://scripts/hair.gd
+res://scenes/Main.tscn

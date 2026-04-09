@@ -1,8 +1,9 @@
+Button
+Label
 ColorRect
 CanvasLayer
 Node2D
 Sprite2D
 CollisionShape2D
 CharacterBody2D
-Label
 Camera2D

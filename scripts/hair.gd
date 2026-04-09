@@ -14,7 +14,7 @@ func _ready():
 	update_sprite()
 
 func set_sprite_keys():
-	hair_keys = Global.hair_collection.keys()
+	hair_keys = Global.hairO_collection.keys()
 
 # Update textures and modulate
 func update_sprite():
@@ -23,8 +23,19 @@ func update_sprite():
 		hairO_sprite.texture = null
 		hairC_sprite.texture = null
 	else:
-		hairO_sprite.texture = Global.hair_collection[current_sprite]
-		hairC_sprite.modulate = Global.hair_color_options[current_color_index]
+		hairO_sprite.texture = Global.hairO_collection[current_sprite]
+		hairC_sprite.texture = Global.hairC_collection[current_sprite]
+		hairC_sprite.modulate = Global.hair_colors[current_color_index]
 	
 	Global.selected_hair = current_sprite
-	Global.selected_hair_color = Global.hair_color_options[current_color_index]
+	Global.selected_hair_color = Global.hair_colors[current_color_index]
+
+
+func _on_collection_button_pressed() -> void:
+	current_hair_index = (current_hair_index + 1) % hair_keys.size()
+	update_sprite()
+
+
+func _on_color_button_pressed() -> void:
+	current_color_index = (current_color_index + 1) % Global.hair_colors.size()
+	update_sprite()
