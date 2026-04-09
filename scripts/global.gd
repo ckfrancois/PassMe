@@ -3,7 +3,7 @@ extends Node
 # Hair color sprite collection
 var hairC_collection = {
 	"none" : null,
-	"01" : preload("res://assets/character_sprite/hair/color/Hair1C.png")
+	"01" : preload("res://assets/character_sprite/hair/color/Hair1T.png")
 }
 
 # Hair outline sprite collection
@@ -17,26 +17,27 @@ var torsoC_collection = {
 	#"none" : null,
 	"01" : preload("res://assets/character_sprite/body/torso/color/Top7C_T.png")
 }
-# Left arm color sprite collection
-var leftArmC_collection = {
-	#"none" : null,
-	"01" : preload("res://assets/character_sprite/body/left_arm/color/Top7C_L.png")
-}
-# Right arm color sprite collection
-var rightArmC_collection = {
-	#"none" : null,
-	"01" : preload("res://assets/character_sprite/body/right_arm/color/Top7C_R.png")
-}
-
 # Torso outline sprite collection
 var torsoO_collection = {
 	#"none" : null,
 	"01" : preload("res://assets/character_sprite/body/torso/outline/Top7_T.png")
 }
+
+# Left arm color sprite collection
+var leftArmC_collection = {
+	#"none" : null,
+	"01" : preload("res://assets/character_sprite/body/left_arm/color/Top7C_L.png")
+}
 # Left arm outline sprite collection
 var leftArmO_collection = {
 	#"none" : null,
 	"01" : preload("res://assets/character_sprite/body/left_arm/outline/Top7_L.png")
+}
+
+# Right arm color sprite collection
+var rightArmC_collection = {
+	#"none" : null,
+	"01" : preload("res://assets/character_sprite/body/right_arm/color/Top7C_R.png")
 }
 # Right arm outline sprite collection
 var rightArmO_collection = {
@@ -44,6 +45,17 @@ var rightArmO_collection = {
 	"01" : preload("res://assets/character_sprite/body/right_arm/outline/Top7_R.png")
 }
 
+
+# Leg color sprite collection
+var legC_collection = {
+	#"none" : null,
+	"01" : preload("res://assets/character_sprite/body/legs/color/Bottom1C.png")
+}
+# Leg outline sprite collection
+var legO_collection = {
+	#"none" : null,
+	"01" : preload("res://assets/character_sprite/body/legs/outline/Bottom1.png")
+}
 
 # Skintones
 var body_colors = [
@@ -73,6 +85,8 @@ var colors = [
 # Selected Values
 var selected_hair = ""
 var selected_outfit = ""
+var selected_legs = ""
 var selected_body_color = ""
 var selected_hair_color = ""
 var selected_outfit_color = ""
+var selected_legs_color = ""

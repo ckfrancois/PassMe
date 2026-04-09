@@ -173,6 +173,7 @@ grow_horizontal = 0
 text = "->"
 
 [node name="Hair" type="ColorRect" parent="CreatorScreen/ColorRect"]
+layout_mode = 0
 offset_left = 7.0
 offset_top = 70.0
 offset_right = 380.0
@@ -197,6 +198,7 @@ grow_horizontal = 0
 text = "->"
 
 [node name="Label2" type="Label" parent="CreatorScreen/ColorRect/Hair"]
+layout_mode = 0
 offset_left = -2.0
 offset_top = 57.0
 offset_right = 198.0
@@ -217,6 +219,7 @@ grow_horizontal = 0
 text = "->"
 
 [node name="Shirt" type="ColorRect" parent="CreatorScreen/ColorRect"]
+layout_mode = 0
 offset_left = 6.0
 offset_top = 194.0
 offset_right = 379.0
@@ -241,6 +244,7 @@ grow_horizontal = 0
 text = "->"
 
 [node name="Label2" type="Label" parent="CreatorScreen/ColorRect/Shirt"]
+layout_mode = 0
 offset_left = -2.0
 offset_top = 57.0
 offset_right = 198.0
@@ -273,6 +277,7 @@ grow_horizontal = 0
 text = "Confirm"
 
 [node name="Pants" type="ColorRect" parent="CreatorScreen/ColorRect"]
+layout_mode = 0
 offset_left = 414.0
 offset_top = 9.0
 offset_right = 787.0
@@ -286,7 +291,7 @@ offset_bottom = 50.0
 theme_override_font_sizes/font_size = 25
 text = "Pants"
 
-[node name="CollectionButton" type="Button" parent="CreatorScreen/ColorRect/Pants"]
+[node name="LegsButton" type="Button" parent="CreatorScreen/ColorRect/Pants"]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -297,6 +302,7 @@ grow_horizontal = 0
 text = "->"
 
 [node name="Label2" type="Label" parent="CreatorScreen/ColorRect/Pants"]
+layout_mode = 0
 offset_left = -2.0
 offset_top = 57.0
 offset_right = 198.0
@@ -304,7 +310,7 @@ offset_bottom = 107.0
 theme_override_font_sizes/font_size = 25
 text = "Color"
 
-[node name="ColorButton" type="Button" parent="CreatorScreen/ColorRect/Pants"]
+[node name="LegsColorButton" type="Button" parent="CreatorScreen/ColorRect/Pants"]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -320,3 +326,5 @@ text = "->"
 [connection signal="pressed" from="CreatorScreen/ColorRect/Hair/ColorButton" to="Skeleton/Hair" method="_on_color_button_pressed"]
 [connection signal="pressed" from="CreatorScreen/ColorRect/Shirt/CollectionButton" to="Skeleton/Body" method="_on_collection_button_pressed"]
 [connection signal="pressed" from="CreatorScreen/ColorRect/Shirt/ColorButton" to="Skeleton/Body" method="_on_color_button_pressed"]
+[connection signal="pressed" from="CreatorScreen/ColorRect/Pants/LegsButton" to="Skeleton/Body" method="_on_legs_button_pressed"]
+[connection signal="pressed" from="CreatorScreen/ColorRect/Pants/LegsColorButton" to="Skeleton/Body" method="_on_legs_color_button_pressed"]
