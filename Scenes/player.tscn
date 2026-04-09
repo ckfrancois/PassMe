@@ -14,13 +14,87 @@ zoom = Vector2(3, 3)
 
 [node name="Accessory" type="Sprite2D" parent="Skeleton"]
 
+[node name="Outline" type="Sprite2D" parent="Skeleton/Accessory"]
+
+[node name="Color" type="Sprite2D" parent="Skeleton/Accessory"]
+
 [node name="Hair" type="Sprite2D" parent="Skeleton"]
 
-[node name="Outfit" type="Sprite2D" parent="Skeleton"]
+[node name="Eyebrows" type="Sprite2D" parent="Skeleton/Hair"]
+
+[node name="Outline" type="Sprite2D" parent="Skeleton/Hair"]
+
+[node name="Color" type="Sprite2D" parent="Skeleton/Hair"]
 
 [node name="Body" type="Sprite2D" parent="Skeleton"]
 
+[node name="Head" type="Sprite2D" parent="Skeleton/Body"]
+
+[node name="Eyes" type="Sprite2D" parent="Skeleton/Body/Head"]
+
+[node name="Nose" type="Sprite2D" parent="Skeleton/Body/Head"]
+
+[node name="Outline" type="Sprite2D" parent="Skeleton/Body/Head/Nose"]
+
+[node name="Color" type="Sprite2D" parent="Skeleton/Body/Head/Nose"]
+
+[node name="Mouth" type="Sprite2D" parent="Skeleton/Body/Head"]
+
+[node name="Base_Outline" type="Sprite2D" parent="Skeleton/Body/Head"]
+
+[node name="Base_Color" type="Sprite2D" parent="Skeleton/Body/Head"]
+
+[node name="LeftArm" type="Sprite2D" parent="Skeleton/Body"]
+
+[node name="Outfit_Outline" type="Sprite2D" parent="Skeleton/Body/LeftArm"]
+
+[node name="Outfit_Color" type="Sprite2D" parent="Skeleton/Body/LeftArm"]
+
+[node name="Base_Outline" type="Sprite2D" parent="Skeleton/Body/LeftArm"]
+
+[node name="Base_Color" type="Sprite2D" parent="Skeleton/Body/LeftArm"]
+
+[node name="Torso" type="Sprite2D" parent="Skeleton/Body"]
+
+[node name="Outfit_Outline" type="Sprite2D" parent="Skeleton/Body/Torso"]
+
+[node name="Outfit_Color" type="Sprite2D" parent="Skeleton/Body/Torso"]
+
+[node name="Base_Outline" type="Sprite2D" parent="Skeleton/Body/Torso"]
+
+[node name="Base_Color" type="Sprite2D" parent="Skeleton/Body/Torso"]
+
+[node name="RightArm" type="Sprite2D" parent="Skeleton/Body"]
+
+[node name="Outfit_Outline" type="Sprite2D" parent="Skeleton/Body/RightArm"]
+
+[node name="Outfit_Color" type="Sprite2D" parent="Skeleton/Body/RightArm"]
+
+[node name="Base_Outline" type="Sprite2D" parent="Skeleton/Body/RightArm"]
+
+[node name="Base_Color" type="Sprite2D" parent="Skeleton/Body/RightArm"]
+
+[node name="Legs" type="Sprite2D" parent="Skeleton/Body"]
+
+[node name="Outfit_Outline" type="Sprite2D" parent="Skeleton/Body/Legs"]
+
+[node name="Outfit_Color" type="Sprite2D" parent="Skeleton/Body/Legs"]
+
+[node name="Base_Outline" type="Sprite2D" parent="Skeleton/Body/Legs"]
+
+[node name="Base_Color" type="Sprite2D" parent="Skeleton/Body/Legs"]
+
+[node name="Shoes" type="Sprite2D" parent="Skeleton/Body"]
+
+[node name="Outfit_Outline" type="Sprite2D" parent="Skeleton/Body/Shoes"]
+
+[node name="Outfit_Color" type="Sprite2D" parent="Skeleton/Body/Shoes"]
+
 [node name="Hair_Back" type="Sprite2D" parent="Skeleton"]
+
+[node name="Outline" type="Sprite2D" parent="Skeleton/Hair_Back"]
+
+[node name="Color" type="Sprite2D" parent="Skeleton/Hair_Back"]
 
 [node name="Name" type="Label" parent="Skeleton"]
 offset_right = 40.0
