@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cutgxf2rce2gn"
-path="res://.godot/imported/Top10.png-65a77a08c2c29b1cea083c20efba0dc4.ctex"
+uid="uid://dnn8w23wc4bqr"
+path="res://.godot/imported/Top15_T.png-0de8ae155ec3472823e0e1fcef01a887.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/character_sprite/body/torso/outline/Top10.png"
-dest_files=["res://.godot/imported/Top10.png-65a77a08c2c29b1cea083c20efba0dc4.ctex"]
+source_file="res://assets/character_sprite/body/torso/outline/Top15_T.png"
+dest_files=["res://.godot/imported/Top15_T.png-0de8ae155ec3472823e0e1fcef01a887.ctex"]
 
 [params]
 

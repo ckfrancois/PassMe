@@ -162,7 +162,7 @@ offset_bottom = 50.0
 theme_override_font_sizes/font_size = 25
 text = "Skintone"
 
-[node name="ColorButton" type="Button" parent="CreatorScreen/ColorRect/Body"]
+[node name="BodyColorButton" type="Button" parent="CreatorScreen/ColorRect/Body"]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -322,6 +322,7 @@ offset_bottom = 107.0
 grow_horizontal = 0
 text = "->"
 
+[connection signal="pressed" from="CreatorScreen/ColorRect/Body/BodyColorButton" to="Skeleton/Body" method="_on_body_color_button_pressed"]
 [connection signal="pressed" from="CreatorScreen/ColorRect/Hair/CollectionButton" to="Skeleton/Hair" method="_on_collection_button_pressed"]
 [connection signal="pressed" from="CreatorScreen/ColorRect/Hair/ColorButton" to="Skeleton/Hair" method="_on_color_button_pressed"]
 [connection signal="pressed" from="CreatorScreen/ColorRect/Shirt/CollectionButton" to="Skeleton/Body" method="_on_collection_button_pressed"]

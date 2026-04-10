@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://ccp2ym6aq7oxy"
-path="res://.godot/imported/Top11.png-e0ccf8378803fed6ff0a6fe47c8c7295.ctex"
+path="res://.godot/imported/Top11_T.png-7ceb1ecdaffc7811a4ba4d6fe6d2ce65.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/character_sprite/body/torso/outline/Top11.png"
-dest_files=["res://.godot/imported/Top11.png-e0ccf8378803fed6ff0a6fe47c8c7295.ctex"]
+source_file="res://assets/character_sprite/body/torso/outline/Top11_T.png"
+dest_files=["res://.godot/imported/Top11_T.png-7ceb1ecdaffc7811a4ba4d6fe6d2ce65.ctex"]
 
 [params]
 

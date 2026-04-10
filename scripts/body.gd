@@ -13,6 +13,7 @@ extends Node2D
 @onready var rightArmBase_sprite = $RightArm/Base_Color
 @onready var torsoBase_sprite = $Torso/Base_Color
 @onready var headBase_sprite = $Head/Base_Color
+@onready var legBase_sprite = $Legs/Base_Color
 
 @onready var legO_sprite = $Legs/Outfit_Outline
 @onready var legC_sprite = $Legs/Outfit_Color
@@ -22,6 +23,7 @@ extends Node2D
 var body_color_keys = []
 var outfit_keys = []
 var leg_keys = []
+var current_body_index = 0
 var current_outfit_index = 0
 var current_outfit_color_index = 0
 var current_leg_index = 0
@@ -36,6 +38,12 @@ func set_sprite_keys():
 	outfit_keys =  Global.torsoO_collection.keys()
 	leg_keys = Global.legO_collection.keys()
 	
+func updateBody_sprite():
+	leftArmBase_sprite.modulate = Global.body_colors[current_body_index]
+	rightArmBase_sprite.modulate = Global.body_colors[current_body_index]
+	torsoBase_sprite.modulate = Global.body_colors[current_body_index]
+	headBase_sprite.modulate = Global.body_colors[current_body_index]
+	legBase_sprite.modulate = Global.body_colors[current_body_index]
 
 # Update textures and modulate
 func updateOutfit_sprite():
@@ -90,3 +98,8 @@ func _on_legs_button_pressed() -> void:
 func _on_legs_color_button_pressed() -> void:
 	current_leg_color_index = (current_leg_color_index + 1) % Global.colors.size()
 	updateLeg_sprite()
+
+
+func _on_body_color_button_pressed() -> void:
+	current_body_index = (current_body_index + 1) % Global.body_colors.size()
+	updateBody_sprite()
