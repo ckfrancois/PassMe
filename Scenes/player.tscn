@@ -13,7 +13,7 @@
 [ext_resource type="Texture2D" uid="uid://dme25jpx00d8d" path="res://assets/character_sprite/body/base/color/Base_HeadT.png" id="7_jej6c"]
 [ext_resource type="Texture2D" uid="uid://dlhofalnmwqlp" path="res://assets/character_sprite/body/base/color/Base_LeftArmT.png" id="9_f1ej7"]
 [ext_resource type="Texture2D" uid="uid://dxq4wxllfi2" path="res://assets/character_sprite/body/head/nose/color/Nose1C.png" id="9_jej6c"]
-[ext_resource type="Texture2D" uid="uid://juuroom0syxr" path="res://assets/character_sprite/body/torso/color/Top7C_T.png" id="9_ke2ow"]
+[ext_resource type="Texture2D" uid="uid://d4dtv2pytt0bq" path="res://assets/character_sprite/body/torso/color/Top7C_T.png" id="9_ke2ow"]
 [ext_resource type="Texture2D" uid="uid://02quh5rxbukn" path="res://assets/character_sprite/body/head/mouth/Mouth1.png" id="9_qfm1y"]
 [ext_resource type="Texture2D" uid="uid://bhf3bwwbbiw43" path="res://assets/character_sprite/body/head/nose/outline/Nose1.png" id="10_f1ej7"]
 [ext_resource type="Texture2D" uid="uid://doxfhx4ixv16h" path="res://assets/character_sprite/body/torso/outline/Top7_T.png" id="10_ujl30"]
