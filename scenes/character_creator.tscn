@@ -322,6 +322,51 @@ offset_bottom = 107.0
 grow_horizontal = 0
 text = "->"
 
+[node name="Shoes" type="ColorRect" parent="CreatorScreen/ColorRect"]
+offset_left = 411.0
+offset_top = 126.0
+offset_right = 784.0
+offset_bottom = 166.0
+color = Color(1, 1, 1, 0)
+
+[node name="Label" type="Label" parent="CreatorScreen/ColorRect/Shoes"]
+layout_mode = 0
+offset_right = 200.0
+offset_bottom = 50.0
+theme_override_font_sizes/font_size = 25
+text = "Shoes"
+
+[node name="ShoeButton" type="Button" parent="CreatorScreen/ColorRect/Shoes"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -200.0
+offset_bottom = 50.0
+grow_horizontal = 0
+text = "->"
+
+[node name="Label2" type="Label" parent="CreatorScreen/ColorRect/Shoes"]
+layout_mode = 0
+offset_left = -2.0
+offset_top = 57.0
+offset_right = 198.0
+offset_bottom = 107.0
+theme_override_font_sizes/font_size = 25
+text = "Color"
+
+[node name="ShoeColorButton" type="Button" parent="CreatorScreen/ColorRect/Shoes"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -202.0
+offset_top = 57.0
+offset_right = -2.0
+offset_bottom = 107.0
+grow_horizontal = 0
+text = "->"
+
 [connection signal="pressed" from="CreatorScreen/ColorRect/Body/BodyColorButton" to="Skeleton/Body" method="_on_body_color_button_pressed"]
 [connection signal="pressed" from="CreatorScreen/ColorRect/Hair/CollectionButton" to="Skeleton/Hair" method="_on_collection_button_pressed"]
 [connection signal="pressed" from="CreatorScreen/ColorRect/Hair/ColorButton" to="Skeleton/Hair" method="_on_color_button_pressed"]
@@ -329,3 +374,5 @@ text = "->"
 [connection signal="pressed" from="CreatorScreen/ColorRect/Shirt/ColorButton" to="Skeleton/Body" method="_on_color_button_pressed"]
 [connection signal="pressed" from="CreatorScreen/ColorRect/Pants/LegsButton" to="Skeleton/Body" method="_on_legs_button_pressed"]
 [connection signal="pressed" from="CreatorScreen/ColorRect/Pants/LegsColorButton" to="Skeleton/Body" method="_on_legs_color_button_pressed"]
+[connection signal="pressed" from="CreatorScreen/ColorRect/Shoes/ShoeButton" to="Skeleton/Body" method="_on_shoe_button_pressed"]
+[connection signal="pressed" from="CreatorScreen/ColorRect/Shoes/ShoeColorButton" to="Skeleton/Body" method="_on_shoe_color_button_pressed"]

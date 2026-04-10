@@ -15,19 +15,27 @@ extends Node2D
 @onready var headBase_sprite = $Head/Base_Color
 @onready var legBase_sprite = $Legs/Base_Color
 
-@onready var legO_sprite = $Legs/Outfit_Outline
 @onready var legC_sprite = $Legs/Outfit_Color
+@onready var legO_sprite = $Legs/Outfit_Outline
+
+@onready var shoeC_sprite = $Shoes/Outfit_Color
+@onready var shoeO_sprite = $Shoes/Outfit_Outline
 
 # Keys
-#var body_keys = []
-var body_color_keys = []
 var outfit_keys = []
 var leg_keys = []
+var shoe_keys = []
+
 var current_body_index = 0
+
 var current_outfit_index = 0
 var current_outfit_color_index = 0
+
 var current_leg_index = 0
 var current_leg_color_index = 0
+
+var current_shoe_index = 0
+var current_shoe_color_index = 0
 
 func _ready():
 	set_sprite_keys()
@@ -37,7 +45,9 @@ func _ready():
 func set_sprite_keys():
 	outfit_keys =  Global.torsoO_collection.keys()
 	leg_keys = Global.legO_collection.keys()
+	shoe_keys = Global.shoeO_collection.keys()
 	
+# Modulate for outfits
 func updateBody_sprite():
 	leftArmBase_sprite.modulate = Global.body_colors[current_body_index]
 	rightArmBase_sprite.modulate = Global.body_colors[current_body_index]
@@ -45,7 +55,7 @@ func updateBody_sprite():
 	headBase_sprite.modulate = Global.body_colors[current_body_index]
 	legBase_sprite.modulate = Global.body_colors[current_body_index]
 
-# Update textures and modulate
+# Update textures and modulate for outfits
 func updateOutfit_sprite():
 	var current_sprite = outfit_keys[current_outfit_index]
 	# Change textures of outlines
@@ -67,7 +77,7 @@ func updateOutfit_sprite():
 	
 	#Global.selected_body_color = Global.body_color_options[current_color_index]
 
-# Update textures and modulate
+# Update textures and modulate for legs
 func updateLeg_sprite():
 	var current_sprite = leg_keys[current_leg_index]
 	# Change textures of outlines
@@ -79,6 +89,19 @@ func updateLeg_sprite():
 	
 	Global.selected_legs_color = Global.colors[current_leg_color_index]
 	Global.selected_legs = current_sprite
+
+# Update textures and modulate for shoes
+func updateShoe_sprite():
+	var current_sprite = shoe_keys[current_shoe_index]
+	# Change textures of outlines
+	shoeO_sprite.texture = Global.shoeO_collection[current_sprite]
+	# Change textures of colors
+	shoeC_sprite.texture = Global.shoeC_collection[current_sprite]
+	# Change colors
+	shoeC_sprite.modulate = Global.colors[current_shoe_color_index]
+	
+	Global.selected_shoe_color = Global.colors[current_shoe_color_index]
+	Global.selected_shoe = current_sprite
 
 
 func _on_color_button_pressed() -> void:
@@ -103,3 +126,13 @@ func _on_legs_color_button_pressed() -> void:
 func _on_body_color_button_pressed() -> void:
 	current_body_index = (current_body_index + 1) % Global.body_colors.size()
 	updateBody_sprite()
+
+
+func _on_shoe_button_pressed() -> void:
+	current_shoe_index = (current_shoe_index + 1) % shoe_keys.size()
+	updateShoe_sprite()
+
+
+func _on_shoe_color_button_pressed() -> void:
+	current_shoe_color_index = (current_shoe_color_index + 1) % Global.colors.size()
+	updateShoe_sprite()

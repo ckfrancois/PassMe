@@ -4,12 +4,34 @@ extends Node
 var hairC_collection = {
 	"none" : null,
 	"01" : preload("res://assets/character_sprite/hair/color/Hair1C.png"),
+	"02" : preload("res://assets/character_sprite/hair/color/Hair2C.png"),
+	"03" : preload("res://assets/character_sprite/hair/color/Hair3C.png"),
+	"04" : preload("res://assets/character_sprite/hair/color/Hair4C.png"),
+	"05" : preload("res://assets/character_sprite/hair/color/Hair5C.png"),
+	"06" : preload("res://assets/character_sprite/hair/color/Hair6C.png"),
+	"07" : preload("res://assets/character_sprite/hair/color/Hair7C.png"),
+	"08" : preload("res://assets/character_sprite/hair/color/Hair8C.png"),
+	"09" : preload("res://assets/character_sprite/hair/color/Hair9C.png"),
+	"10" : preload("res://assets/character_sprite/hair/color/Hair10C.png"),
+	"11" : preload("res://assets/character_sprite/hair/color/Hair11C.png"),
+	"12" : preload("res://assets/character_sprite/hair/color/Hair12C.png"),
 }
 
 # Hair outline sprite collection
 var hairO_collection = {
 	"none" : null,
 	"01" : preload("res://assets/character_sprite/hair/outline/Hair1.png"),
+	"02" : preload("res://assets/character_sprite/hair/outline/Hair2.png"),
+	"03" : preload("res://assets/character_sprite/hair/outline/Hair3.png"),
+	"04" : preload("res://assets/character_sprite/hair/outline/Hair4.png"),
+	"05" : preload("res://assets/character_sprite/hair/outline/Hair5.png"),
+	"06" : preload("res://assets/character_sprite/hair/outline/Hair6.png"),
+	"07" : preload("res://assets/character_sprite/hair/outline/Hair7.png"),
+	"08" : preload("res://assets/character_sprite/hair/outline/Hair8.png"),
+	"09" : preload("res://assets/character_sprite/hair/outline/Hair9.png"),
+	"10" : preload("res://assets/character_sprite/hair/outline/Hair10.png"),
+	"11" : preload("res://assets/character_sprite/hair/outline/Hair11.png"),
+	"12" : preload("res://assets/character_sprite/hair/outline/Hair12.png"),
 }
 
 # Torso color sprite collection
@@ -193,6 +215,26 @@ var legO_collection = {
 	"15" : preload("res://assets/character_sprite/body/legs/outline/Bottom15.png"),
 }
 
+# Shoe color sprite collection
+var shoeC_collection = {
+	"none" : null,
+	"01" : preload("res://assets/character_sprite/body/shoes/color/Shoes1C.png"),
+	"02" : preload("res://assets/character_sprite/body/shoes/color/Shoes2C.png"),
+	"03" : preload("res://assets/character_sprite/body/shoes/color/Shoes3C.png"),
+	"04" : preload("res://assets/character_sprite/body/shoes/color/Shoes4C.png"),
+	"05" : preload("res://assets/character_sprite/body/shoes/color/Shoes5C.png"),
+}
+
+# Shoe outline sprite collection
+var shoeO_collection = {
+	"none" : null,
+	"01" : preload("res://assets/character_sprite/body/shoes/outline/Shoes1.png"),
+	"02" : preload("res://assets/character_sprite/body/shoes/outline/Shoes2.png"),
+	"03" : preload("res://assets/character_sprite/body/shoes/outline/Shoes3.png"),
+	"04" : preload("res://assets/character_sprite/body/shoes/outline/Shoes4.png"),
+	"05" : preload("res://assets/character_sprite/body/shoes/outline/Shoes5.png"),
+}
+
 # Skintones
 var body_colors = [
 	Color(1, 1, 1),
@@ -224,7 +266,9 @@ var colors = [
 var selected_hair = ""
 var selected_outfit = ""
 var selected_legs = ""
+var selected_shoe = ""
 var selected_body_color = ""
 var selected_hair_color = ""
 var selected_outfit_color = ""
 var selected_legs_color = ""
+var selected_shoe_color = ""

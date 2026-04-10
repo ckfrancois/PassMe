@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://duvxbispytacw"]
+[gd_scene load_steps=27 format=3 uid="uid://duvxbispytacw"]
 
 [ext_resource type="Texture2D" uid="uid://dq540rxl0hjtf" path="res://assets/character_sprite/body/base/outline/Base_Head.png" id="1_qlg0r"]
 [ext_resource type="Texture2D" uid="uid://cvn2ixbfbhrs4" path="res://assets/character_sprite/body/base/color/Base_RightArmT.png" id="1_y4r1p"]
@@ -11,6 +11,8 @@
 [ext_resource type="Texture2D" uid="uid://dl5ts5xkruodc" path="res://assets/character_sprite/body/base/color/Base_TorsoT.png" id="5_3v2ag"]
 [ext_resource type="Texture2D" uid="uid://b18ajkn6gxvxg" path="res://assets/character_sprite/body/base/outline/Base_Leg.png" id="5_ur7pv"]
 [ext_resource type="Texture2D" uid="uid://dme25jpx00d8d" path="res://assets/character_sprite/body/base/color/Base_HeadT.png" id="7_jej6c"]
+[ext_resource type="Texture2D" uid="uid://dbqxxvfy05djy" path="res://assets/character_sprite/body/legs/color/Bottom1C.png" id="7_ke2ow"]
+[ext_resource type="Texture2D" uid="uid://bo75ig2re7auc" path="res://assets/character_sprite/body/legs/outline/Bottom1.png" id="8_ujl30"]
 [ext_resource type="Texture2D" uid="uid://dlhofalnmwqlp" path="res://assets/character_sprite/body/base/color/Base_LeftArmT.png" id="9_f1ej7"]
 [ext_resource type="Texture2D" uid="uid://dxq4wxllfi2" path="res://assets/character_sprite/body/head/nose/color/Nose1C.png" id="9_jej6c"]
 [ext_resource type="Texture2D" uid="uid://d4dtv2pytt0bq" path="res://assets/character_sprite/body/torso/color/Top7C_T.png" id="9_ke2ow"]
@@ -67,8 +69,10 @@ texture = ExtResource("3_d2wvv")
 texture = ExtResource("5_ur7pv")
 
 [node name="Outfit_Color" type="Sprite2D" parent="Skeleton/Body/Legs"]
+texture = ExtResource("7_ke2ow")
 
 [node name="Outfit_Outline" type="Sprite2D" parent="Skeleton/Body/Legs"]
+texture = ExtResource("8_ujl30")
 
 [node name="Torso" type="Sprite2D" parent="Skeleton/Body"]
 
