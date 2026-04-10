@@ -4,7 +4,6 @@ import {
   Platform,
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
   useColorScheme,
   View,
@@ -253,18 +252,12 @@ const BleNearbyUsers: React.FC = () => {
   };
 
   const startBLE = async (name: string) => {
-    if (name.length < 2) {
-      setStatusMessage("⚠️ Username must be at least 2 characters.");
-      return;
-    }
-
     const granted = await requestPermissions();
     if (!granted) return;
 
     stopBLE();
     setNearbyUsers([]);
 
-    // const localName = `PM:${name}`;
     const localName = `PM:${getAuth().currentUser?.uid || "Unknown"}`;
     console.log("📡 Advertising as:", localName, "on", Platform.OS);
     setScanning(true);
@@ -330,21 +323,23 @@ const BleNearbyUsers: React.FC = () => {
 
       <Text style={[styles.status, { color: textColor }]}>{statusMessage}</Text>
 
-      <View style={{ marginBottom: 20 }}>
-        <TextInput
-          style={[styles.input, { color: textColor, borderColor: textColor }]}
-          placeholder="Enter your name..."
-          placeholderTextColor={colorScheme === "dark" ? "#888" : "#AAA"}
-          value={username}
-          onChangeText={setUsername}
-        />
-      </View>
-
       <View style={styles.buttonGrid}>
+        {getAuth().currentUser === null && (
+          <Text style={{ color: textColor, width: "100%" }}>
+            You need to sign in to use the BLE features. Please go to the Home
+            tab and sign in with Google.
+          </Text>
+        )}
+        {getAuth().currentUser !== null && (
+          <Text style={{ color: textColor, width: "100%" }}>
+            You're signed in as{" "}
+            {getAuth().currentUser?.displayName || "Unknown User"}.
+          </Text>
+        )}
         <TouchableOpacity
-          style={[styles.button, username.length >= 2 && styles.buttonActive]}
+          style={[styles.button, getAuth().currentUser && styles.buttonActive]}
           onPress={() => startBLE(username)}
-          disabled={username.length < 2}
+          disabled={getAuth().currentUser === null}
         >
           <Text style={styles.buttonText}>Start BLE</Text>
         </TouchableOpacity>

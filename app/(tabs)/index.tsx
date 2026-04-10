@@ -16,8 +16,8 @@ import {
   signInWithCredential as webSignInWithCredential,
 } from "firebase/auth";
 import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
-import { useEffect } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { useEffect, useState } from "react";
+import { StyleSheet, Text, View, useColorScheme } from "react-native";
 
 GoogleSignin.configure({
   webClientId: process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID,
@@ -39,7 +39,13 @@ if (!getApps().length) {
 const db = getFirestore();
 
 export default function SignInScreen() {
+  const colorScheme = useColorScheme();
+  const textColor = colorScheme === "dark" ? "#FFFFFF" : "#000000";
+
+  const [loginMessage, setLoginMessage] = useState("");
+
   const auth = getAuth();
+  console.log("🔵 Auth initialized:", !!auth);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -58,7 +64,6 @@ export default function SignInScreen() {
           uid: user.uid,
           email: user.email,
           displayName: user.displayName,
-          photoURL: user.photoURL,
           usersPassed: [],
           usersPassedCount: 0,
           favoriteColor: "",
@@ -100,6 +105,8 @@ export default function SignInScreen() {
       console.log("🔵 Web auth done");
 
       await createUserIfNotExists(userCredential.user);
+
+      setLoginMessage(`Welcome, ${userCredential.user.displayName}!`);
     } catch (error: any) {
       console.error("❌ Code:", error.code);
       console.error("❌ Message:", error.message);
@@ -108,11 +115,20 @@ export default function SignInScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Welcome to PassMe</Text>
+      <Text style={[styles.title, { color: textColor }]}>
+        Welcome to PassMe
+      </Text>
+      <Text style={[styles.loginMessage, { color: textColor }]}>
+        {"Hello, " +
+          (auth.currentUser?.displayName ||
+            "Guest. Please sign in to continue.") +
+          "!"}
+      </Text>
       <GoogleSigninButton
         size={GoogleSigninButton.Size.Wide}
         color={GoogleSigninButton.Color.Dark}
         onPress={onGoogleButtonPress}
+        disabled={!!auth}
       />
     </View>
   );
@@ -126,4 +142,5 @@ const styles = StyleSheet.create({
     gap: 24,
   },
   title: { fontSize: 28, fontWeight: "bold" },
+  loginMessage: { fontSize: 16, textAlign: "center" },
 });
