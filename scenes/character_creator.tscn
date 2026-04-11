@@ -218,6 +218,76 @@ offset_bottom = 107.0
 grow_horizontal = 0
 text = "->"
 
+[node name="Eyebrows" type="ColorRect" parent="CreatorScreen/ColorRect"]
+offset_left = 410.0
+offset_top = 241.0
+offset_right = 783.0
+offset_bottom = 281.0
+color = Color(1, 1, 1, 0)
+
+[node name="Label" type="Label" parent="CreatorScreen/ColorRect/Eyebrows"]
+layout_mode = 0
+offset_right = 200.0
+offset_bottom = 50.0
+theme_override_font_sizes/font_size = 25
+text = "Eyebrows"
+
+[node name="EyebrowButton" type="Button" parent="CreatorScreen/ColorRect/Eyebrows"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -200.0
+offset_bottom = 50.0
+grow_horizontal = 0
+text = "->"
+
+[node name="HairBack" type="ColorRect" parent="CreatorScreen/ColorRect"]
+visible = false
+offset_left = 7.0
+offset_top = 70.0
+offset_right = 380.0
+offset_bottom = 110.0
+color = Color(1, 1, 1, 0)
+
+[node name="Label" type="Label" parent="CreatorScreen/ColorRect/HairBack"]
+layout_mode = 0
+offset_right = 200.0
+offset_bottom = 50.0
+theme_override_font_sizes/font_size = 25
+text = "Hair"
+
+[node name="CollectionButton" type="Button" parent="CreatorScreen/ColorRect/HairBack"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -200.0
+offset_bottom = 50.0
+grow_horizontal = 0
+text = "->"
+
+[node name="Label2" type="Label" parent="CreatorScreen/ColorRect/HairBack"]
+layout_mode = 0
+offset_left = -2.0
+offset_top = 57.0
+offset_right = 198.0
+offset_bottom = 107.0
+theme_override_font_sizes/font_size = 25
+text = "Color"
+
+[node name="ColorButton" type="Button" parent="CreatorScreen/ColorRect/HairBack"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -202.0
+offset_top = 57.0
+offset_right = -2.0
+offset_bottom = 107.0
+grow_horizontal = 0
+text = "->"
+
 [node name="Shirt" type="ColorRect" parent="CreatorScreen/ColorRect"]
 layout_mode = 0
 offset_left = 6.0
@@ -269,10 +339,10 @@ layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -621.0
-offset_top = 334.0
-offset_right = -421.0
-offset_bottom = 384.0
+offset_left = -487.0
+offset_top = 420.0
+offset_right = -287.0
+offset_bottom = 470.0
 grow_horizontal = 0
 text = "Confirm"
 
@@ -323,6 +393,7 @@ grow_horizontal = 0
 text = "->"
 
 [node name="Shoes" type="ColorRect" parent="CreatorScreen/ColorRect"]
+layout_mode = 0
 offset_left = 411.0
 offset_top = 126.0
 offset_right = 784.0
@@ -367,12 +438,88 @@ offset_bottom = 107.0
 grow_horizontal = 0
 text = "->"
 
+[node name="Eyes" type="ColorRect" parent="CreatorScreen/ColorRect"]
+offset_left = 2.0
+offset_top = 316.0
+offset_right = 375.0
+offset_bottom = 356.0
+color = Color(1, 1, 1, 0)
+
+[node name="Label" type="Label" parent="CreatorScreen/ColorRect/Eyes"]
+layout_mode = 0
+offset_right = 200.0
+offset_bottom = 50.0
+theme_override_font_sizes/font_size = 25
+text = "Eyes"
+
+[node name="EyeButton" type="Button" parent="CreatorScreen/ColorRect/Eyes"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -200.0
+offset_bottom = 50.0
+grow_horizontal = 0
+text = "->"
+
+[node name="Mouth" type="ColorRect" parent="CreatorScreen/ColorRect"]
+offset_left = 410.0
+offset_top = 300.0
+offset_right = 783.0
+offset_bottom = 340.0
+color = Color(1, 1, 1, 0)
+
+[node name="Label" type="Label" parent="CreatorScreen/ColorRect/Mouth"]
+layout_mode = 0
+offset_right = 200.0
+offset_bottom = 50.0
+theme_override_font_sizes/font_size = 25
+text = "Mouth"
+
+[node name="MouthButton" type="Button" parent="CreatorScreen/ColorRect/Mouth"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -200.0
+offset_bottom = 50.0
+grow_horizontal = 0
+text = "->"
+
+[node name="Nose" type="ColorRect" parent="CreatorScreen/ColorRect"]
+offset_left = 408.0
+offset_top = 357.0
+offset_right = 781.0
+offset_bottom = 397.0
+color = Color(1, 1, 1, 0)
+
+[node name="Label" type="Label" parent="CreatorScreen/ColorRect/Nose"]
+layout_mode = 0
+offset_right = 200.0
+offset_bottom = 50.0
+theme_override_font_sizes/font_size = 25
+text = "Nose"
+
+[node name="NoseButton" type="Button" parent="CreatorScreen/ColorRect/Nose"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -200.0
+offset_bottom = 50.0
+grow_horizontal = 0
+text = "->"
+
 [connection signal="pressed" from="CreatorScreen/ColorRect/Body/BodyColorButton" to="Skeleton/Body" method="_on_body_color_button_pressed"]
 [connection signal="pressed" from="CreatorScreen/ColorRect/Hair/CollectionButton" to="Skeleton/Hair" method="_on_collection_button_pressed"]
 [connection signal="pressed" from="CreatorScreen/ColorRect/Hair/ColorButton" to="Skeleton/Hair" method="_on_color_button_pressed"]
+[connection signal="pressed" from="CreatorScreen/ColorRect/Eyebrows/EyebrowButton" to="Skeleton/Hair" method="_on_eyebrow_button_pressed"]
 [connection signal="pressed" from="CreatorScreen/ColorRect/Shirt/CollectionButton" to="Skeleton/Body" method="_on_collection_button_pressed"]
 [connection signal="pressed" from="CreatorScreen/ColorRect/Shirt/ColorButton" to="Skeleton/Body" method="_on_color_button_pressed"]
 [connection signal="pressed" from="CreatorScreen/ColorRect/Pants/LegsButton" to="Skeleton/Body" method="_on_legs_button_pressed"]
 [connection signal="pressed" from="CreatorScreen/ColorRect/Pants/LegsColorButton" to="Skeleton/Body" method="_on_legs_color_button_pressed"]
 [connection signal="pressed" from="CreatorScreen/ColorRect/Shoes/ShoeButton" to="Skeleton/Body" method="_on_shoe_button_pressed"]
 [connection signal="pressed" from="CreatorScreen/ColorRect/Shoes/ShoeColorButton" to="Skeleton/Body" method="_on_shoe_color_button_pressed"]
+[connection signal="pressed" from="CreatorScreen/ColorRect/Eyes/EyeButton" to="Skeleton/Body" method="_on_eye_button_pressed"]
+[connection signal="pressed" from="CreatorScreen/ColorRect/Mouth/MouthButton" to="Skeleton/Body" method="_on_mouth_button_pressed"]
+[connection signal="pressed" from="CreatorScreen/ColorRect/Nose/NoseButton" to="Skeleton/Body" method="_on_nose_button_pressed"]

@@ -1,5 +1,82 @@
 extends Node
 
+# Eyebrow sprite collection
+var eyebrow_collection = {
+	"none" : null,
+	"01" : preload("res://assets/character_sprite/hair/eyebrows/Eyebrows1.png"),
+	"02" : preload("res://assets/character_sprite/hair/eyebrows/Eyebrows2.png"),
+	"03" : preload("res://assets/character_sprite/hair/eyebrows/Eyebrows3.png"),
+	"04" : preload("res://assets/character_sprite/hair/eyebrows/Eyebrows4.png"),
+	"05" : preload("res://assets/character_sprite/hair/eyebrows/Eyebrows5.png"),
+	"06" : preload("res://assets/character_sprite/hair/eyebrows/Eyebrows6.png"),
+	"07" : preload("res://assets/character_sprite/hair/eyebrows/Eyebrows7.png"),
+	"08" : preload("res://assets/character_sprite/hair/eyebrows/Eyebrows8.png"),
+	"09" : preload("res://assets/character_sprite/hair/eyebrows/Eyebrows9.png"),
+	"10" : preload("res://assets/character_sprite/hair/eyebrows/Eyebrows10.png"),
+}
+
+# Eye sprite collection
+var eye_collection = {
+	"01" : preload("res://assets/character_sprite/body/head/eyes/Eyes1.png"),
+	"02" : preload("res://assets/character_sprite/body/head/eyes/Eyes2.png"),
+	"03" : preload("res://assets/character_sprite/body/head/eyes/Eyes3.png"),
+	"04" : preload("res://assets/character_sprite/body/head/eyes/Eyes4.png"),
+	"05" : preload("res://assets/character_sprite/body/head/eyes/Eyes5.png"),
+	"06" : preload("res://assets/character_sprite/body/head/eyes/Eyes6.png"),
+	"07" : preload("res://assets/character_sprite/body/head/eyes/Eyes7.png"),
+	"08" : preload("res://assets/character_sprite/body/head/eyes/Eyes8.png"),
+	"09" : preload("res://assets/character_sprite/body/head/eyes/Eyes9.png"),
+	"10" : preload("res://assets/character_sprite/body/head/eyes/Eyes10.png"),
+	"11" : preload("res://assets/character_sprite/body/head/eyes/Eyes11.png"),
+	"12" : preload("res://assets/character_sprite/body/head/eyes/Eyes12.png"),
+	"13" : preload("res://assets/character_sprite/body/head/eyes/Eyes13.png"),
+	"14" : preload("res://assets/character_sprite/body/head/eyes/Eyes14.png"),
+}
+
+# Nose color sprite collection
+var noseC_collection = {
+	"01" : preload("res://assets/character_sprite/body/head/nose/color/Nose1C.png"),
+	"02" : preload("res://assets/character_sprite/body/head/nose/color/Nose2C.png"),
+	"03" : preload("res://assets/character_sprite/body/head/nose/color/Nose3C.png"),
+	"04" : preload("res://assets/character_sprite/body/head/nose/color/Nose4C.png"),
+	"05" : preload("res://assets/character_sprite/body/head/nose/color/Nose5C.png"),
+	"06" : preload("res://assets/character_sprite/body/head/nose/color/Nose6C.png"),
+	"07" : preload("res://assets/character_sprite/body/head/nose/color/Nose7C.png"),
+	"08" : preload("res://assets/character_sprite/body/head/nose/color/Nose8C.png"),
+	"09" : preload("res://assets/character_sprite/body/head/nose/color/Nose9C.png"),
+	"10" : preload("res://assets/character_sprite/body/head/nose/color/Nose10C.png"),
+}
+
+# Nose outline sprite collection
+var noseO_collection = {
+	"01" : preload("res://assets/character_sprite/body/head/nose/outline/Nose1.png"),
+	"02" : preload("res://assets/character_sprite/body/head/nose/outline/Nose2.png"),
+	"03" : preload("res://assets/character_sprite/body/head/nose/outline/Nose3.png"),
+	"04" : preload("res://assets/character_sprite/body/head/nose/outline/Nose4.png"),
+	"05" : preload("res://assets/character_sprite/body/head/nose/outline/Nose5.png"),
+	"06" : preload("res://assets/character_sprite/body/head/nose/outline/Nose6.png"),
+	"07" : preload("res://assets/character_sprite/body/head/nose/outline/Nose7.png"),
+	"08" : preload("res://assets/character_sprite/body/head/nose/outline/Nose8.png"),
+	"09" : preload("res://assets/character_sprite/body/head/nose/outline/Nose9.png"),
+	"10" : preload("res://assets/character_sprite/body/head/nose/outline/Nose10.png"),
+}
+
+# Mouth sprite collection
+var mouth_collection = {
+	"01" : preload("res://assets/character_sprite/body/head/mouth/Mouth1.png"),
+	"02" : preload("res://assets/character_sprite/body/head/mouth/Mouth2.png"),
+	"03" : preload("res://assets/character_sprite/body/head/mouth/Mouth3.png"),
+	"04" : preload("res://assets/character_sprite/body/head/mouth/Mouth4.png"),
+	"05" : preload("res://assets/character_sprite/body/head/mouth/Mouth5.png"),
+	"06" : preload("res://assets/character_sprite/body/head/mouth/Mouth6.png"),
+	"07" : preload("res://assets/character_sprite/body/head/mouth/Mouth7.png"),
+	"08" : preload("res://assets/character_sprite/body/head/mouth/Mouth8.png"),
+	"09" : preload("res://assets/character_sprite/body/head/mouth/Mouth9.png"),
+	"10" : preload("res://assets/character_sprite/body/head/mouth/Mouth10.png"),
+	"11" : preload("res://assets/character_sprite/body/head/mouth/Mouth11.png"),
+	"12" : preload("res://assets/character_sprite/body/head/mouth/Mouth12.png"),
+}
+
 # Hair color sprite collection
 var hairC_collection = {
 	"none" : null,
@@ -263,11 +340,16 @@ var colors = [
 ]
 
 # Selected Values
+var selected_eyebrow = ""
+var selected_eye = ""
+var selected_nose = ""
+var selected_mouth = ""
 var selected_hair = ""
 var selected_outfit = ""
 var selected_legs = ""
 var selected_shoe = ""
 var selected_body_color = ""
+#var selected_nose_color = ""
 var selected_hair_color = ""
 var selected_outfit_color = ""
 var selected_legs_color = ""
