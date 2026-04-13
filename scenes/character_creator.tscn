@@ -26,13 +26,14 @@
 
 [node name="Skeleton" type="Node2D" parent="."]
 position = Vector2(184, 325)
+script = ExtResource("17_xhj85")
 
 [node name="Hair_Back" type="Node2D" parent="Skeleton"]
 script = ExtResource("1_p0l4m")
 
-[node name="Outline" type="Sprite2D" parent="Skeleton/Hair_Back"]
-
 [node name="Color" type="Sprite2D" parent="Skeleton/Hair_Back"]
+
+[node name="Outline" type="Sprite2D" parent="Skeleton/Hair_Back"]
 
 [node name="Body" type="Node2D" parent="Skeleton"]
 script = ExtResource("2_y4ojd")
@@ -56,6 +57,12 @@ texture = ExtResource("3_s8202")
 
 [node name="Base_Outline" type="Sprite2D" parent="Skeleton/Body/Legs"]
 texture = ExtResource("4_in210")
+
+[node name="Shoes" type="Sprite2D" parent="Skeleton/Body/Legs"]
+
+[node name="Outfit_Color" type="Sprite2D" parent="Skeleton/Body/Legs/Shoes"]
+
+[node name="Outfit_Outline" type="Sprite2D" parent="Skeleton/Body/Legs/Shoes"]
 
 [node name="Outfit_Color" type="Sprite2D" parent="Skeleton/Body/Legs"]
 
@@ -107,14 +114,7 @@ texture = ExtResource("14_7lds4")
 
 [node name="Outfit_Outline" type="Sprite2D" parent="Skeleton/Body/LeftArm"]
 
-[node name="Shoes" type="Sprite2D" parent="Skeleton/Body"]
-
-[node name="Outfit_Color" type="Sprite2D" parent="Skeleton/Body/Shoes"]
-
-[node name="Outfit_Outline" type="Sprite2D" parent="Skeleton/Body/Shoes"]
-
 [node name="Hair" type="Node2D" parent="Skeleton"]
-script = ExtResource("17_xhj85")
 
 [node name="Color" type="Sprite2D" parent="Skeleton/Hair"]
 texture = ExtResource("15_hx0hx")
@@ -128,9 +128,9 @@ texture = ExtResource("17_xfpfe")
 [node name="Accessory" type="Node2D" parent="Skeleton"]
 script = ExtResource("21_rqrh5")
 
-[node name="Outline" type="Sprite2D" parent="Skeleton/Accessory"]
-
 [node name="Color" type="Sprite2D" parent="Skeleton/Accessory"]
+
+[node name="Outline" type="Sprite2D" parent="Skeleton/Accessory"]
 
 [node name="CreatorScreen" type="CanvasLayer" parent="."]
 
@@ -219,6 +219,7 @@ grow_horizontal = 0
 text = "->"
 
 [node name="Eyebrows" type="ColorRect" parent="CreatorScreen/ColorRect"]
+layout_mode = 0
 offset_left = 410.0
 offset_top = 241.0
 offset_right = 783.0
@@ -244,6 +245,7 @@ text = "->"
 
 [node name="HairBack" type="ColorRect" parent="CreatorScreen/ColorRect"]
 visible = false
+layout_mode = 0
 offset_left = 7.0
 offset_top = 70.0
 offset_right = 380.0
@@ -339,10 +341,10 @@ layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -487.0
-offset_top = 420.0
-offset_right = -287.0
-offset_bottom = 470.0
+offset_left = -247.0
+offset_top = 436.0
+offset_right = -47.0
+offset_bottom = 486.0
 grow_horizontal = 0
 text = "Confirm"
 
@@ -439,6 +441,7 @@ grow_horizontal = 0
 text = "->"
 
 [node name="Eyes" type="ColorRect" parent="CreatorScreen/ColorRect"]
+layout_mode = 0
 offset_left = 2.0
 offset_top = 316.0
 offset_right = 375.0
@@ -463,6 +466,7 @@ grow_horizontal = 0
 text = "->"
 
 [node name="Mouth" type="ColorRect" parent="CreatorScreen/ColorRect"]
+layout_mode = 0
 offset_left = 410.0
 offset_top = 300.0
 offset_right = 783.0
@@ -487,6 +491,7 @@ grow_horizontal = 0
 text = "->"
 
 [node name="Nose" type="ColorRect" parent="CreatorScreen/ColorRect"]
+layout_mode = 0
 offset_left = 408.0
 offset_top = 357.0
 offset_right = 781.0
@@ -510,9 +515,55 @@ offset_bottom = 50.0
 grow_horizontal = 0
 text = "->"
 
+[node name="Accessory" type="ColorRect" parent="CreatorScreen/ColorRect"]
+offset_top = 376.0
+offset_right = 373.0
+offset_bottom = 416.0
+color = Color(1, 1, 1, 0)
+
+[node name="Label" type="Label" parent="CreatorScreen/ColorRect/Accessory"]
+layout_mode = 0
+offset_right = 200.0
+offset_bottom = 50.0
+theme_override_font_sizes/font_size = 25
+text = "Accessory"
+
+[node name="CollectionButton" type="Button" parent="CreatorScreen/ColorRect/Accessory"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -200.0
+offset_bottom = 50.0
+grow_horizontal = 0
+text = "->"
+
+[node name="Label2" type="Label" parent="CreatorScreen/ColorRect/Accessory"]
+layout_mode = 0
+offset_left = -2.0
+offset_top = 57.0
+offset_right = 198.0
+offset_bottom = 107.0
+theme_override_font_sizes/font_size = 25
+text = "Color"
+
+[node name="ColorButton" type="Button" parent="CreatorScreen/ColorRect/Accessory"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -202.0
+offset_top = 57.0
+offset_right = -2.0
+offset_bottom = 107.0
+grow_horizontal = 0
+text = "->"
+
 [connection signal="pressed" from="CreatorScreen/ColorRect/Body/BodyColorButton" to="Skeleton/Body" method="_on_body_color_button_pressed"]
-[connection signal="pressed" from="CreatorScreen/ColorRect/Hair/CollectionButton" to="Skeleton/Hair" method="_on_collection_button_pressed"]
+[connection signal="pressed" from="CreatorScreen/ColorRect/Hair/CollectionButton" to="Skeleton" method="_on_collection_button_pressed"]
+[connection signal="pressed" from="CreatorScreen/ColorRect/Hair/ColorButton" to="Skeleton" method="_on_color_button_pressed"]
 [connection signal="pressed" from="CreatorScreen/ColorRect/Hair/ColorButton" to="Skeleton/Hair" method="_on_color_button_pressed"]
+[connection signal="pressed" from="CreatorScreen/ColorRect/Eyebrows/EyebrowButton" to="Skeleton" method="_on_eyebrow_button_pressed"]
 [connection signal="pressed" from="CreatorScreen/ColorRect/Eyebrows/EyebrowButton" to="Skeleton/Hair" method="_on_eyebrow_button_pressed"]
 [connection signal="pressed" from="CreatorScreen/ColorRect/Shirt/CollectionButton" to="Skeleton/Body" method="_on_collection_button_pressed"]
 [connection signal="pressed" from="CreatorScreen/ColorRect/Shirt/ColorButton" to="Skeleton/Body" method="_on_color_button_pressed"]
@@ -523,3 +574,5 @@ text = "->"
 [connection signal="pressed" from="CreatorScreen/ColorRect/Eyes/EyeButton" to="Skeleton/Body" method="_on_eye_button_pressed"]
 [connection signal="pressed" from="CreatorScreen/ColorRect/Mouth/MouthButton" to="Skeleton/Body" method="_on_mouth_button_pressed"]
 [connection signal="pressed" from="CreatorScreen/ColorRect/Nose/NoseButton" to="Skeleton/Body" method="_on_nose_button_pressed"]
+[connection signal="pressed" from="CreatorScreen/ColorRect/Accessory/CollectionButton" to="Skeleton/Accessory" method="_on_collection_button_pressed"]
+[connection signal="pressed" from="CreatorScreen/ColorRect/Accessory/ColorButton" to="Skeleton/Accessory" method="_on_color_button_pressed"]

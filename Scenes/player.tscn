@@ -68,6 +68,12 @@ texture = ExtResource("3_d2wvv")
 [node name="Base_Outline" type="Sprite2D" parent="Skeleton/Body/Legs"]
 texture = ExtResource("5_ur7pv")
 
+[node name="Shoes" type="Sprite2D" parent="Skeleton/Body/Legs"]
+
+[node name="Outfit_Color" type="Sprite2D" parent="Skeleton/Body/Legs/Shoes"]
+
+[node name="Outfit_Outline" type="Sprite2D" parent="Skeleton/Body/Legs/Shoes"]
+
 [node name="Outfit_Color" type="Sprite2D" parent="Skeleton/Body/Legs"]
 texture = ExtResource("7_ke2ow")
 
@@ -124,12 +130,6 @@ texture = ExtResource("19_31cv2")
 [node name="Outfit_Outline" type="Sprite2D" parent="Skeleton/Body/LeftArm"]
 texture = ExtResource("20_pf23h")
 
-[node name="Shoes" type="Sprite2D" parent="Skeleton/Body"]
-
-[node name="Outfit_Color" type="Sprite2D" parent="Skeleton/Body/Shoes"]
-
-[node name="Outfit_Outline" type="Sprite2D" parent="Skeleton/Body/Shoes"]
-
 [node name="Hair" type="Sprite2D" parent="Skeleton"]
 
 [node name="Color" type="Sprite2D" parent="Skeleton/Hair"]
@@ -143,9 +143,9 @@ texture = ExtResource("17_60mlk")
 
 [node name="Accessory" type="Sprite2D" parent="Skeleton"]
 
-[node name="Outline" type="Sprite2D" parent="Skeleton/Accessory"]
-
 [node name="Color" type="Sprite2D" parent="Skeleton/Accessory"]
+
+[node name="Outline" type="Sprite2D" parent="Skeleton/Accessory"]
 
 [node name="Name" type="Label" parent="Skeleton"]
 offset_right = 40.0

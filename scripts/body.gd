@@ -23,8 +23,8 @@ extends Node2D
 @onready var legC_sprite = $Legs/Outfit_Color
 @onready var legO_sprite = $Legs/Outfit_Outline
 
-@onready var shoeC_sprite = $Shoes/Outfit_Color
-@onready var shoeO_sprite = $Shoes/Outfit_Outline
+@onready var shoeC_sprite = $Legs/Shoes/Outfit_Color
+@onready var shoeO_sprite = $Legs/Shoes/Outfit_Outline
 
 # Keys
 var eye_keys = []
@@ -70,6 +70,7 @@ func update_body_sprite():
 	torsoBase_sprite.modulate = Global.body_colors[current_body_index]
 	headBase_sprite.modulate = Global.body_colors[current_body_index]
 	legBase_sprite.modulate = Global.body_colors[current_body_index]
+	noseC_sprite.modulate = Global.body_colors[current_body_index]
 	
 # Update eye textures
 func update_eye_sprite():
@@ -93,7 +94,7 @@ func update_nose_sprite():
 	# Change textures of colors
 	noseC_sprite.texture = Global.noseC_collection[current_sprite]
 	# Change colors
-	#noseC_sprite.modulate = Global.colors[current_nose_color_index]
+	noseC_sprite.modulate = Global.body_colors[current_body_index]
 	
 	#Global.selected_nose_color = Global.colors[current_nose_color_index]
 	Global.selected_nose = current_sprite

@@ -1,9 +1,12 @@
 extends Node2D
 
-@onready var hairC_sprite = $Color
-@onready var hairO_sprite = $Outline
+@onready var hairC_sprite = $Hair/Color
+@onready var hairO_sprite = $Hair/Outline
 
-@onready var eyebrow_sprite = $Eyebrows
+@onready var hair_backC_sprite = $Hair_Back/Color
+@onready var hair_backO_sprite = $Hair_Back/Outline
+
+@onready var eyebrow_sprite = $Hair/Eyebrows
 
 # Keys
 var hair_keys = []
@@ -24,6 +27,7 @@ func set_sprite_keys():
 # Update hair textures and modulate
 func update_hair():
 	var current_sprite = hair_keys[current_hair_index]
+	print("Current_sprite is ", current_sprite)
 	if current_sprite == "none":
 		hairO_sprite.texture = null
 		hairC_sprite.texture = null
@@ -31,6 +35,14 @@ func update_hair():
 		hairO_sprite.texture = Global.hairO_collection[current_sprite]
 		hairC_sprite.texture = Global.hairC_collection[current_sprite]
 		hairC_sprite.modulate = Global.hair_colors[current_color_index]
+		if Global.hair_backC_collection.has(current_sprite):
+			hair_backO_sprite.texture = Global.hair_backO_collection[current_sprite]
+			hair_backC_sprite.texture = Global.hair_backC_collection[current_sprite]
+			hair_backC_sprite.modulate = Global.hair_colors[current_color_index]
+		else:
+			hair_backO_sprite.texture = null
+			hair_backC_sprite.texture = null
+			
 	
 	Global.selected_hair = current_sprite
 	Global.selected_hair_color = Global.hair_colors[current_color_index]
