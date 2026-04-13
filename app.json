@@ -7,7 +7,7 @@
     "icon": "./assets/images/icon.png",
     "scheme": "passme",
     "userInterfaceStyle": "automatic",
-    "newArchEnabled": true,
+    // "newArchEnabled": true,
     "ios": {
       "googleServicesFile": "./GoogleService-Info.plist",
       "supportsTablet": true,
@@ -52,6 +52,8 @@
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
+      ["./plugins/withReactNativeArchitectures"],
+      "./app.plugin.js",
       "expo-router",
       [
         "expo-splash-screen",
@@ -68,20 +70,14 @@
       [
         "react-native-permissions",
         {
-          "iosPermissions": [
-            "LocationWhenInUse",
-            "LocationAlways"
-          ]
+          "iosPermissions": ["LocationWhenInUse", "LocationAlways"]
         }
       ],
       [
         "react-native-ble-plx",
         {
           "isBackgroundEnabled": true,
-          "modes": [
-            "peripheral",
-            "central"
-          ],
+          "modes": ["peripheral", "central"],
           "bluetoothAlwaysPermission": "Allow PassMe to use Bluetooth to find nearby users."
         }
       ],
@@ -91,7 +87,14 @@
         {
           "ios": {
             "useFrameworks": "static",
-            "extraPodfileConfig": "modular_headers_for_all_pods!"
+            "extraPodfileConfig": "modular_headers_for_all_pods!",
+            "forceStaticLinking": ["react-native-worklets-core"]
+          },
+          "android": {
+            "minSdkVersion": 29,
+            "extraMavenRepos": [
+              "../../node_modules/@borndotcom/react-native-godot/android/libs/libgodot-android/4.5.1.migeran.2"
+            ]
           }
         }
       ],
