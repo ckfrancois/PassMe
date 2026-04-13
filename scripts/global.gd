@@ -133,6 +133,11 @@ var hairC_collection = {
 	"10.3" : preload("res://assets/character_sprite/hair/color/Hair10C.png"),
 	"11" : preload("res://assets/character_sprite/hair/color/Hair11C.png"),
 	"12" : preload("res://assets/character_sprite/hair/color/Hair12C.png"),
+	"13" : preload("res://assets/character_sprite/hair/color/Hair13C.png"),
+	"14" : preload("res://assets/character_sprite/hair/color/Hair14C.png"),
+	"15" : preload("res://assets/character_sprite/hair/color/Hair15C.png"),
+	"16" : preload("res://assets/character_sprite/hair/color/Hair16C.png"),
+	"17" : preload("res://assets/character_sprite/hair/color/Hair17C.png"),
 }
 
 # Hair outline sprite collection
@@ -160,6 +165,11 @@ var hairO_collection = {
 	"10.3" : preload("res://assets/character_sprite/hair/outline/Hair10.png"),
 	"11" : preload("res://assets/character_sprite/hair/outline/Hair11.png"),
 	"12" : preload("res://assets/character_sprite/hair/outline/Hair12.png"),
+	"13" : preload("res://assets/character_sprite/hair/outline/Hair13.png"),
+	"14" : preload("res://assets/character_sprite/hair/outline/Hair14.png"),
+	"15" : preload("res://assets/character_sprite/hair/outline/Hair15.png"),
+	"16" : preload("res://assets/character_sprite/hair/outline/Hair16.png"),
+	"17" : preload("res://assets/character_sprite/hair/outline/Hair17.png"),
 }
 
 # Back hair color sprite collection
@@ -176,6 +186,8 @@ var hair_backC_collection = {
 	"03.3" : preload("res://assets/character_sprite/hair_back/color/UnderHair6C.png"),
 	"03.1" : preload("res://assets/character_sprite/hair_back/color/UnderHair7C.png"),
 	"03.2" : preload("res://assets/character_sprite/hair_back/color/UnderHair8C.png"),
+	"16" : preload("res://assets/character_sprite/hair_back/color/UnderHair16C.png"),
+	"17" : preload("res://assets/character_sprite/hair_back/color/UnderHair17C.png"),
 }
 
 # Back hair outline sprite collection
@@ -192,6 +204,8 @@ var hair_backO_collection = {
 	"03.3" : preload("res://assets/character_sprite/hair_back/outline/UnderHair6.png"),
 	"03.1" : preload("res://assets/character_sprite/hair_back/outline/UnderHair7.png"),
 	"03.2" : preload("res://assets/character_sprite/hair_back/outline/UnderHair8.png"),
+	"16" : preload("res://assets/character_sprite/hair_back/outline/UnderHair16.png"),
+	"17" : preload("res://assets/character_sprite/hair_back/outline/UnderHair17.png"),
 }
 
 # Torso color sprite collection
@@ -383,6 +397,7 @@ var shoeC_collection = {
 	"03" : preload("res://assets/character_sprite/body/shoes/color/Shoes3C.png"),
 	"04" : preload("res://assets/character_sprite/body/shoes/color/Shoes4C.png"),
 	"05" : preload("res://assets/character_sprite/body/shoes/color/Shoes5C.png"),
+	"06" : preload("res://assets/character_sprite/body/legs/color/Bottom1C.png"),
 }
 
 # Shoe outline sprite collection
@@ -393,6 +408,7 @@ var shoeO_collection = {
 	"03" : preload("res://assets/character_sprite/body/shoes/outline/Shoes3.png"),
 	"04" : preload("res://assets/character_sprite/body/shoes/outline/Shoes4.png"),
 	"05" : preload("res://assets/character_sprite/body/shoes/outline/Shoes5.png"),
+	"06" : preload("res://assets/character_sprite/body/legs/outline/Bottom1.png"),
 }
 
 # Skintones

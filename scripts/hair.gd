@@ -31,6 +31,8 @@ func update_hair():
 	if current_sprite == "none":
 		hairO_sprite.texture = null
 		hairC_sprite.texture = null
+		hair_backO_sprite.texture = null
+		hair_backC_sprite.texture = null
 	else:
 		hairO_sprite.texture = Global.hairO_collection[current_sprite]
 		hairC_sprite.texture = Global.hairC_collection[current_sprite]

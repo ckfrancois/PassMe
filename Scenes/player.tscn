@@ -24,7 +24,7 @@
 [ext_resource type="Texture2D" uid="uid://bbyg0a63kh3u0" path="res://assets/character_sprite/hair/eyebrows/Eyebrows1.png" id="17_60mlk"]
 [ext_resource type="Texture2D" uid="uid://b2kgn0wb4tnll" path="res://assets/character_sprite/body/left_arm/color/Top7C_L.png" id="19_31cv2"]
 [ext_resource type="Texture2D" uid="uid://pnqu7ha8rg6c" path="res://assets/character_sprite/body/left_arm/outline/Top7_L.png" id="20_pf23h"]
-[ext_resource type="Texture2D" uid="uid://tfsngci00bny" path="res://assets/character_sprite/hair/color/Hair1T.png" id="21_4ni07"]
+[ext_resource type="Texture2D" uid="uid://bhxnbsmmg505x" path="res://assets/character_sprite/hair/color/Hair1C.png" id="23_ke2ow"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_uk8bg"]
 
@@ -133,7 +133,7 @@ texture = ExtResource("20_pf23h")
 [node name="Hair" type="Sprite2D" parent="Skeleton"]
 
 [node name="Color" type="Sprite2D" parent="Skeleton/Hair"]
-texture = ExtResource("21_4ni07")
+texture = ExtResource("23_ke2ow")
 
 [node name="Outline" type="Sprite2D" parent="Skeleton/Hair"]
 texture = ExtResource("16_4r5pv")
