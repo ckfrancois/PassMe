@@ -1,0 +1,47 @@
+[gd_scene format=3 uid="uid://cg2hn3xej5lxy"]
+
+[ext_resource type="PackedScene" uid="uid://bsjx361a74de2" path="res://peg.tscn" id="1_psm7c"]
+[ext_resource type="PackedScene" uid="uid://cuw5t2mw8ot5u" path="res://Ball.tscn" id="2_8l818"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_psm7c"]
+friction = 0.83
+bounce = 0.96
+
+[node name="Board" type="Node2D" unique_id=1404565607]
+
+[node name="Node2D" type="Node2D" parent="." unique_id=1771283358]
+
+[node name="Peg" parent="Node2D" unique_id=672193691 instance=ExtResource("1_psm7c")]
+position = Vector2(295, 374)
+
+[node name="Peg2" parent="Node2D" unique_id=1882218603 instance=ExtResource("1_psm7c")]
+position = Vector2(675, 479)
+
+[node name="Peg3" parent="Node2D" unique_id=529074896 instance=ExtResource("1_psm7c")]
+position = Vector2(777, 772)
+
+[node name="Peg4" parent="Node2D" unique_id=1370943961 instance=ExtResource("1_psm7c")]
+position = Vector2(161, 602)
+
+[node name="Peg5" parent="Node2D" unique_id=2050995403 instance=ExtResource("1_psm7c")]
+position = Vector2(422, 757)
+
+[node name="Peg6" parent="Node2D" unique_id=980310640 instance=ExtResource("1_psm7c")]
+position = Vector2(259, 738)
+
+[node name="Peg7" parent="Node2D" unique_id=1238113727 instance=ExtResource("1_psm7c")]
+position = Vector2(639, 843)
+
+[node name="Peg8" parent="Node2D" unique_id=1244024543 instance=ExtResource("1_psm7c")]
+position = Vector2(741, 1136)
+
+[node name="Peg9" parent="Node2D" unique_id=852462783 instance=ExtResource("1_psm7c")]
+position = Vector2(125, 966)
+
+[node name="Peg10" parent="Node2D" unique_id=1761329381 instance=ExtResource("1_psm7c")]
+position = Vector2(386, 1121)
+
+[node name="Ball" parent="." unique_id=1124877568 instance=ExtResource("2_8l818")]
+position = Vector2(384, 83)
+input_pickable = true
+physics_material_override = SubResource("PhysicsMaterial_psm7c")
