@@ -17,7 +17,13 @@ import {
 } from "firebase/auth";
 import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import { StyleSheet, Text, View, useColorScheme } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  useColorScheme,
+} from "react-native";
 
 GoogleSignin.configure({
   webClientId: process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID,
@@ -46,6 +52,7 @@ export default function SignInScreen() {
 
   const auth = getAuth();
   console.log("🔵 Auth initialized:", !!auth);
+  console.log("🔵 Current user:", auth.currentUser?.displayName);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -113,6 +120,20 @@ export default function SignInScreen() {
     }
   }
 
+  const completeLogout = async () => {
+    try {
+      // 1. Sign out from Google (to clear the account selector state)
+      await GoogleSignin.signOut();
+
+      // 2. Sign out from Firebase
+      await getAuth().signOut();
+
+      console.log("Complete logout successful");
+    } catch (error) {
+      console.error("Error during complete logout:", error);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <Text style={[styles.title, { color: textColor }]}>
@@ -128,8 +149,14 @@ export default function SignInScreen() {
         size={GoogleSigninButton.Size.Wide}
         color={GoogleSigninButton.Color.Dark}
         onPress={onGoogleButtonPress}
-        disabled={!!auth}
+        disabled={false}
       />
+      <TouchableOpacity
+        style={[styles.button, getAuth().currentUser && styles.buttonActive]}
+        onPress={completeLogout}
+      >
+        <Text style={styles.buttonText}>Logout</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -143,4 +170,19 @@ const styles = StyleSheet.create({
   },
   title: { fontSize: 28, fontWeight: "bold" },
   loginMessage: { fontSize: 16, textAlign: "center" },
+  button: {
+    backgroundColor: "#4285F4",
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 4,
+  },
+  buttonActive: {
+    backgroundColor: "#0F9D58",
+  },
+  buttonText: {
+    color: "#FFFFFF",
+    fontSize: 16,
+    fontWeight: "bold",
+    textAlign: "center",
+  },
 });

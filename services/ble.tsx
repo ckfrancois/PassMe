@@ -339,7 +339,7 @@ const BleNearbyUsers: React.FC = () => {
         <TouchableOpacity
           style={[styles.button, getAuth().currentUser && styles.buttonActive]}
           onPress={() => startBLE(username)}
-          disabled={getAuth().currentUser === null}
+          disabled={false}
         >
           <Text style={styles.buttonText}>Start BLE</Text>
         </TouchableOpacity>

@@ -46,3 +46,9 @@ env
 google-services.json
 GoogleService-Info.plist
 
+plugin/build/withPckFile.js
+plugin/build/withPckFile.d.ts
+plugin/build/withGodotFiles.js
+plugin/build/withGodotFiles.d.ts
+plugin/build/index.js
+plugin/build/index.d.ts
