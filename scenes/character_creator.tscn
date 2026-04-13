@@ -1,7 +1,6 @@
 [gd_scene load_steps=22 format=3 uid="uid://bs6dxdah3hck7"]
 
 [ext_resource type="Texture2D" uid="uid://cvn2ixbfbhrs4" path="res://assets/character_sprite/body/base/color/Base_RightArmT.png" id="1_dk5wx"]
-[ext_resource type="Script" uid="uid://dggv0c7pp5aab" path="res://scripts/hair_back.gd" id="1_p0l4m"]
 [ext_resource type="Texture2D" uid="uid://bij6cdicryl66" path="res://assets/character_sprite/body/base/outline/Base_RightArm.png" id="2_8ugf3"]
 [ext_resource type="Script" uid="uid://btfdpa0etodth" path="res://scripts/body.gd" id="2_y4ojd"]
 [ext_resource type="Texture2D" uid="uid://v6n6xv8j41dm" path="res://assets/character_sprite/body/base/color/Base_LegT.png" id="3_s8202"]
@@ -22,6 +21,10 @@
 [ext_resource type="Script" uid="uid://fuprbdt6dba1" path="res://scripts/hair.gd" id="17_xhj85"]
 [ext_resource type="Script" uid="uid://gb3f5enhydrv" path="res://scripts/accessory.gd" id="21_rqrh5"]
 
+[sub_resource type="GDScript" id="GDScript_in210"]
+script/source = "extends Node2D
+"
+
 [node name="CharacterCreator" type="Node2D"]
 
 [node name="Skeleton" type="Node2D" parent="."]
@@ -29,7 +32,7 @@ position = Vector2(184, 325)
 script = ExtResource("17_xhj85")
 
 [node name="Hair_Back" type="Node2D" parent="Skeleton"]
-script = ExtResource("1_p0l4m")
+script = SubResource("GDScript_in210")
 
 [node name="Color" type="Sprite2D" parent="Skeleton/Hair_Back"]
 

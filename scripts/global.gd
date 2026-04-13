@@ -33,7 +33,6 @@ var accessoryC_collection = {
 
 # Eyebrow sprite collection
 var eyebrow_collection = {
-	"none" : null,
 	"01" : preload("res://assets/character_sprite/hair/eyebrows/Eyebrows1.png"),
 	"02" : preload("res://assets/character_sprite/hair/eyebrows/Eyebrows2.png"),
 	"03" : preload("res://assets/character_sprite/hair/eyebrows/Eyebrows3.png"),
@@ -44,6 +43,7 @@ var eyebrow_collection = {
 	"08" : preload("res://assets/character_sprite/hair/eyebrows/Eyebrows8.png"),
 	"09" : preload("res://assets/character_sprite/hair/eyebrows/Eyebrows9.png"),
 	"10" : preload("res://assets/character_sprite/hair/eyebrows/Eyebrows10.png"),
+	"none" : null,
 }
 
 # Eye sprite collection
@@ -110,12 +110,10 @@ var mouth_collection = {
 
 # Hair color sprite collection
 var hairC_collection = {
-	"none" : null,
 	"01" : preload("res://assets/character_sprite/hair/color/Hair1C.png"),
 	"02" : preload("res://assets/character_sprite/hair/color/Hair2C.png"),
 	"03.1" : preload("res://assets/character_sprite/hair/color/Hair3C.png"),
 	"03.2" : preload("res://assets/character_sprite/hair/color/Hair3C.png"),
-	"03.3" : preload("res://assets/character_sprite/hair/color/Hair3C.png"),
 	"04" : preload("res://assets/character_sprite/hair/color/Hair4C.png"),
 	"05" : preload("res://assets/character_sprite/hair/color/Hair5C.png"),
 	"06.1" : preload("res://assets/character_sprite/hair/color/Hair6C.png"),
@@ -138,16 +136,15 @@ var hairC_collection = {
 	"15" : preload("res://assets/character_sprite/hair/color/Hair15C.png"),
 	"16" : preload("res://assets/character_sprite/hair/color/Hair16C.png"),
 	"17" : preload("res://assets/character_sprite/hair/color/Hair17C.png"),
+	"none" : null,
 }
 
 # Hair outline sprite collection
 var hairO_collection = {
-	"none" : null,
 	"01" : preload("res://assets/character_sprite/hair/outline/Hair1.png"),
 	"02" : preload("res://assets/character_sprite/hair/outline/Hair2.png"),
 	"03.1" : preload("res://assets/character_sprite/hair/outline/Hair3.png"),
 	"03.2" : preload("res://assets/character_sprite/hair/outline/Hair3.png"),
-	"03.3" : preload("res://assets/character_sprite/hair/outline/Hair3.png"),
 	"04" : preload("res://assets/character_sprite/hair/outline/Hair4.png"),
 	"05" : preload("res://assets/character_sprite/hair/outline/Hair5.png"),
 	"06.1" : preload("res://assets/character_sprite/hair/outline/Hair6.png"),
@@ -170,6 +167,7 @@ var hairO_collection = {
 	"15" : preload("res://assets/character_sprite/hair/outline/Hair15.png"),
 	"16" : preload("res://assets/character_sprite/hair/outline/Hair16.png"),
 	"17" : preload("res://assets/character_sprite/hair/outline/Hair17.png"),
+	"none" : null,
 }
 
 # Back hair color sprite collection
@@ -183,7 +181,6 @@ var hair_backC_collection = {
 	"10.2" : preload("res://assets/character_sprite/hair_back/color/UnderHair4C.png"),
 	"09.3" : preload("res://assets/character_sprite/hair_back/color/UnderHair5C.png"),
 	"10.3" : preload("res://assets/character_sprite/hair_back/color/UnderHair5C.png"),
-	"03.3" : preload("res://assets/character_sprite/hair_back/color/UnderHair6C.png"),
 	"03.1" : preload("res://assets/character_sprite/hair_back/color/UnderHair7C.png"),
 	"03.2" : preload("res://assets/character_sprite/hair_back/color/UnderHair8C.png"),
 	"16" : preload("res://assets/character_sprite/hair_back/color/UnderHair16C.png"),
@@ -427,38 +424,43 @@ var body_colors = [
 	Color.from_rgba8(69, 42, 36),
 	Color.from_rgba8(50, 33, 23),
 	Color.from_rgba8(39, 27, 15),
-	#Color(0.96, 0.80, 0.69),
-	#Color(0.72, 0.54, 0.39),
-	#Color(0.45, 0.34, 0.27),
 ]
 
 # Hair Colors
 var hair_colors = [
-	#Color(1, 1, 1),
-	Color.from_rgba8(96, 48, 42),
-	Color.from_rgba8(46, 23, 0),
-	Color.from_rgba8(241, 207, 95),
-	Color.from_rgba8(42, 42, 42),
-	#Color.from_rgba8(65, 65, 65),
-	Color.from_rgba8(227, 171, 128),
-	Color.from_rgba8(142, 50, 41),
-	#Color(.96, .48, .42),
-	#Color(.46, .23, 0),
-	#Color(0.1, 0.1, 0.1),
-	#Color(0.4, 0.2, 0.1),
-	#Color(0.9, 0.6, 0.2),
-	#Color(0.5, 0.25, 0),
+	# Natural
+	Color.from_rgba8(227, 171, 128), # Strawberry blonde
+	Color.from_rgba8(241, 207, 95), # Blonde
+	Color.from_rgba8(151, 89, 89), # Light red
+	Color.from_rgba8(142, 50, 41), # Red
+	Color.from_rgba8(96, 48, 42), # Brown
+	Color.from_rgba8(46, 23, 0), # Dark brown
+	Color.from_rgba8(42, 42, 42), # Black
+	Color.from_rgba8(32, 23, 15), # Dark Black
+	
+	# Dyed
+	Color.from_rgba8(221, 110, 0), # Orange
+	Color.from_rgba8(247, 194, 34), # Yellow
+	Color.from_rgba8(55, 143, 44), # Green
+	Color.from_rgba8(31, 188, 202), # Cyan
+	Color.from_rgba8(33, 73, 216), # Blue
+	Color.from_rgba8(94, 31, 202), # Purple
+	Color.from_rgba8(212, 22, 171), # Pink
+	Color.from_rgba8(203, 25, 51), # Yellow
 ]
 
 # Outfits and Accessory colors
 var colors = [
-	Color.from_rgba8(221, 110, 0),
-	Color(1, 1, 1), # Default
-	Color(1, 0, 0),
-	Color(0, 1, 0),
-	Color(0, 0, 1),
-	Color(0, 0, 0),
-	Color(1, 1, 1),
+	Color.from_rgba8(221, 110, 0), # Orange
+	Color.from_rgba8(247, 194, 34), # Yellow
+	Color.from_rgba8(55, 143, 44), # Green
+	Color.from_rgba8(31, 188, 202), # Cyan
+	Color.from_rgba8(33, 73, 216), # Blue
+	Color.from_rgba8(94, 31, 202), # Purple
+	Color.from_rgba8(212, 22, 171), # Pink
+	Color.from_rgba8(203, 25, 51), # Yellow
+	Color.from_rgba8(32, 23, 15), # Black
+	Color.from_rgba8(230, 224, 214), # White
 ]
 
 # Selected Values
