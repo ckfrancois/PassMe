@@ -28,6 +28,7 @@ extends Node2D
 
 # Buttons
 @export var eyes_buttons: ButtonGroup
+@export var nose_buttons: ButtonGroup
 
 # Keys
 var eye_keys = []
@@ -58,6 +59,7 @@ func _ready():
 	update_outfit_sprite()
 	update_leg_sprite()
 	eyes_buttons.pressed.connect(_on_eye_group_pressed)
+	nose_buttons.pressed.connect(_on_nose_group_pressed)
 	#print(str("Buttons in Group array include: ", eyes_buttons.get_buttons()))
 
 func set_sprite_keys():
@@ -206,4 +208,11 @@ func _on_eye_group_pressed(button: BaseButton):
 	current_eye_index = int(button_pressed.name) - 1
 	update_eye_sprite()
 	print(current_eye_index)
+	print(button_pressed.name)
+	
+func _on_nose_group_pressed(button: BaseButton):
+	var button_pressed = nose_buttons.get_pressed_button()
+	current_nose_index = int(button_pressed.name) - 1
+	update_nose_sprite()
+	print(current_nose_index)
 	print(button_pressed.name)

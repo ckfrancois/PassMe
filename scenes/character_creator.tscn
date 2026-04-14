@@ -1,4 +1,4 @@
-[gd_scene load_steps=53 format=3 uid="uid://bs6dxdah3hck7"]
+[gd_scene load_steps=76 format=3 uid="uid://bs6dxdah3hck7"]
 
 [ext_resource type="Texture2D" uid="uid://cvn2ixbfbhrs4" path="res://assets/character_sprite/body/base/color/Base_RightArmT.png" id="1_dk5wx"]
 [ext_resource type="Texture2D" uid="uid://bij6cdicryl66" path="res://assets/character_sprite/body/base/outline/Base_RightArm.png" id="2_8ugf3"]
@@ -19,10 +19,13 @@
 [ext_resource type="Texture2D" uid="uid://b23jsh3clcpmw" path="res://assets/character_sprite/hair/outline/Hair1.png" id="16_axsho"]
 [ext_resource type="Texture2D" uid="uid://bbyg0a63kh3u0" path="res://assets/character_sprite/hair/eyebrows/Eyebrows1.png" id="17_xfpfe"]
 [ext_resource type="Script" uid="uid://fuprbdt6dba1" path="res://scripts/hair.gd" id="17_xhj85"]
-[ext_resource type="ButtonGroup" uid="uid://cjpjlu1vovlca" path="res://scripts/button_group_eyes.tres" id="21_p0l4m"]
+[ext_resource type="ButtonGroup" uid="uid://cjpjlu1vovlca" path="res://resources/button_group_eyes.tres" id="21_p0l4m"]
 [ext_resource type="Script" uid="uid://gb3f5enhydrv" path="res://scripts/accessory.gd" id="21_rqrh5"]
 [ext_resource type="Texture2D" uid="uid://bri20db5avlcg" path="res://assets/sprite_sheets/Eyes.png" id="23_rqrh5"]
 [ext_resource type="Texture2D" uid="uid://c4i40273lcpu2" path="res://assets/sprite_sheets/EyesD.png" id="23_xhj85"]
+[ext_resource type="ButtonGroup" uid="uid://wsp0c5d4k7gl" path="res://resources/button_group_nose.tres" id="24_rqrh5"]
+[ext_resource type="Texture2D" uid="uid://wwq7blh3y53v" path="res://assets/sprite_sheets/Nose.png" id="25_ix263"]
+[ext_resource type="Texture2D" uid="uid://c13v01ixj34tw" path="res://assets/sprite_sheets/NoseD.png" id="26_n1i1y"]
 
 [sub_resource type="GDScript" id="GDScript_in210"]
 script/source = "extends Node2D
@@ -140,6 +143,86 @@ region = Rect2(1690, 0, 130, 0)
 atlas = ExtResource("23_xhj85")
 region = Rect2(1690, 0, 130, 0)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_ho3ca"]
+atlas = ExtResource("25_ix263")
+region = Rect2(0, 0, 130, 0)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5cbew"]
+atlas = ExtResource("26_n1i1y")
+region = Rect2(0, 0, 130, 0)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_whh8o"]
+atlas = ExtResource("25_ix263")
+region = Rect2(130, 0, 130, 0)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h1igy"]
+atlas = ExtResource("26_n1i1y")
+region = Rect2(130, 0, 130, 0)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bdi5q"]
+atlas = ExtResource("25_ix263")
+region = Rect2(260, 0, 130, 0)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uomgx"]
+atlas = ExtResource("26_n1i1y")
+region = Rect2(260, 0, 130, 0)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b4txr"]
+atlas = ExtResource("25_ix263")
+region = Rect2(390, 0, 130, 0)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5xrot"]
+atlas = ExtResource("26_n1i1y")
+region = Rect2(390, 0, 130, 0)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1jyo3"]
+atlas = ExtResource("25_ix263")
+region = Rect2(520, 0, 130, 0)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sm81t"]
+atlas = ExtResource("26_n1i1y")
+region = Rect2(520, 0, 130, 0)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aw854"]
+atlas = ExtResource("25_ix263")
+region = Rect2(650, 0, 130, 0)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sfjlq"]
+atlas = ExtResource("26_n1i1y")
+region = Rect2(650, 0, 130, 0)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_668hr"]
+atlas = ExtResource("25_ix263")
+region = Rect2(780, 0, 130, 0)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_74k7b"]
+atlas = ExtResource("26_n1i1y")
+region = Rect2(780, 0, 130, 0)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_07l1d"]
+atlas = ExtResource("25_ix263")
+region = Rect2(910, 0, 130, 0)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sx75m"]
+atlas = ExtResource("26_n1i1y")
+region = Rect2(910, 0, 130, 0)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fxvv0"]
+atlas = ExtResource("25_ix263")
+region = Rect2(1040, 0, 130, 0)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a7d8y"]
+atlas = ExtResource("26_n1i1y")
+region = Rect2(1040, 0, 130, 0)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6ohr1"]
+atlas = ExtResource("25_ix263")
+region = Rect2(1170, 0, 130, 0)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o2bqf"]
+atlas = ExtResource("26_n1i1y")
+region = Rect2(1170, 0, 130, 0)
+
 [node name="CharacterCreator" type="Node2D"]
 
 [node name="Skeleton" type="Node2D" parent="."]
@@ -156,6 +239,7 @@ script = SubResource("GDScript_in210")
 [node name="Body" type="Node2D" parent="Skeleton"]
 script = ExtResource("2_y4ojd")
 eyes_buttons = ExtResource("21_p0l4m")
+nose_buttons = ExtResource("24_rqrh5")
 
 [node name="RightArm" type="Sprite2D" parent="Skeleton/Body"]
 
@@ -721,117 +805,203 @@ offset_right = 720.0
 offset_bottom = 600.0
 horizontal_scroll_mode = 0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CreatorScreen/ColorRect2/ScrollContainer Face"]
+[node name="MarginContainer" type="MarginContainer" parent="CreatorScreen/ColorRect2/ScrollContainer Face"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_right = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CreatorScreen/ColorRect2/ScrollContainer Face/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="CreatorScreen/ColorRect2/ScrollContainer Face/VBoxContainer"]
+[node name="Eyes" type="Label" parent="CreatorScreen/ColorRect2/ScrollContainer Face/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Eyes"
 
-[node name="GridContainer" type="GridContainer" parent="CreatorScreen/ColorRect2/ScrollContainer Face/VBoxContainer"]
+[node name="Eyes_Grid" type="GridContainer" parent="CreatorScreen/ColorRect2/ScrollContainer Face/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_constants/h_separation = 10
 columns = 5
 
-[node name="01" type="TextureButton" parent="CreatorScreen/ColorRect2/ScrollContainer Face/VBoxContainer/GridContainer"]
+[node name="01" type="TextureButton" parent="CreatorScreen/ColorRect2/ScrollContainer Face/MarginContainer/VBoxContainer/Eyes_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("21_p0l4m")
 texture_normal = SubResource("AtlasTexture_x7ufa")
 texture_pressed = SubResource("AtlasTexture_rqrh5")
 
-[node name="02" type="TextureButton" parent="CreatorScreen/ColorRect2/ScrollContainer Face/VBoxContainer/GridContainer"]
+[node name="02" type="TextureButton" parent="CreatorScreen/ColorRect2/ScrollContainer Face/MarginContainer/VBoxContainer/Eyes_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("21_p0l4m")
 texture_normal = SubResource("AtlasTexture_ix263")
 texture_pressed = SubResource("AtlasTexture_lqr4h")
 
-[node name="03" type="TextureButton" parent="CreatorScreen/ColorRect2/ScrollContainer Face/VBoxContainer/GridContainer"]
+[node name="03" type="TextureButton" parent="CreatorScreen/ColorRect2/ScrollContainer Face/MarginContainer/VBoxContainer/Eyes_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("21_p0l4m")
 texture_normal = SubResource("AtlasTexture_n1i1y")
 texture_pressed = SubResource("AtlasTexture_j4llq")
 
-[node name="04" type="TextureButton" parent="CreatorScreen/ColorRect2/ScrollContainer Face/VBoxContainer/GridContainer"]
+[node name="04" type="TextureButton" parent="CreatorScreen/ColorRect2/ScrollContainer Face/MarginContainer/VBoxContainer/Eyes_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("21_p0l4m")
 texture_normal = SubResource("AtlasTexture_nj4er")
 texture_pressed = SubResource("AtlasTexture_i432g")
 
-[node name="05" type="TextureButton" parent="CreatorScreen/ColorRect2/ScrollContainer Face/VBoxContainer/GridContainer"]
+[node name="05" type="TextureButton" parent="CreatorScreen/ColorRect2/ScrollContainer Face/MarginContainer/VBoxContainer/Eyes_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("21_p0l4m")
 texture_normal = SubResource("AtlasTexture_1uaso")
 texture_pressed = SubResource("AtlasTexture_4sexx")
 
-[node name="06" type="TextureButton" parent="CreatorScreen/ColorRect2/ScrollContainer Face/VBoxContainer/GridContainer"]
+[node name="06" type="TextureButton" parent="CreatorScreen/ColorRect2/ScrollContainer Face/MarginContainer/VBoxContainer/Eyes_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("21_p0l4m")
 texture_normal = SubResource("AtlasTexture_7lds4")
 texture_pressed = SubResource("AtlasTexture_c4quy")
 
-[node name="07" type="TextureButton" parent="CreatorScreen/ColorRect2/ScrollContainer Face/VBoxContainer/GridContainer"]
+[node name="07" type="TextureButton" parent="CreatorScreen/ColorRect2/ScrollContainer Face/MarginContainer/VBoxContainer/Eyes_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("21_p0l4m")
 texture_normal = SubResource("AtlasTexture_hx0hx")
 texture_pressed = SubResource("AtlasTexture_a6r7x")
 
-[node name="08" type="TextureButton" parent="CreatorScreen/ColorRect2/ScrollContainer Face/VBoxContainer/GridContainer"]
+[node name="08" type="TextureButton" parent="CreatorScreen/ColorRect2/ScrollContainer Face/MarginContainer/VBoxContainer/Eyes_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("21_p0l4m")
 texture_normal = SubResource("AtlasTexture_axsho")
 texture_pressed = SubResource("AtlasTexture_tvh0r")
 
-[node name="09" type="TextureButton" parent="CreatorScreen/ColorRect2/ScrollContainer Face/VBoxContainer/GridContainer"]
+[node name="09" type="TextureButton" parent="CreatorScreen/ColorRect2/ScrollContainer Face/MarginContainer/VBoxContainer/Eyes_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("21_p0l4m")
 texture_normal = SubResource("AtlasTexture_xfpfe")
 texture_pressed = SubResource("AtlasTexture_6cudx")
 
-[node name="10" type="TextureButton" parent="CreatorScreen/ColorRect2/ScrollContainer Face/VBoxContainer/GridContainer"]
+[node name="10" type="TextureButton" parent="CreatorScreen/ColorRect2/ScrollContainer Face/MarginContainer/VBoxContainer/Eyes_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("21_p0l4m")
 texture_normal = SubResource("AtlasTexture_xxul2")
 texture_pressed = SubResource("AtlasTexture_2kuj3")
 
-[node name="11" type="TextureButton" parent="CreatorScreen/ColorRect2/ScrollContainer Face/VBoxContainer/GridContainer"]
+[node name="11" type="TextureButton" parent="CreatorScreen/ColorRect2/ScrollContainer Face/MarginContainer/VBoxContainer/Eyes_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("21_p0l4m")
 texture_normal = SubResource("AtlasTexture_e8qli")
 texture_pressed = SubResource("AtlasTexture_ltgnb")
 
-[node name="12" type="TextureButton" parent="CreatorScreen/ColorRect2/ScrollContainer Face/VBoxContainer/GridContainer"]
+[node name="12" type="TextureButton" parent="CreatorScreen/ColorRect2/ScrollContainer Face/MarginContainer/VBoxContainer/Eyes_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("21_p0l4m")
 texture_normal = SubResource("AtlasTexture_kschl")
 texture_pressed = SubResource("AtlasTexture_gwcjf")
 
-[node name="13" type="TextureButton" parent="CreatorScreen/ColorRect2/ScrollContainer Face/VBoxContainer/GridContainer"]
+[node name="13" type="TextureButton" parent="CreatorScreen/ColorRect2/ScrollContainer Face/MarginContainer/VBoxContainer/Eyes_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("21_p0l4m")
 texture_normal = SubResource("AtlasTexture_2uqtn")
 texture_pressed = SubResource("AtlasTexture_ig03w")
 
-[node name="14" type="TextureButton" parent="CreatorScreen/ColorRect2/ScrollContainer Face/VBoxContainer/GridContainer"]
+[node name="14" type="TextureButton" parent="CreatorScreen/ColorRect2/ScrollContainer Face/MarginContainer/VBoxContainer/Eyes_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("21_p0l4m")
 texture_normal = SubResource("AtlasTexture_xiiyr")
 texture_pressed = SubResource("AtlasTexture_bbfyy")
+
+[node name="Nose" type="Label" parent="CreatorScreen/ColorRect2/ScrollContainer Face/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Nose"
+
+[node name="Nose_Grid" type="GridContainer" parent="CreatorScreen/ColorRect2/ScrollContainer Face/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/h_separation = 10
+columns = 5
+
+[node name="01" type="TextureButton" parent="CreatorScreen/ColorRect2/ScrollContainer Face/MarginContainer/VBoxContainer/Nose_Grid"]
+layout_mode = 2
+toggle_mode = true
+button_group = ExtResource("24_rqrh5")
+texture_normal = SubResource("AtlasTexture_ho3ca")
+texture_pressed = SubResource("AtlasTexture_5cbew")
+
+[node name="02" type="TextureButton" parent="CreatorScreen/ColorRect2/ScrollContainer Face/MarginContainer/VBoxContainer/Nose_Grid"]
+layout_mode = 2
+toggle_mode = true
+button_group = ExtResource("24_rqrh5")
+texture_normal = SubResource("AtlasTexture_whh8o")
+texture_pressed = SubResource("AtlasTexture_h1igy")
+
+[node name="03" type="TextureButton" parent="CreatorScreen/ColorRect2/ScrollContainer Face/MarginContainer/VBoxContainer/Nose_Grid"]
+layout_mode = 2
+toggle_mode = true
+button_group = ExtResource("24_rqrh5")
+texture_normal = SubResource("AtlasTexture_bdi5q")
+texture_pressed = SubResource("AtlasTexture_uomgx")
+
+[node name="04" type="TextureButton" parent="CreatorScreen/ColorRect2/ScrollContainer Face/MarginContainer/VBoxContainer/Nose_Grid"]
+layout_mode = 2
+toggle_mode = true
+button_group = ExtResource("24_rqrh5")
+texture_normal = SubResource("AtlasTexture_b4txr")
+texture_pressed = SubResource("AtlasTexture_5xrot")
+
+[node name="05" type="TextureButton" parent="CreatorScreen/ColorRect2/ScrollContainer Face/MarginContainer/VBoxContainer/Nose_Grid"]
+layout_mode = 2
+toggle_mode = true
+button_group = ExtResource("24_rqrh5")
+texture_normal = SubResource("AtlasTexture_1jyo3")
+texture_pressed = SubResource("AtlasTexture_sm81t")
+
+[node name="06" type="TextureButton" parent="CreatorScreen/ColorRect2/ScrollContainer Face/MarginContainer/VBoxContainer/Nose_Grid"]
+layout_mode = 2
+toggle_mode = true
+button_group = ExtResource("24_rqrh5")
+texture_normal = SubResource("AtlasTexture_aw854")
+texture_pressed = SubResource("AtlasTexture_sfjlq")
+
+[node name="07" type="TextureButton" parent="CreatorScreen/ColorRect2/ScrollContainer Face/MarginContainer/VBoxContainer/Nose_Grid"]
+layout_mode = 2
+toggle_mode = true
+button_group = ExtResource("24_rqrh5")
+texture_normal = SubResource("AtlasTexture_668hr")
+texture_pressed = SubResource("AtlasTexture_74k7b")
+
+[node name="08" type="TextureButton" parent="CreatorScreen/ColorRect2/ScrollContainer Face/MarginContainer/VBoxContainer/Nose_Grid"]
+layout_mode = 2
+toggle_mode = true
+button_group = ExtResource("24_rqrh5")
+texture_normal = SubResource("AtlasTexture_07l1d")
+texture_pressed = SubResource("AtlasTexture_sx75m")
+
+[node name="09" type="TextureButton" parent="CreatorScreen/ColorRect2/ScrollContainer Face/MarginContainer/VBoxContainer/Nose_Grid"]
+layout_mode = 2
+toggle_mode = true
+button_group = ExtResource("24_rqrh5")
+texture_normal = SubResource("AtlasTexture_fxvv0")
+texture_pressed = SubResource("AtlasTexture_a7d8y")
+
+[node name="10" type="TextureButton" parent="CreatorScreen/ColorRect2/ScrollContainer Face/MarginContainer/VBoxContainer/Nose_Grid"]
+layout_mode = 2
+toggle_mode = true
+button_group = ExtResource("24_rqrh5")
+texture_normal = SubResource("AtlasTexture_6ohr1")
+texture_pressed = SubResource("AtlasTexture_o2bqf")
 
 [node name="Constant Buttons" type="HBoxContainer" parent="CreatorScreen/ColorRect2"]
 layout_mode = 1
