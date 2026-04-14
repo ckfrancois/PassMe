@@ -19,70 +19,41 @@ modulate = Color(0.14089966, 0.94921875, 0.2639048, 1)
 scale = Vector2(0.9890393, 0.9825464)
 
 [node name="Peg" parent="pegs" unique_id=672193691 instance=ExtResource("1_psm7c")]
-position = Vector2(407, 441)
+position = Vector2(181.9948, 523.1305)
 
-[node name="Peg2" parent="pegs" unique_id=1882218603 instance=ExtResource("1_psm7c")]
-position = Vector2(675, 479)
+[node name="Peg2" parent="pegs" unique_id=416736464 instance=ExtResource("1_psm7c")]
+position = Vector2(880.6525, 556.71674)
 
-[node name="Peg3" parent="pegs" unique_id=529074896 instance=ExtResource("1_psm7c")]
-position = Vector2(777, 772)
+[node name="Peg3" parent="pegs" unique_id=930244532 instance=ExtResource("1_psm7c")]
+position = Vector2(163.79532, 803.0155)
 
-[node name="Peg4" parent="pegs" unique_id=1370943961 instance=ExtResource("1_psm7c")]
-position = Vector2(161, 602)
+[node name="Peg4" parent="pegs" unique_id=1755989894 instance=ExtResource("1_psm7c")]
+position = Vector2(862.45306, 836.6017)
 
-[node name="Peg5" parent="pegs" unique_id=2050995403 instance=ExtResource("1_psm7c")]
-position = Vector2(919, 577)
+[node name="Peg5" parent="pegs" unique_id=2141884274 instance=ExtResource("1_psm7c")]
+position = Vector2(160.76207, 929.21814)
 
-[node name="Peg6" parent="pegs" unique_id=980310640 instance=ExtResource("1_psm7c")]
-position = Vector2(259, 738)
+[node name="Peg6" parent="pegs" unique_id=261742196 instance=ExtResource("1_psm7c")]
+position = Vector2(859.4198, 962.80444)
 
-[node name="Peg7" parent="pegs" unique_id=1238113727 instance=ExtResource("1_psm7c")]
-position = Vector2(639, 843)
+[node name="Peg7" parent="pegs" unique_id=1432318722 instance=ExtResource("1_psm7c")]
+position = Vector2(142.56259, 1209.1031)
 
-[node name="Peg8" parent="pegs" unique_id=1244024543 instance=ExtResource("1_psm7c")]
-position = Vector2(499, 950)
-
-[node name="Peg9" parent="pegs" unique_id=852462783 instance=ExtResource("1_psm7c")]
-position = Vector2(125, 966)
-
-[node name="Peg10" parent="pegs" unique_id=1761329381 instance=ExtResource("1_psm7c")]
-position = Vector2(386, 1121)
-
-[node name="Peg11" parent="pegs" unique_id=1399773138 instance=ExtResource("1_psm7c")]
-position = Vector2(677, 1028)
-
-[node name="Peg12" parent="pegs" unique_id=1690185568 instance=ExtResource("1_psm7c")]
-position = Vector2(537, 1135)
-
-[node name="Peg13" parent="pegs" unique_id=560760114 instance=ExtResource("1_psm7c")]
-position = Vector2(163, 1151)
-
-[node name="Peg14" parent="pegs" unique_id=1872281006 instance=ExtResource("1_psm7c")]
-position = Vector2(424, 1306)
-
-[node name="Peg15" parent="pegs" unique_id=1762014973 instance=ExtResource("1_psm7c")]
-position = Vector2(658, 1438)
-
-[node name="Peg16" parent="pegs" unique_id=1416984497 instance=ExtResource("1_psm7c")]
-position = Vector2(949, 1345)
-
-[node name="Peg17" parent="pegs" unique_id=738535687 instance=ExtResource("1_psm7c")]
-position = Vector2(809, 1452)
-
-[node name="Peg18" parent="pegs" unique_id=2031615487 instance=ExtResource("1_psm7c")]
-position = Vector2(435, 1468)
-
-[node name="Peg19" parent="pegs" unique_id=130372318 instance=ExtResource("1_psm7c")]
-position = Vector2(696, 1623)
+[node name="Peg8" parent="pegs" unique_id=1747400484 instance=ExtResource("1_psm7c")]
+position = Vector2(841.22034, 1242.6893)
 
 [node name="Ball" parent="." unique_id=1124877568 instance=ExtResource("2_8l818")]
-position = Vector2(522, 57)
+position = Vector2(540, 243)
 input_pickable = true
 physics_material_override = SubResource("PhysicsMaterial_psm7c")
 script = ExtResource("3_jqgjh")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1199669426]
 layer = -1
+visible = false
+rotation = 1.5707964
+scale = Vector2(2, 2)
+transform = Transform2D(-8.742278e-08, 2, -2, -8.742278e-08, 0, 0)
 
 [node name="Control" type="Control" parent="CanvasLayer" unique_id=77562509]
 layout_mode = 3
@@ -90,13 +61,12 @@ anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Control" unique_id=950673807]
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Control" unique_id=672764508]
 layout_mode = 0
-offset_top = 1915.9999
-offset_right = 863.0
-offset_bottom = 2277.7788
-rotation = -1.5709695
-scale = Vector2(2.2318962, 3.0109434)
+offset_left = -6.500018
+offset_top = -548.11505
+offset_right = 955.2349
+offset_bottom = 7.456238
 texture = ExtResource("3_8l818")
 
 [node name="border" type="StaticBody2D" parent="." unique_id=1037892543]
