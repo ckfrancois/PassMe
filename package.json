@@ -11,7 +11,7 @@
     "lint": "expo lint",
     "build:plugin": "tsc --build plugin/tsconfig.json",
     "download-prebuilt": "download-prebuilt",
-    "postinstall": "pnpm run download-prebuilt && pnpm run build:plugin"
+    "postinstall": "npm run download-prebuilt && npm run build:plugin ; patch-package"
   },
   "dependencies": {
     "@borndotcom/react-native-godot": "^1.0.1",
@@ -43,6 +43,8 @@
     "firebase": "^12.11.0",
     "munim-bluetooth": "^0.3.24",
     "munim-bluetooth-peripheral": "^0.4.4",
+    "patch-package": "^8.0.1",
+    "postinstall-postinstall": "^2.1.0",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-native": "0.81.5",
