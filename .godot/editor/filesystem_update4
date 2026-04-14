@@ -1,4 +1,5 @@
 res://scenes/Main.tscn
 res://scenes/player.tscn
 res://scenes/character_creator.tscn
-res://scripts/global.gd
+res://scripts/body.gd
+res://scenes/container_face.gd

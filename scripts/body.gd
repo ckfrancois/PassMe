@@ -26,6 +26,9 @@ extends Node2D
 @onready var shoeC_sprite = $Legs/Shoes/Outfit_Color
 @onready var shoeO_sprite = $Legs/Shoes/Outfit_Outline
 
+# Buttons
+@export var eyes_buttons: ButtonGroup
+
 # Keys
 var eye_keys = []
 var nose_keys = []
@@ -54,6 +57,8 @@ func _ready():
 	set_sprite_keys()
 	update_outfit_sprite()
 	update_leg_sprite()
+	eyes_buttons.pressed.connect(_on_eye_group_pressed)
+	#print(str("Buttons in Group array include: ", eyes_buttons.get_buttons()))
 
 func set_sprite_keys():
 	outfit_keys =  Global.torsoO_collection.keys()
@@ -194,3 +199,11 @@ func _on_nose_button_pressed() -> void:
 func _on_mouth_button_pressed() -> void:
 	current_mouth_index = (current_mouth_index + 1) % mouth_keys.size()
 	update_mouth_sprite()
+
+
+func _on_eye_group_pressed(button: BaseButton):
+	var button_pressed = eyes_buttons.get_pressed_button()
+	current_eye_index = int(button_pressed.name) - 1
+	update_eye_sprite()
+	print(current_eye_index)
+	print(button_pressed.name)
