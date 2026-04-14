@@ -88,6 +88,8 @@ func update_body_sprite():
 	legBase_sprite.modulate = Global.body_colors[current_body_index]
 	noseC_sprite.modulate = Global.body_colors[current_body_index]
 	
+	Global.selected_body_color = Global.body_colors[current_body_index]
+	
 # Update eye textures
 func update_eye_sprite():
 	var current_sprite = eye_keys[current_eye_index]
