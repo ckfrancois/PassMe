@@ -428,6 +428,8 @@ var body_colors = [
 	Color.from_rgba8(69, 42, 36),
 	Color.from_rgba8(50, 33, 23),
 	Color.from_rgba8(39, 27, 15),
+	Color.from_rgba8(249, 229, 222),
+	Color.from_rgba8(255, 220, 200),
 ]
 
 # Hair Colors
