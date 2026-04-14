@@ -11,7 +11,7 @@
     "lint": "expo lint",
     "build:plugin": "tsc --build plugin/tsconfig.json",
     "download-prebuilt": "download-prebuilt",
-    "postinstall": "npm run download-prebuilt && npm run build:plugin ; patch-package"
+    "postinstall": "npm run download-prebuilt && npm run build:plugin && patch-package"
   },
   "dependencies": {
     "@borndotcom/react-native-godot": "^1.0.1",
