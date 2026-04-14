@@ -54,6 +54,7 @@
     "plugins": [
       ["./plugins/withReactNativeArchitectures"],
       "./app.plugin.js",
+      ["./plugins/withIosPodfile"],
       "expo-router",
       [
         "expo-splash-screen",
