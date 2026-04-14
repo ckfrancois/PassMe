@@ -2,46 +2,111 @@
 
 [ext_resource type="PackedScene" uid="uid://bsjx361a74de2" path="res://peg.tscn" id="1_psm7c"]
 [ext_resource type="PackedScene" uid="uid://cuw5t2mw8ot5u" path="res://Ball.tscn" id="2_8l818"]
+[ext_resource type="Texture2D" uid="uid://damwlvmdh0gpa" path="res://Assets/360_F_754818708_Tao9CX43IHrXgHNJKcqvH3uzfzkKRB9y.jpg" id="3_8l818"]
+[ext_resource type="Script" uid="uid://dsjwpgxuboil3" path="res://ball.gd" id="3_jqgjh"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_psm7c"]
 friction = 0.83
 bounce = 0.96
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jqgjh"]
+size = Vector2(24, 1926)
+
 [node name="Board" type="Node2D" unique_id=1404565607]
 
-[node name="Node2D" type="Node2D" parent="." unique_id=1771283358]
+[node name="pegs" type="Node2D" parent="." unique_id=1771283358]
+modulate = Color(0.14089966, 0.94921875, 0.2639048, 1)
+scale = Vector2(0.9890393, 0.9825464)
 
-[node name="Peg" parent="Node2D" unique_id=672193691 instance=ExtResource("1_psm7c")]
-position = Vector2(295, 374)
+[node name="Peg" parent="pegs" unique_id=672193691 instance=ExtResource("1_psm7c")]
+position = Vector2(407, 441)
 
-[node name="Peg2" parent="Node2D" unique_id=1882218603 instance=ExtResource("1_psm7c")]
+[node name="Peg2" parent="pegs" unique_id=1882218603 instance=ExtResource("1_psm7c")]
 position = Vector2(675, 479)
 
-[node name="Peg3" parent="Node2D" unique_id=529074896 instance=ExtResource("1_psm7c")]
+[node name="Peg3" parent="pegs" unique_id=529074896 instance=ExtResource("1_psm7c")]
 position = Vector2(777, 772)
 
-[node name="Peg4" parent="Node2D" unique_id=1370943961 instance=ExtResource("1_psm7c")]
+[node name="Peg4" parent="pegs" unique_id=1370943961 instance=ExtResource("1_psm7c")]
 position = Vector2(161, 602)
 
-[node name="Peg5" parent="Node2D" unique_id=2050995403 instance=ExtResource("1_psm7c")]
-position = Vector2(422, 757)
+[node name="Peg5" parent="pegs" unique_id=2050995403 instance=ExtResource("1_psm7c")]
+position = Vector2(919, 577)
 
-[node name="Peg6" parent="Node2D" unique_id=980310640 instance=ExtResource("1_psm7c")]
+[node name="Peg6" parent="pegs" unique_id=980310640 instance=ExtResource("1_psm7c")]
 position = Vector2(259, 738)
 
-[node name="Peg7" parent="Node2D" unique_id=1238113727 instance=ExtResource("1_psm7c")]
+[node name="Peg7" parent="pegs" unique_id=1238113727 instance=ExtResource("1_psm7c")]
 position = Vector2(639, 843)
 
-[node name="Peg8" parent="Node2D" unique_id=1244024543 instance=ExtResource("1_psm7c")]
-position = Vector2(741, 1136)
+[node name="Peg8" parent="pegs" unique_id=1244024543 instance=ExtResource("1_psm7c")]
+position = Vector2(499, 950)
 
-[node name="Peg9" parent="Node2D" unique_id=852462783 instance=ExtResource("1_psm7c")]
+[node name="Peg9" parent="pegs" unique_id=852462783 instance=ExtResource("1_psm7c")]
 position = Vector2(125, 966)
 
-[node name="Peg10" parent="Node2D" unique_id=1761329381 instance=ExtResource("1_psm7c")]
+[node name="Peg10" parent="pegs" unique_id=1761329381 instance=ExtResource("1_psm7c")]
 position = Vector2(386, 1121)
 
+[node name="Peg11" parent="pegs" unique_id=1399773138 instance=ExtResource("1_psm7c")]
+position = Vector2(677, 1028)
+
+[node name="Peg12" parent="pegs" unique_id=1690185568 instance=ExtResource("1_psm7c")]
+position = Vector2(537, 1135)
+
+[node name="Peg13" parent="pegs" unique_id=560760114 instance=ExtResource("1_psm7c")]
+position = Vector2(163, 1151)
+
+[node name="Peg14" parent="pegs" unique_id=1872281006 instance=ExtResource("1_psm7c")]
+position = Vector2(424, 1306)
+
+[node name="Peg15" parent="pegs" unique_id=1762014973 instance=ExtResource("1_psm7c")]
+position = Vector2(658, 1438)
+
+[node name="Peg16" parent="pegs" unique_id=1416984497 instance=ExtResource("1_psm7c")]
+position = Vector2(949, 1345)
+
+[node name="Peg17" parent="pegs" unique_id=738535687 instance=ExtResource("1_psm7c")]
+position = Vector2(809, 1452)
+
+[node name="Peg18" parent="pegs" unique_id=2031615487 instance=ExtResource("1_psm7c")]
+position = Vector2(435, 1468)
+
+[node name="Peg19" parent="pegs" unique_id=130372318 instance=ExtResource("1_psm7c")]
+position = Vector2(696, 1623)
+
 [node name="Ball" parent="." unique_id=1124877568 instance=ExtResource("2_8l818")]
-position = Vector2(384, 83)
+position = Vector2(522, 57)
 input_pickable = true
 physics_material_override = SubResource("PhysicsMaterial_psm7c")
+script = ExtResource("3_jqgjh")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1199669426]
+layer = -1
+
+[node name="Control" type="Control" parent="CanvasLayer" unique_id=77562509]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Control" unique_id=950673807]
+layout_mode = 0
+offset_top = 1915.9999
+offset_right = 863.0
+offset_bottom = 2277.7788
+rotation = -1.5709695
+scale = Vector2(2.2318962, 3.0109434)
+texture = ExtResource("3_8l818")
+
+[node name="border" type="StaticBody2D" parent="." unique_id=1037892543]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="border" unique_id=383451714]
+position = Vector2(-12, 947)
+shape = SubResource("RectangleShape2D_jqgjh")
+
+[node name="border2" type="StaticBody2D" parent="." unique_id=608020933]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="border2" unique_id=924609577]
+position = Vector2(1096, 947)
+shape = SubResource("RectangleShape2D_jqgjh")
