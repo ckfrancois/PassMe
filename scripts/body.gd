@@ -88,6 +88,8 @@ func update_body_sprite():
 	legBase_sprite.modulate = Global.body_colors[current_body_index]
 	noseC_sprite.modulate = Global.body_colors[current_body_index]
 	
+	Global.selected_body_color = Global.body_colors[current_body_index]
+
 # Update eye textures
 func update_eye_sprite():
 	var current_sprite = eye_keys[current_eye_index]
@@ -168,6 +170,7 @@ func _on_color_button_pressed() -> void:
 	current_outfit_color_index = (current_outfit_color_index + 1) % Global.colors.size()
 	update_outfit_sprite()
 
+
 func _on_collection_button_pressed() -> void:
 	current_outfit_index = (current_outfit_index + 1) % outfit_keys.size()
 	update_outfit_sprite()
@@ -186,6 +189,7 @@ func _on_legs_color_button_pressed() -> void:
 func _on_body_color_button_pressed() -> void:
 	current_body_index = (current_body_index + 1) % Global.body_colors.size()
 	update_body_sprite()
+	
 
 
 func _on_shoe_button_pressed() -> void:

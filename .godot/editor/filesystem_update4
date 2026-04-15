@@ -1,6 +1,0 @@
-res://scenes/Main.tscn
-res://scenes/player.tscn
-res://scenes/character_creator.tscn
-res://scripts/creator_ui.gd
-res://Scripts/hair.gd
-res://Scripts/global.gd
