@@ -21,9 +21,14 @@ The Passlings in your town can be used across multiple fun minigames aswell!
 ----
 # Setting Up PassMe
 > [!NOTE]
+> A .env file is required in the addons folder for godot-firebase
+>
+> Node version 20.20.2 is required to build properly
+> 
 > Known Requirements for Android Building:
 >    * Java SDK v17
 >    * Android SDK
+
 
 
 
