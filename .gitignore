@@ -1,2 +1,4 @@
 **/.env
 .DS_Store
+/ios_plugins
+export_presets.cfg
