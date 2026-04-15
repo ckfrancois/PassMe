@@ -452,7 +452,7 @@ var hair_colors = [
 	Color.from_rgba8(33, 73, 216), # Blue
 	Color.from_rgba8(94, 31, 202), # Purple
 	Color.from_rgba8(212, 22, 171), # Pink
-	Color.from_rgba8(203, 25, 51), # Yellow
+	Color.from_rgba8(203, 25, 51), # Red
 ]
 
 # Outfits and Accessory colors
@@ -464,7 +464,7 @@ var colors = [
 	Color.from_rgba8(33, 73, 216), # Blue
 	Color.from_rgba8(94, 31, 202), # Purple
 	Color.from_rgba8(212, 22, 171), # Pink
-	Color.from_rgba8(203, 25, 51), # Yellow
+	Color.from_rgba8(203, 25, 51), # Red
 	Color.from_rgba8(32, 23, 15), # Black
 	Color.from_rgba8(230, 224, 214), # White
 ]

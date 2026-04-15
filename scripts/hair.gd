@@ -8,6 +8,9 @@ extends Node2D
 
 @onready var eyebrow_sprite = $Hair/Eyebrows
 
+@export var eyebrow_buttons: ButtonGroup
+@export var hair_buttons: ButtonGroup
+
 # Keys
 var hair_keys = []
 var eyebrow_keys = []
@@ -19,6 +22,8 @@ func _ready():
 	set_sprite_keys()
 	update_hair()
 	update_eyebrow()
+	eyebrow_buttons.pressed.connect(_on_eyebrow_group_pressed)
+	hair_buttons.pressed.connect(_on_hair_group_pressed)
 
 func set_sprite_keys():
 	hair_keys = Global.hairO_collection.keys()
@@ -73,3 +78,14 @@ func _on_color_button_pressed() -> void:
 func _on_eyebrow_button_pressed() -> void:
 	current_eyebrow_index = (current_eyebrow_index + 1) % eyebrow_keys.size()
 	update_eyebrow()
+
+
+func _on_eyebrow_group_pressed(button: BaseButton):
+	var button_pressed = eyebrow_buttons.get_pressed_button()
+	current_eyebrow_index = int(button_pressed.name) - 1
+	update_eyebrow()
+
+func _on_hair_group_pressed(button: BaseButton):
+	var button_pressed = hair_buttons.get_pressed_button()
+	current_hair_index = int(button_pressed.name) - 1
+	update_hair()
