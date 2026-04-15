@@ -24,6 +24,7 @@ export default function HomeScreen() {
   } = useAuth();
   const [activeStep, setActiveStep] = useState<OnboardingStep>("birthDate");
   const [simulatedUsername, setSimulatedUsername] = useState<string | null>(null);
+  const [testingFromHome, setTestingFromHome] = useState(false);
 
   if (initializing) {
     return (
@@ -43,7 +44,15 @@ export default function HomeScreen() {
       <BirthDateScreen
         defaultValue=""
         loading={loading}
-        onBack={signOut}
+        onBack={() => {
+          if (testingFromHome) {
+            setActiveStep("complete");
+            setTestingFromHome(false);
+            return;
+          }
+
+          signOut();
+        }}
         onSubmit={async () => {
           setActiveStep("username");
         }}
@@ -56,10 +65,19 @@ export default function HomeScreen() {
       <UsernameScreen
         defaultValue=""
         loading={loading}
-        onBack={() => setActiveStep("birthDate")}
+        onBack={() => {
+          if (testingFromHome) {
+            setActiveStep("complete");
+            setTestingFromHome(false);
+            return;
+          }
+
+          setActiveStep("birthDate");
+        }}
         onSubmit={async (username) => {
           setSimulatedUsername(username);
           setActiveStep("complete");
+          setTestingFromHome(false);
         }}
       />
     );
@@ -74,6 +92,14 @@ export default function HomeScreen() {
       }
       onGoToBle={() => router.navigate("/(tabs)/BLETab")}
       onGoToExplore={() => router.navigate("/(tabs)/explore")}
+      onOpenBirthDateTest={() => {
+        setTestingFromHome(true);
+        setActiveStep("birthDate");
+      }}
+      onOpenUsernameTest={() => {
+        setTestingFromHome(true);
+        setActiveStep("username");
+      }}
       onSignOut={signOut}
     />
   );

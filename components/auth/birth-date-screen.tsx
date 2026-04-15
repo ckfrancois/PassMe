@@ -23,10 +23,15 @@ export function BirthDateScreen({
   const [birthDate, setBirthDate] = useState(defaultValue ?? "");
 
   return (
-    <AuthShell footer={<TermsFooter />} logoVisible={false}>
-      <Pressable onPress={onBack} style={authScreenStyles.backButton}>
-        <Text style={authScreenStyles.backButtonText}>‹</Text>
-      </Pressable>
+    <AuthShell
+      footer={<TermsFooter />}
+      logoVisible={false}
+      topRightOverlay={
+        <Pressable onPress={onBack} style={authScreenStyles.backButton}>
+          <Text style={authScreenStyles.backButtonText}>‹</Text>
+        </Pressable>
+      }
+    >
       <Text style={authScreenStyles.question}>When were you born?</Text>
       <AuthField
         autoCapitalize="words"

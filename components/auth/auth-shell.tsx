@@ -17,6 +17,7 @@ type AuthShellProps = {
   logoVisible?: boolean;
   showWordmark?: boolean;
   subtitle?: string;
+  topRightOverlay?: React.ReactNode;
 };
 
 export function AuthShell({
@@ -25,6 +26,7 @@ export function AuthShell({
   logoVisible = true,
   showWordmark = false,
   subtitle,
+  topRightOverlay,
 }: AuthShellProps) {
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -35,6 +37,9 @@ export function AuthShell({
         style={styles.keyboardView}
       >
         <View style={styles.content}>
+          {topRightOverlay ? (
+            <View style={styles.topRightOverlay}>{topRightOverlay}</View>
+          ) : null}
           <View style={styles.heroBlock}>
             {showWordmark ? (
               <Text style={styles.wordmark}>
@@ -72,6 +77,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 28,
     paddingTop: 28,
     paddingBottom: 24,
+    position: "relative",
+  },
+  topRightOverlay: {
+    position: "absolute",
+    top: 36,
+    left: 36,
+    zIndex: 4,
   },
   heroBlock: {
     alignItems: "center",

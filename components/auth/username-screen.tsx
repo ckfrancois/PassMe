@@ -25,10 +25,15 @@ export function UsernameScreen({
   const valid = /^[A-Za-z0-9-]+$/.test(normalized);
 
   return (
-    <AuthShell footer={<TermsFooter />} logoVisible={false}>
-      <Pressable onPress={onBack} style={authScreenStyles.backButton}>
-        <Text style={authScreenStyles.backButtonText}>‹</Text>
-      </Pressable>
+    <AuthShell
+      footer={<TermsFooter />}
+      logoVisible={false}
+      topRightOverlay={
+        <Pressable onPress={onBack} style={authScreenStyles.backButton}>
+          <Text style={authScreenStyles.backButtonText}>‹</Text>
+        </Pressable>
+      }
+    >
       <Text style={authScreenStyles.question}>What is your username?</Text>
       <AuthField
         autoCapitalize="none"

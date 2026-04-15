@@ -5,14 +5,13 @@ export const authScreenStyles = StyleSheet.create({
     color: "#FFFFFF",
     fontFamily: "Fredoka_600SemiBold",
     fontSize: 36,
-    lineHeight: 40,
     textAlign: "center",
     textShadowColor: "#275327",
     textShadowOffset: { width: 0, height: 2 },
     textShadowRadius: 0,
+    marginTop: 72,
   },
   backButton: {
-    alignSelf: "flex-start",
     width: 40,
     height: 40,
     borderRadius: 10,
@@ -21,7 +20,6 @@ export const authScreenStyles = StyleSheet.create({
     backgroundColor: "#D06B00",
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: 24,
   },
   backButtonText: {
     color: "#5D2800",
@@ -33,7 +31,7 @@ export const authScreenStyles = StyleSheet.create({
   smallText: {
     color: "#E5F7E5",
     fontFamily: "Fredoka_500Medium",
-    fontSize: 14,
+    fontSize: 16,
     textAlign: "center",
   },
   footerLink: {

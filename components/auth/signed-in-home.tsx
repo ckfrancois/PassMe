@@ -8,6 +8,8 @@ type SignedInHomeProps = {
   displayName: string;
   onGoToBle: () => void;
   onGoToExplore: () => void;
+  onOpenBirthDateTest: () => void;
+  onOpenUsernameTest: () => void;
   onSignOut: () => void;
 };
 
@@ -15,6 +17,8 @@ export function SignedInHome({
   displayName,
   onGoToBle,
   onGoToExplore,
+  onOpenBirthDateTest,
+  onOpenUsernameTest,
   onSignOut,
 }: SignedInHomeProps) {
   return (
@@ -35,13 +39,13 @@ export function SignedInHome({
       </View>
       <AuthButton
         icon="chevron-right"
-        label="Open BLE Test Tab"
-        onPress={onGoToBle}
+        label="Test Birth Date Page"
+        onPress={onOpenBirthDateTest}
       />
       <AuthButton
         icon="chevron-right"
-        label="Open Explore Tab"
-        onPress={onGoToExplore}
+        label="Test Username Page"
+        onPress={onOpenUsernameTest}
         variant="secondary"
       />
       <Pressable onPress={onSignOut}>
