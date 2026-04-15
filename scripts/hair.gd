@@ -10,6 +10,7 @@ extends Node2D
 
 @export var eyebrow_buttons: ButtonGroup
 @export var hair_buttons: ButtonGroup
+@export var color_buttons: ButtonGroup
 
 # Keys
 var hair_keys = []
@@ -24,6 +25,7 @@ func _ready():
 	update_eyebrow()
 	eyebrow_buttons.pressed.connect(_on_eyebrow_group_pressed)
 	hair_buttons.pressed.connect(_on_hair_group_pressed)
+	color_buttons.pressed.connect(_on_color_group_pressed)
 
 func set_sprite_keys():
 	hair_keys = Global.hairO_collection.keys()
@@ -88,4 +90,9 @@ func _on_eyebrow_group_pressed(button: BaseButton):
 func _on_hair_group_pressed(button: BaseButton):
 	var button_pressed = hair_buttons.get_pressed_button()
 	current_hair_index = int(button_pressed.name) - 1
+	update_hair()
+
+func _on_color_group_pressed(button: BaseButton):
+	var button_pressed = color_buttons.get_pressed_button()
+	current_color_index = int(button_pressed.name) - 1
 	update_hair()
