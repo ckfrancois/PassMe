@@ -1,4 +1,4 @@
-[gd_scene load_steps=428 format=3 uid="uid://bs6dxdah3hck7"]
+[gd_scene load_steps=435 format=3 uid="uid://bs6dxdah3hck7"]
 
 [ext_resource type="Script" uid="uid://d12pkhd0g2cuo" path="res://Scripts/firebase_connector.gd" id="1_aw854"]
 [ext_resource type="Texture2D" uid="uid://cvn2ixbfbhrs4" path="res://assets/character_sprite/body/base/color/Base_RightArmT.png" id="1_dk5wx"]
@@ -43,6 +43,7 @@
 [ext_resource type="Texture2D" uid="uid://bs3vlqle0rq4l" path="res://assets/sprite_sheets/Hair.png" id="38_j4llq"]
 [ext_resource type="Texture2D" uid="uid://c5m7p8tv056m5" path="res://assets/sprite_sheets/CreatorIconsD.png" id="39_74k7b"]
 [ext_resource type="Texture2D" uid="uid://c5uwexf6jwy5x" path="res://assets/sprite_sheets/HairD.png" id="39_i432g"]
+[ext_resource type="Texture2D" uid="uid://bnli1jf21ud60" path="res://assets/text_boxes/Text_Box.png" id="40_74k7b"]
 [ext_resource type="Texture2D" uid="uid://eknv77es8qdw" path="res://assets/sprite_sheets/HairColor.png" id="41_4sexx"]
 [ext_resource type="Texture2D" uid="uid://5n7i0v2pumte" path="res://assets/sprite_sheets/HairColorD.png" id="42_c4quy"]
 [ext_resource type="Texture2D" uid="uid://najaxffnd88d" path="res://assets/sprite_sheets/Colors.png" id="43_a6r7x"]
@@ -63,7 +64,13 @@
 [ext_resource type="Texture2D" uid="uid://2kbxm0hlw4yy" path="res://assets/sprite_sheets/Accessories.png" id="58_5xrot"]
 [ext_resource type="Texture2D" uid="uid://b2l78ksbqf8sm" path="res://assets/sprite_sheets/AccessoriesD.png" id="59_1jyo3"]
 [ext_resource type="ButtonGroup" uid="uid://2phjnh8m1qhv" path="res://resources/button_group_acc_color.tres" id="60_1jyo3"]
-[ext_resource type="Texture2D" uid="uid://b2pjdiv0cmvoc" path="res://assets/Speech_Bubble.png" id="61_sm81t"]
+[ext_resource type="Texture2D" uid="uid://b2pjdiv0cmvoc" path="res://assets/text_boxes/Speech_Bubble.png" id="61_sm81t"]
+[ext_resource type="Texture2D" uid="uid://xt25c7juxtog" path="res://assets/text_boxes/Back.png" id="65_a7d8y"]
+[ext_resource type="Texture2D" uid="uid://v00xngatkg27" path="res://assets/text_boxes/Confirm.png" id="65_sx75m"]
+[ext_resource type="Texture2D" uid="uid://bk0jfxjun5gc0" path="res://assets/text_boxes/BackD.png" id="66_6ohr1"]
+[ext_resource type="Texture2D" uid="uid://hag8b3118811" path="res://assets/text_boxes/ConfirmD.png" id="66_fxvv0"]
+[ext_resource type="Texture2D" uid="uid://isfw32343txt" path="res://assets/text_boxes/Randomize.png" id="69_o2bqf"]
+[ext_resource type="Texture2D" uid="uid://cplyira0u6fkc" path="res://assets/text_boxes/RandomizeD.png" id="70_1l637"]
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_07l1d"]
 
@@ -1517,9 +1524,8 @@ region = Rect2(1500, 0, 125, 0)
 
 [node name="CharacterCreator" type="Node2D"]
 
-[node name="Node" type="Node" parent="." node_paths=PackedStringArray("confirm_button", "introduction_label")]
+[node name="Node" type="Node" parent="." node_paths=PackedStringArray("introduction_label")]
 script = ExtResource("1_aw854")
-confirm_button = NodePath("../CreatorScreen/ColorRect2/Constant Buttons/Confirm")
 introduction_label = NodePath("../CreatorScreen/TextureRect/Label")
 
 [node name="Skeleton" type="Node2D" parent="."]
@@ -1660,6 +1666,7 @@ script = ExtResource("25_xfpfe")
 layout_mode = 0
 offset_right = 720.0
 offset_bottom = 80.0
+theme_override_constants/separation = 0
 
 [node name="Face" type="TextureButton" parent="CreatorScreen/ColorRect2/HBoxContainer"]
 layout_mode = 2
@@ -1697,132 +1704,175 @@ texture_pressed = SubResource("AtlasTexture_8juie")
 [node name="Face Container" type="ScrollContainer" parent="CreatorScreen/ColorRect2"]
 layout_mode = 0
 offset_top = 100.0
-offset_right = 720.0
-offset_bottom = 600.0
+offset_right = 722.0
+offset_bottom = 574.0
 horizontal_scroll_mode = 0
 
 [node name="MarginContainer" type="MarginContainer" parent="CreatorScreen/ColorRect2/Face Container"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 10
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CreatorScreen/ColorRect2/Face Container/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme_override_constants/separation = 10
 
-[node name="Eyes" type="Label" parent="CreatorScreen/ColorRect2/Face Container/MarginContainer/VBoxContainer"]
+[node name="EyesRect" type="TextureRect" parent="CreatorScreen/ColorRect2/Face Container/MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "Eyes"
+texture = ExtResource("40_74k7b")
+stretch_mode = 3
 
-[node name="Eyes_Grid" type="GridContainer" parent="CreatorScreen/ColorRect2/Face Container/MarginContainer/VBoxContainer"]
+[node name="Eyes" type="Label" parent="CreatorScreen/ColorRect2/Face Container/MarginContainer/VBoxContainer/EyesRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -17.5
+offset_top = -11.5
+offset_right = 17.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Eyes"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CenterContainer" type="CenterContainer" parent="CreatorScreen/ColorRect2/Face Container/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Eyes_Grid" type="GridContainer" parent="CreatorScreen/ColorRect2/Face Container/MarginContainer/VBoxContainer/CenterContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/h_separation = 10
 columns = 5
 
-[node name="01" type="TextureButton" parent="CreatorScreen/ColorRect2/Face Container/MarginContainer/VBoxContainer/Eyes_Grid"]
+[node name="01" type="TextureButton" parent="CreatorScreen/ColorRect2/Face Container/MarginContainer/VBoxContainer/CenterContainer/Eyes_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("21_p0l4m")
 texture_normal = SubResource("AtlasTexture_x7ufa")
 texture_pressed = SubResource("AtlasTexture_rqrh5")
 
-[node name="02" type="TextureButton" parent="CreatorScreen/ColorRect2/Face Container/MarginContainer/VBoxContainer/Eyes_Grid"]
+[node name="02" type="TextureButton" parent="CreatorScreen/ColorRect2/Face Container/MarginContainer/VBoxContainer/CenterContainer/Eyes_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("21_p0l4m")
 texture_normal = SubResource("AtlasTexture_ix263")
 texture_pressed = SubResource("AtlasTexture_lqr4h")
 
-[node name="03" type="TextureButton" parent="CreatorScreen/ColorRect2/Face Container/MarginContainer/VBoxContainer/Eyes_Grid"]
+[node name="03" type="TextureButton" parent="CreatorScreen/ColorRect2/Face Container/MarginContainer/VBoxContainer/CenterContainer/Eyes_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("21_p0l4m")
 texture_normal = SubResource("AtlasTexture_n1i1y")
 texture_pressed = SubResource("AtlasTexture_j4llq")
 
-[node name="04" type="TextureButton" parent="CreatorScreen/ColorRect2/Face Container/MarginContainer/VBoxContainer/Eyes_Grid"]
+[node name="04" type="TextureButton" parent="CreatorScreen/ColorRect2/Face Container/MarginContainer/VBoxContainer/CenterContainer/Eyes_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("21_p0l4m")
 texture_normal = SubResource("AtlasTexture_nj4er")
 texture_pressed = SubResource("AtlasTexture_i432g")
 
-[node name="05" type="TextureButton" parent="CreatorScreen/ColorRect2/Face Container/MarginContainer/VBoxContainer/Eyes_Grid"]
+[node name="05" type="TextureButton" parent="CreatorScreen/ColorRect2/Face Container/MarginContainer/VBoxContainer/CenterContainer/Eyes_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("21_p0l4m")
 texture_normal = SubResource("AtlasTexture_1uaso")
 texture_pressed = SubResource("AtlasTexture_4sexx")
 
-[node name="06" type="TextureButton" parent="CreatorScreen/ColorRect2/Face Container/MarginContainer/VBoxContainer/Eyes_Grid"]
+[node name="06" type="TextureButton" parent="CreatorScreen/ColorRect2/Face Container/MarginContainer/VBoxContainer/CenterContainer/Eyes_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("21_p0l4m")
 texture_normal = SubResource("AtlasTexture_7lds4")
 texture_pressed = SubResource("AtlasTexture_c4quy")
 
-[node name="07" type="TextureButton" parent="CreatorScreen/ColorRect2/Face Container/MarginContainer/VBoxContainer/Eyes_Grid"]
+[node name="07" type="TextureButton" parent="CreatorScreen/ColorRect2/Face Container/MarginContainer/VBoxContainer/CenterContainer/Eyes_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("21_p0l4m")
 texture_normal = SubResource("AtlasTexture_hx0hx")
 texture_pressed = SubResource("AtlasTexture_a6r7x")
 
-[node name="08" type="TextureButton" parent="CreatorScreen/ColorRect2/Face Container/MarginContainer/VBoxContainer/Eyes_Grid"]
+[node name="08" type="TextureButton" parent="CreatorScreen/ColorRect2/Face Container/MarginContainer/VBoxContainer/CenterContainer/Eyes_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("21_p0l4m")
 texture_normal = SubResource("AtlasTexture_axsho")
 texture_pressed = SubResource("AtlasTexture_tvh0r")
 
-[node name="09" type="TextureButton" parent="CreatorScreen/ColorRect2/Face Container/MarginContainer/VBoxContainer/Eyes_Grid"]
+[node name="09" type="TextureButton" parent="CreatorScreen/ColorRect2/Face Container/MarginContainer/VBoxContainer/CenterContainer/Eyes_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("21_p0l4m")
 texture_normal = SubResource("AtlasTexture_xfpfe")
 texture_pressed = SubResource("AtlasTexture_6cudx")
 
-[node name="10" type="TextureButton" parent="CreatorScreen/ColorRect2/Face Container/MarginContainer/VBoxContainer/Eyes_Grid"]
+[node name="10" type="TextureButton" parent="CreatorScreen/ColorRect2/Face Container/MarginContainer/VBoxContainer/CenterContainer/Eyes_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("21_p0l4m")
 texture_normal = SubResource("AtlasTexture_xxul2")
 texture_pressed = SubResource("AtlasTexture_2kuj3")
 
-[node name="11" type="TextureButton" parent="CreatorScreen/ColorRect2/Face Container/MarginContainer/VBoxContainer/Eyes_Grid"]
+[node name="11" type="TextureButton" parent="CreatorScreen/ColorRect2/Face Container/MarginContainer/VBoxContainer/CenterContainer/Eyes_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("21_p0l4m")
 texture_normal = SubResource("AtlasTexture_e8qli")
 texture_pressed = SubResource("AtlasTexture_ltgnb")
 
-[node name="12" type="TextureButton" parent="CreatorScreen/ColorRect2/Face Container/MarginContainer/VBoxContainer/Eyes_Grid"]
+[node name="12" type="TextureButton" parent="CreatorScreen/ColorRect2/Face Container/MarginContainer/VBoxContainer/CenterContainer/Eyes_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("21_p0l4m")
 texture_normal = SubResource("AtlasTexture_kschl")
 texture_pressed = SubResource("AtlasTexture_gwcjf")
 
-[node name="13" type="TextureButton" parent="CreatorScreen/ColorRect2/Face Container/MarginContainer/VBoxContainer/Eyes_Grid"]
+[node name="13" type="TextureButton" parent="CreatorScreen/ColorRect2/Face Container/MarginContainer/VBoxContainer/CenterContainer/Eyes_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("21_p0l4m")
 texture_normal = SubResource("AtlasTexture_2uqtn")
 texture_pressed = SubResource("AtlasTexture_ig03w")
 
-[node name="14" type="TextureButton" parent="CreatorScreen/ColorRect2/Face Container/MarginContainer/VBoxContainer/Eyes_Grid"]
+[node name="14" type="TextureButton" parent="CreatorScreen/ColorRect2/Face Container/MarginContainer/VBoxContainer/CenterContainer/Eyes_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("21_p0l4m")
 texture_normal = SubResource("AtlasTexture_xiiyr")
 texture_pressed = SubResource("AtlasTexture_bbfyy")
 
-[node name="Nose" type="Label" parent="CreatorScreen/ColorRect2/Face Container/MarginContainer/VBoxContainer"]
+[node name="NoseRect" type="TextureRect" parent="CreatorScreen/ColorRect2/Face Container/MarginContainer/VBoxContainer"]
 layout_mode = 2
+texture = ExtResource("40_74k7b")
+stretch_mode = 3
+
+[node name="Nose" type="Label" parent="CreatorScreen/ColorRect2/Face Container/MarginContainer/VBoxContainer/NoseRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -17.5
+offset_top = -11.5
+offset_right = 17.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Nose"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Nose_Grid" type="GridContainer" parent="CreatorScreen/ColorRect2/Face Container/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -1899,9 +1949,28 @@ button_group = ExtResource("24_rqrh5")
 texture_normal = SubResource("AtlasTexture_6ohr1")
 texture_pressed = SubResource("AtlasTexture_o2bqf")
 
-[node name="Mouth" type="Label" parent="CreatorScreen/ColorRect2/Face Container/MarginContainer/VBoxContainer"]
+[node name="MouthRect" type="TextureRect" parent="CreatorScreen/ColorRect2/Face Container/MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "Nose"
+texture = ExtResource("40_74k7b")
+stretch_mode = 3
+
+[node name="Mouth" type="Label" parent="CreatorScreen/ColorRect2/Face Container/MarginContainer/VBoxContainer/MouthRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -17.5
+offset_top = -11.5
+offset_right = 17.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Mouth"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Mouth_Grid" type="GridContainer" parent="CreatorScreen/ColorRect2/Face Container/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -1992,9 +2061,28 @@ button_group = ExtResource("27_n1i1y")
 texture_normal = SubResource("AtlasTexture_ets47")
 texture_pressed = SubResource("AtlasTexture_p07cq")
 
-[node name="Skintone" type="Label" parent="CreatorScreen/ColorRect2/Face Container/MarginContainer/VBoxContainer"]
+[node name="SkintoneRect" type="TextureRect" parent="CreatorScreen/ColorRect2/Face Container/MarginContainer/VBoxContainer"]
 layout_mode = 2
+texture = ExtResource("40_74k7b")
+stretch_mode = 3
+
+[node name="Skintone" type="Label" parent="CreatorScreen/ColorRect2/Face Container/MarginContainer/VBoxContainer/SkintoneRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -17.5
+offset_top = -11.5
+offset_right = 17.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Skintone"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Color_Grid" type="GridContainer" parent="CreatorScreen/ColorRect2/Face Container/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -2116,428 +2204,496 @@ texture_pressed = SubResource("AtlasTexture_m877b")
 [node name="Hair Container" type="ScrollContainer" parent="CreatorScreen/ColorRect2"]
 layout_mode = 0
 offset_top = 100.0
-offset_right = 720.0
-offset_bottom = 600.0
+offset_right = 722.0
+offset_bottom = 574.0
 horizontal_scroll_mode = 0
 
 [node name="MarginContainer" type="MarginContainer" parent="CreatorScreen/ColorRect2/Hair Container"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 10
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme_override_constants/separation = 10
 
-[node name="Eyebrows" type="Label" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer"]
+[node name="EyebrowsRect" type="TextureRect" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "Eyebrows"
+texture = ExtResource("40_74k7b")
+stretch_mode = 3
 
-[node name="Eyebrows_Grid" type="GridContainer" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer"]
+[node name="Eyebrows" type="Label" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/EyebrowsRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -17.5
+offset_top = -11.5
+offset_right = 17.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Eyebrows"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CenterContainer" type="CenterContainer" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Eyebrows_Grid" type="GridContainer" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/CenterContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_constants/h_separation = 10
+theme_override_constants/h_separation = 34
 columns = 4
 
-[node name="none" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/Eyebrows_Grid"]
+[node name="none" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/CenterContainer/Eyebrows_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("34_xxul2")
 texture_normal = SubResource("AtlasTexture_12is1")
 texture_pressed = SubResource("AtlasTexture_vgjwa")
 
-[node name="01" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/Eyebrows_Grid"]
+[node name="01" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/CenterContainer/Eyebrows_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("34_xxul2")
 texture_normal = SubResource("AtlasTexture_8yrc4")
 texture_pressed = SubResource("AtlasTexture_ry20l")
 
-[node name="02" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/Eyebrows_Grid"]
+[node name="02" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/CenterContainer/Eyebrows_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("34_xxul2")
 texture_normal = SubResource("AtlasTexture_0awbn")
 texture_pressed = SubResource("AtlasTexture_gnfp3")
 
-[node name="03" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/Eyebrows_Grid"]
+[node name="03" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/CenterContainer/Eyebrows_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("34_xxul2")
 texture_normal = SubResource("AtlasTexture_ash7n")
 texture_pressed = SubResource("AtlasTexture_ifgt0")
 
-[node name="04" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/Eyebrows_Grid"]
+[node name="04" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/CenterContainer/Eyebrows_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("34_xxul2")
 texture_normal = SubResource("AtlasTexture_gvs5t")
 texture_pressed = SubResource("AtlasTexture_p3pfy")
 
-[node name="05" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/Eyebrows_Grid"]
+[node name="05" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/CenterContainer/Eyebrows_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("34_xxul2")
 texture_normal = SubResource("AtlasTexture_sm4iq")
 texture_pressed = SubResource("AtlasTexture_6e4vm")
 
-[node name="06" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/Eyebrows_Grid"]
+[node name="06" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/CenterContainer/Eyebrows_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("34_xxul2")
 texture_normal = SubResource("AtlasTexture_tw8fn")
 texture_pressed = SubResource("AtlasTexture_f8t42")
 
-[node name="07" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/Eyebrows_Grid"]
+[node name="07" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/CenterContainer/Eyebrows_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("34_xxul2")
 texture_normal = SubResource("AtlasTexture_3t2nd")
 texture_pressed = SubResource("AtlasTexture_pf3tx")
 
-[node name="08" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/Eyebrows_Grid"]
+[node name="08" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/CenterContainer/Eyebrows_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("34_xxul2")
 texture_normal = SubResource("AtlasTexture_gw510")
 texture_pressed = SubResource("AtlasTexture_fu6l3")
 
-[node name="09" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/Eyebrows_Grid"]
+[node name="09" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/CenterContainer/Eyebrows_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("34_xxul2")
 texture_normal = SubResource("AtlasTexture_xs1e8")
 texture_pressed = SubResource("AtlasTexture_wio5h")
 
-[node name="10" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/Eyebrows_Grid"]
+[node name="10" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/CenterContainer/Eyebrows_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("34_xxul2")
 texture_normal = SubResource("AtlasTexture_514q7")
 texture_pressed = SubResource("AtlasTexture_7s331")
 
-[node name="Hair" type="Label" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer"]
+[node name="HairRect" type="TextureRect" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "Hair"
+texture = ExtResource("40_74k7b")
+stretch_mode = 3
 
-[node name="Hair_Grid" type="GridContainer" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer"]
+[node name="Hair" type="Label" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/HairRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -17.5
+offset_top = -11.5
+offset_right = 17.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Hair"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CenterContainer2" type="CenterContainer" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Hair_Grid" type="GridContainer" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/CenterContainer2"]
 layout_mode = 2
 theme_override_constants/h_separation = 10
 columns = 5
 
-[node name="none" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/Hair_Grid"]
+[node name="none" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/CenterContainer2/Hair_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("35_e8qli")
 texture_normal = SubResource("AtlasTexture_bps3r")
 texture_pressed = SubResource("AtlasTexture_nhln1")
 
-[node name="01" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/Hair_Grid"]
+[node name="01" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/CenterContainer2/Hair_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("35_e8qli")
 texture_normal = SubResource("AtlasTexture_1fd8a")
 texture_pressed = SubResource("AtlasTexture_7lx8b")
 
-[node name="02" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/Hair_Grid"]
+[node name="02" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/CenterContainer2/Hair_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("35_e8qli")
 texture_normal = SubResource("AtlasTexture_w03qs")
 texture_pressed = SubResource("AtlasTexture_xw234")
 
-[node name="03" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/Hair_Grid"]
+[node name="03" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/CenterContainer2/Hair_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("35_e8qli")
 texture_normal = SubResource("AtlasTexture_oqp4l")
 texture_pressed = SubResource("AtlasTexture_uu1hx")
 
-[node name="04" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/Hair_Grid"]
+[node name="04" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/CenterContainer2/Hair_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("35_e8qli")
 texture_normal = SubResource("AtlasTexture_vevt8")
 texture_pressed = SubResource("AtlasTexture_41nns")
 
-[node name="05" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/Hair_Grid"]
+[node name="05" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/CenterContainer2/Hair_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("35_e8qli")
 texture_normal = SubResource("AtlasTexture_itf17")
 texture_pressed = SubResource("AtlasTexture_p5kqy")
 
-[node name="06" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/Hair_Grid"]
+[node name="06" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/CenterContainer2/Hair_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("35_e8qli")
 texture_normal = SubResource("AtlasTexture_u7pu3")
 texture_pressed = SubResource("AtlasTexture_aote3")
 
-[node name="07" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/Hair_Grid"]
+[node name="07" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/CenterContainer2/Hair_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("35_e8qli")
 texture_normal = SubResource("AtlasTexture_pp1wm")
 texture_pressed = SubResource("AtlasTexture_ymomo")
 
-[node name="08" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/Hair_Grid"]
+[node name="08" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/CenterContainer2/Hair_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("35_e8qli")
 texture_normal = SubResource("AtlasTexture_mmcy7")
 texture_pressed = SubResource("AtlasTexture_w613y")
 
-[node name="09" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/Hair_Grid"]
+[node name="09" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/CenterContainer2/Hair_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("35_e8qli")
 texture_normal = SubResource("AtlasTexture_71ob7")
 texture_pressed = SubResource("AtlasTexture_t6ovo")
 
-[node name="10" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/Hair_Grid"]
+[node name="10" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/CenterContainer2/Hair_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("35_e8qli")
 texture_normal = SubResource("AtlasTexture_aj53d")
 texture_pressed = SubResource("AtlasTexture_1b2rr")
 
-[node name="11" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/Hair_Grid"]
+[node name="11" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/CenterContainer2/Hair_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("35_e8qli")
 texture_normal = SubResource("AtlasTexture_oubj5")
 texture_pressed = SubResource("AtlasTexture_fy3lk")
 
-[node name="12" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/Hair_Grid"]
+[node name="12" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/CenterContainer2/Hair_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("35_e8qli")
 texture_normal = SubResource("AtlasTexture_jvjs8")
 texture_pressed = SubResource("AtlasTexture_hv7df")
 
-[node name="13" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/Hair_Grid"]
+[node name="13" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/CenterContainer2/Hair_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("35_e8qli")
 texture_normal = SubResource("AtlasTexture_583jq")
 texture_pressed = SubResource("AtlasTexture_nm62k")
 
-[node name="14" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/Hair_Grid"]
+[node name="14" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/CenterContainer2/Hair_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("35_e8qli")
 texture_normal = SubResource("AtlasTexture_ucsyw")
 texture_pressed = SubResource("AtlasTexture_0ne7v")
 
-[node name="15" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/Hair_Grid"]
+[node name="15" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/CenterContainer2/Hair_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("35_e8qli")
 texture_normal = SubResource("AtlasTexture_njca0")
 texture_pressed = SubResource("AtlasTexture_cir3t")
 
-[node name="16" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/Hair_Grid"]
+[node name="16" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/CenterContainer2/Hair_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("35_e8qli")
 texture_normal = SubResource("AtlasTexture_dqenl")
 texture_pressed = SubResource("AtlasTexture_4jwcw")
 
-[node name="17" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/Hair_Grid"]
+[node name="17" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/CenterContainer2/Hair_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("35_e8qli")
 texture_normal = SubResource("AtlasTexture_jn0xg")
 texture_pressed = SubResource("AtlasTexture_ngrpb")
 
-[node name="18" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/Hair_Grid"]
+[node name="18" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/CenterContainer2/Hair_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("35_e8qli")
 texture_normal = SubResource("AtlasTexture_37q12")
 texture_pressed = SubResource("AtlasTexture_kj67c")
 
-[node name="19" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/Hair_Grid"]
+[node name="19" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/CenterContainer2/Hair_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("35_e8qli")
 texture_normal = SubResource("AtlasTexture_wayyp")
 texture_pressed = SubResource("AtlasTexture_y1rf4")
 
-[node name="20" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/Hair_Grid"]
+[node name="20" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/CenterContainer2/Hair_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("35_e8qli")
 texture_normal = SubResource("AtlasTexture_g34h8")
 texture_pressed = SubResource("AtlasTexture_y4p5u")
 
-[node name="21" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/Hair_Grid"]
+[node name="21" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/CenterContainer2/Hair_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("35_e8qli")
 texture_normal = SubResource("AtlasTexture_k4ah4")
 texture_pressed = SubResource("AtlasTexture_sj1dq")
 
-[node name="22" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/Hair_Grid"]
+[node name="22" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/CenterContainer2/Hair_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("35_e8qli")
 texture_normal = SubResource("AtlasTexture_afy5v")
 texture_pressed = SubResource("AtlasTexture_8q5jm")
 
-[node name="23" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/Hair_Grid"]
+[node name="23" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/CenterContainer2/Hair_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("35_e8qli")
 texture_normal = SubResource("AtlasTexture_wwxc3")
 texture_pressed = SubResource("AtlasTexture_3v2aw")
 
-[node name="24" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/Hair_Grid"]
+[node name="24" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/CenterContainer2/Hair_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("35_e8qli")
 texture_normal = SubResource("AtlasTexture_uuehp")
 texture_pressed = SubResource("AtlasTexture_qwq6y")
 
-[node name="25" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/Hair_Grid"]
+[node name="25" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/CenterContainer2/Hair_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("35_e8qli")
 texture_normal = SubResource("AtlasTexture_kwlqi")
 texture_pressed = SubResource("AtlasTexture_h7no8")
 
-[node name="26" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/Hair_Grid"]
+[node name="26" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/CenterContainer2/Hair_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("35_e8qli")
 texture_normal = SubResource("AtlasTexture_m5p17")
 texture_pressed = SubResource("AtlasTexture_xkb1r")
 
-[node name="27" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/Hair_Grid"]
+[node name="27" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/CenterContainer2/Hair_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("35_e8qli")
 texture_normal = SubResource("AtlasTexture_ovdgb")
 texture_pressed = SubResource("AtlasTexture_1xn7v")
 
-[node name="Color" type="Label" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer"]
+[node name="ColorRect" type="TextureRect" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "Color"
+texture = ExtResource("40_74k7b")
+stretch_mode = 3
 
-[node name="Color_Grid" type="GridContainer" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer"]
+[node name="Color" type="Label" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/ColorRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -17.5
+offset_top = -11.5
+offset_right = 17.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Color"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CenterContainer3" type="CenterContainer" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Color_Grid" type="GridContainer" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/CenterContainer3"]
 layout_mode = 2
 theme_override_constants/h_separation = 10
 columns = 6
 
-[node name="01" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/Color_Grid"]
+[node name="01" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/CenterContainer3/Color_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("36_kschl")
 texture_normal = SubResource("AtlasTexture_4om6x")
 texture_pressed = SubResource("AtlasTexture_qaus0")
 
-[node name="02" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/Color_Grid"]
+[node name="02" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/CenterContainer3/Color_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("36_kschl")
 texture_normal = SubResource("AtlasTexture_0a8o4")
 texture_pressed = SubResource("AtlasTexture_b0aut")
 
-[node name="03" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/Color_Grid"]
+[node name="03" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/CenterContainer3/Color_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("36_kschl")
 texture_normal = SubResource("AtlasTexture_dqrr7")
 texture_pressed = SubResource("AtlasTexture_cc51d")
 
-[node name="04" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/Color_Grid"]
+[node name="04" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/CenterContainer3/Color_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("36_kschl")
 texture_normal = SubResource("AtlasTexture_dcok3")
 texture_pressed = SubResource("AtlasTexture_c1a7h")
 
-[node name="05" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/Color_Grid"]
+[node name="05" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/CenterContainer3/Color_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("36_kschl")
 texture_normal = SubResource("AtlasTexture_7lmwc")
 texture_pressed = SubResource("AtlasTexture_4kehd")
 
-[node name="06" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/Color_Grid"]
+[node name="06" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/CenterContainer3/Color_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("36_kschl")
 texture_normal = SubResource("AtlasTexture_ajsjt")
 texture_pressed = SubResource("AtlasTexture_68yix")
 
-[node name="07" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/Color_Grid"]
+[node name="07" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/CenterContainer3/Color_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("36_kschl")
 texture_normal = SubResource("AtlasTexture_o1ek0")
 texture_pressed = SubResource("AtlasTexture_x1psy")
 
-[node name="08" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/Color_Grid"]
+[node name="08" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/CenterContainer3/Color_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("36_kschl")
 texture_normal = SubResource("AtlasTexture_2eug5")
 texture_pressed = SubResource("AtlasTexture_mu4m2")
 
-[node name="09" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/Color_Grid"]
+[node name="09" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/CenterContainer3/Color_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("36_kschl")
 texture_normal = SubResource("AtlasTexture_ujq02")
 texture_pressed = SubResource("AtlasTexture_p8ice")
 
-[node name="10" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/Color_Grid"]
+[node name="10" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/CenterContainer3/Color_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("36_kschl")
 texture_normal = SubResource("AtlasTexture_b58o3")
 texture_pressed = SubResource("AtlasTexture_6vox4")
 
-[node name="11" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/Color_Grid"]
+[node name="11" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/CenterContainer3/Color_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("36_kschl")
 texture_normal = SubResource("AtlasTexture_y4npi")
 texture_pressed = SubResource("AtlasTexture_j8baw")
 
-[node name="12" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/Color_Grid"]
+[node name="12" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/CenterContainer3/Color_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("36_kschl")
 texture_normal = SubResource("AtlasTexture_sij4s")
 texture_pressed = SubResource("AtlasTexture_gqw13")
 
-[node name="13" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/Color_Grid"]
+[node name="13" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/CenterContainer3/Color_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("36_kschl")
 texture_normal = SubResource("AtlasTexture_f0s5n")
 texture_pressed = SubResource("AtlasTexture_hjtcc")
 
-[node name="14" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/Color_Grid"]
+[node name="14" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/CenterContainer3/Color_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("36_kschl")
 texture_normal = SubResource("AtlasTexture_rslur")
 texture_pressed = SubResource("AtlasTexture_y3q22")
 
-[node name="15" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/Color_Grid"]
+[node name="15" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/CenterContainer3/Color_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("36_kschl")
 texture_normal = SubResource("AtlasTexture_vrc1f")
 texture_pressed = SubResource("AtlasTexture_hv0dw")
 
-[node name="16" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/Color_Grid"]
+[node name="16" type="TextureButton" parent="CreatorScreen/ColorRect2/Hair Container/MarginContainer/VBoxContainer/CenterContainer3/Color_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("36_kschl")
@@ -2547,333 +2703,423 @@ texture_pressed = SubResource("AtlasTexture_xc438")
 [node name="Outfit Container" type="ScrollContainer" parent="CreatorScreen/ColorRect2"]
 layout_mode = 0
 offset_top = 100.0
-offset_right = 720.0
-offset_bottom = 600.0
+offset_right = 722.0
+offset_bottom = 574.0
 horizontal_scroll_mode = 0
 
 [node name="MarginContainer" type="MarginContainer" parent="CreatorScreen/ColorRect2/Outfit Container"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 10
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme_override_constants/separation = 10
 
-[node name="Shirts" type="Label" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer"]
+[node name="ShirtsRect" type="TextureRect" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "Shirts"
+texture = ExtResource("40_74k7b")
+stretch_mode = 3
 
-[node name="Shirt_Grid" type="GridContainer" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer"]
+[node name="Shirts" type="Label" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/ShirtsRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -17.5
+offset_top = -11.5
+offset_right = 17.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Shirts"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CenterContainer" type="CenterContainer" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Shirt_Grid" type="GridContainer" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/h_separation = 10
 columns = 5
 
-[node name="01" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Shirt_Grid"]
+[node name="01" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer/Shirt_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("45_ltgnb")
 texture_normal = SubResource("AtlasTexture_pckma")
 texture_pressed = SubResource("AtlasTexture_1a65w")
 
-[node name="02" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Shirt_Grid"]
+[node name="02" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer/Shirt_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("45_ltgnb")
 texture_normal = SubResource("AtlasTexture_ipp4p")
 texture_pressed = SubResource("AtlasTexture_03oca")
 
-[node name="09" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Shirt_Grid"]
+[node name="09" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer/Shirt_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("45_ltgnb")
 texture_normal = SubResource("AtlasTexture_qx6o8")
 texture_pressed = SubResource("AtlasTexture_twomg")
 
-[node name="07" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Shirt_Grid"]
+[node name="07" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer/Shirt_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("45_ltgnb")
 texture_normal = SubResource("AtlasTexture_8twec")
 texture_pressed = SubResource("AtlasTexture_apsg1")
 
-[node name="03" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Shirt_Grid"]
+[node name="03" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer/Shirt_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("45_ltgnb")
 texture_normal = SubResource("AtlasTexture_ekf0o")
 texture_pressed = SubResource("AtlasTexture_4dug0")
 
-[node name="04" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Shirt_Grid"]
+[node name="04" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer/Shirt_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("45_ltgnb")
 texture_normal = SubResource("AtlasTexture_ordjc")
 texture_pressed = SubResource("AtlasTexture_fq280")
 
-[node name="05" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Shirt_Grid"]
+[node name="05" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer/Shirt_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("45_ltgnb")
 texture_normal = SubResource("AtlasTexture_4qk8f")
 texture_pressed = SubResource("AtlasTexture_j3i4c")
 
-[node name="06" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Shirt_Grid"]
+[node name="06" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer/Shirt_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("45_ltgnb")
 texture_normal = SubResource("AtlasTexture_m24ck")
 texture_pressed = SubResource("AtlasTexture_ond8r")
 
-[node name="10" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Shirt_Grid"]
+[node name="10" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer/Shirt_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("45_ltgnb")
 texture_normal = SubResource("AtlasTexture_lqs6v")
 texture_pressed = SubResource("AtlasTexture_ah43w")
 
-[node name="29" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Shirt_Grid"]
+[node name="29" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer/Shirt_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("45_ltgnb")
 texture_normal = SubResource("AtlasTexture_xfmqn")
 texture_pressed = SubResource("AtlasTexture_6n76a")
 
-[node name="11" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Shirt_Grid"]
+[node name="11" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer/Shirt_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("45_ltgnb")
 texture_normal = SubResource("AtlasTexture_2srge")
 texture_pressed = SubResource("AtlasTexture_dc18f")
 
-[node name="24" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Shirt_Grid"]
+[node name="24" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer/Shirt_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("45_ltgnb")
 texture_normal = SubResource("AtlasTexture_mtflb")
 texture_pressed = SubResource("AtlasTexture_t18qy")
 
-[node name="28" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Shirt_Grid"]
+[node name="28" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer/Shirt_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("45_ltgnb")
 texture_normal = SubResource("AtlasTexture_dn2r8")
 texture_pressed = SubResource("AtlasTexture_k77ch")
 
-[node name="25" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Shirt_Grid"]
+[node name="25" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer/Shirt_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("45_ltgnb")
 texture_normal = SubResource("AtlasTexture_03eql")
 texture_pressed = SubResource("AtlasTexture_u7r0k")
 
-[node name="26" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Shirt_Grid"]
+[node name="26" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer/Shirt_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("45_ltgnb")
 texture_normal = SubResource("AtlasTexture_um2c0")
 texture_pressed = SubResource("AtlasTexture_ejvx7")
 
-[node name="08" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Shirt_Grid"]
+[node name="08" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer/Shirt_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("45_ltgnb")
 texture_normal = SubResource("AtlasTexture_0jbyi")
 texture_pressed = SubResource("AtlasTexture_ub3un")
 
-[node name="27" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Shirt_Grid"]
+[node name="27" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer/Shirt_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("45_ltgnb")
 texture_normal = SubResource("AtlasTexture_8ebg5")
 texture_pressed = SubResource("AtlasTexture_kq4pc")
 
-[node name="Dresses" type="Label" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer"]
+[node name="DressesRect" type="TextureRect" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "Dresses"
+texture = ExtResource("40_74k7b")
+stretch_mode = 3
 
-[node name="Dress_Grid" type="GridContainer" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer"]
+[node name="Dresses" type="Label" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/DressesRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -17.5
+offset_top = -11.5
+offset_right = 17.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Dresses"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CenterContainer2" type="CenterContainer" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Dress_Grid" type="GridContainer" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer2"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/h_separation = 10
 columns = 5
 
-[node name="12" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Dress_Grid"]
+[node name="12" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer2/Dress_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("45_ltgnb")
 texture_normal = SubResource("AtlasTexture_w1isc")
 texture_pressed = SubResource("AtlasTexture_wypw7")
 
-[node name="16" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Dress_Grid"]
+[node name="16" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer2/Dress_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("45_ltgnb")
 texture_normal = SubResource("AtlasTexture_ts4cg")
 texture_pressed = SubResource("AtlasTexture_pv5d1")
 
-[node name="20" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Dress_Grid"]
+[node name="20" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer2/Dress_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("45_ltgnb")
 texture_normal = SubResource("AtlasTexture_8kl7s")
 texture_pressed = SubResource("AtlasTexture_j5upe")
 
-[node name="13" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Dress_Grid"]
+[node name="13" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer2/Dress_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("45_ltgnb")
 texture_normal = SubResource("AtlasTexture_ou3kp")
 texture_pressed = SubResource("AtlasTexture_kfsc4")
 
-[node name="17" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Dress_Grid"]
+[node name="17" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer2/Dress_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("45_ltgnb")
 texture_normal = SubResource("AtlasTexture_ek8e3")
 texture_pressed = SubResource("AtlasTexture_i2sj7")
 
-[node name="21" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Dress_Grid"]
+[node name="21" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer2/Dress_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("45_ltgnb")
 texture_normal = SubResource("AtlasTexture_6g60f")
 texture_pressed = SubResource("AtlasTexture_fcavm")
 
-[node name="14" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Dress_Grid"]
+[node name="14" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer2/Dress_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("45_ltgnb")
 texture_normal = SubResource("AtlasTexture_acmup")
 texture_pressed = SubResource("AtlasTexture_ytc67")
 
-[node name="18" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Dress_Grid"]
+[node name="18" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer2/Dress_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("45_ltgnb")
 texture_normal = SubResource("AtlasTexture_i8vs3")
 texture_pressed = SubResource("AtlasTexture_84xg2")
 
-[node name="22" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Dress_Grid"]
+[node name="22" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer2/Dress_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("45_ltgnb")
 texture_normal = SubResource("AtlasTexture_ti8ay")
 texture_pressed = SubResource("AtlasTexture_bbuxk")
 
-[node name="15" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Dress_Grid"]
+[node name="15" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer2/Dress_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("45_ltgnb")
 texture_normal = SubResource("AtlasTexture_o8iq6")
 texture_pressed = SubResource("AtlasTexture_1qwxl")
 
-[node name="19" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Dress_Grid"]
+[node name="19" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer2/Dress_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("45_ltgnb")
 texture_normal = SubResource("AtlasTexture_ra2d4")
 texture_pressed = SubResource("AtlasTexture_fi6bo")
 
-[node name="23" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Dress_Grid"]
+[node name="23" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer2/Dress_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("45_ltgnb")
 texture_normal = SubResource("AtlasTexture_8ehd1")
 texture_pressed = SubResource("AtlasTexture_nb8sv")
 
-[node name="Shirt_Color" type="Label" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer"]
+[node name="Shirt_ColorRect" type="TextureRect" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "Color"
+texture = ExtResource("40_74k7b")
+stretch_mode = 3
 
-[node name="Shirt_Color_Grid" type="GridContainer" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer"]
+[node name="Color" type="Label" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Shirt_ColorRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -17.5
+offset_top = -11.5
+offset_right = 17.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Color"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CenterContainer3" type="CenterContainer" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Shirt_Color_Grid" type="GridContainer" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer3"]
 layout_mode = 2
 theme_override_constants/h_separation = 10
 columns = 6
 
-[node name="08" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Shirt_Color_Grid"]
+[node name="08" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer3/Shirt_Color_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("48_gwcjf")
 texture_normal = SubResource("AtlasTexture_ujq02")
 texture_pressed = SubResource("AtlasTexture_p8ice")
 
-[node name="01" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Shirt_Color_Grid"]
+[node name="01" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer3/Shirt_Color_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("48_gwcjf")
 texture_normal = SubResource("AtlasTexture_b58o3")
 texture_pressed = SubResource("AtlasTexture_6vox4")
 
-[node name="02" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Shirt_Color_Grid"]
+[node name="02" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer3/Shirt_Color_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("48_gwcjf")
 texture_normal = SubResource("AtlasTexture_y4npi")
 texture_pressed = SubResource("AtlasTexture_j8baw")
 
-[node name="03" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Shirt_Color_Grid"]
+[node name="03" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer3/Shirt_Color_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("48_gwcjf")
 texture_normal = SubResource("AtlasTexture_sij4s")
 texture_pressed = SubResource("AtlasTexture_gqw13")
 
-[node name="04" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Shirt_Color_Grid"]
+[node name="04" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer3/Shirt_Color_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("48_gwcjf")
 texture_normal = SubResource("AtlasTexture_f0s5n")
 texture_pressed = SubResource("AtlasTexture_hjtcc")
 
-[node name="05" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Shirt_Color_Grid"]
+[node name="05" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer3/Shirt_Color_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("48_gwcjf")
 texture_normal = SubResource("AtlasTexture_rslur")
 texture_pressed = SubResource("AtlasTexture_y3q22")
 
-[node name="06" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Shirt_Color_Grid"]
+[node name="06" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer3/Shirt_Color_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("48_gwcjf")
 texture_normal = SubResource("AtlasTexture_vrc1f")
 texture_pressed = SubResource("AtlasTexture_hv0dw")
 
-[node name="07" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Shirt_Color_Grid"]
+[node name="07" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer3/Shirt_Color_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("48_gwcjf")
 texture_normal = SubResource("AtlasTexture_1gvjq")
 texture_pressed = SubResource("AtlasTexture_xc438")
 
-[node name="09" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Shirt_Color_Grid"]
+[node name="09" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer3/Shirt_Color_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("48_gwcjf")
 texture_normal = SubResource("AtlasTexture_1d1v1")
 texture_pressed = SubResource("AtlasTexture_pku8p")
 
-[node name="10" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Shirt_Color_Grid"]
+[node name="10" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer3/Shirt_Color_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("48_gwcjf")
 texture_normal = SubResource("AtlasTexture_ebl0l")
 texture_pressed = SubResource("AtlasTexture_50her")
 
-[node name="Pants" type="Label" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer"]
+[node name="PantsRect" type="TextureRect" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "Pants"
+texture = ExtResource("40_74k7b")
+stretch_mode = 3
 
-[node name="Pants_Grid" type="GridContainer" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer"]
+[node name="Pants" type="Label" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/PantsRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -17.5
+offset_top = -11.5
+offset_right = 17.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Pants"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CenterContainer4" type="CenterContainer" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Pants_Grid" type="GridContainer" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer4"]
 layout_mode = 2
 theme_override_constants/h_separation = 10
 columns = 5
 
-[node name="00" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Pants_Grid"]
+[node name="00" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer4/Pants_Grid"]
 visible = false
 layout_mode = 2
 toggle_mode = true
@@ -2881,335 +3127,401 @@ button_group = ExtResource("49_gwcjf")
 texture_normal = SubResource("AtlasTexture_86fi0")
 texture_pressed = SubResource("AtlasTexture_1qp6u")
 
-[node name="01" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Pants_Grid"]
+[node name="01" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer4/Pants_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("49_gwcjf")
 texture_normal = SubResource("AtlasTexture_6j406")
 texture_pressed = SubResource("AtlasTexture_ddy1f")
 
-[node name="02" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Pants_Grid"]
+[node name="02" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer4/Pants_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("49_gwcjf")
 texture_normal = SubResource("AtlasTexture_2mb6x")
 texture_pressed = SubResource("AtlasTexture_iounk")
 
-[node name="03" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Pants_Grid"]
+[node name="03" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer4/Pants_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("49_gwcjf")
 texture_normal = SubResource("AtlasTexture_os32b")
 texture_pressed = SubResource("AtlasTexture_m30kv")
 
-[node name="04" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Pants_Grid"]
+[node name="04" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer4/Pants_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("49_gwcjf")
 texture_normal = SubResource("AtlasTexture_oeoyb")
 texture_pressed = SubResource("AtlasTexture_y8db4")
 
-[node name="05" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Pants_Grid"]
+[node name="05" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer4/Pants_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("49_gwcjf")
 texture_normal = SubResource("AtlasTexture_h3ys7")
 texture_pressed = SubResource("AtlasTexture_kpewg")
 
-[node name="11" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Pants_Grid"]
+[node name="11" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer4/Pants_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("49_gwcjf")
 texture_normal = SubResource("AtlasTexture_ysmuv")
 texture_pressed = SubResource("AtlasTexture_dax7n")
 
-[node name="07" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Pants_Grid"]
+[node name="07" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer4/Pants_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("49_gwcjf")
 texture_normal = SubResource("AtlasTexture_d7lpp")
 texture_pressed = SubResource("AtlasTexture_34dcq")
 
-[node name="08" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Pants_Grid"]
+[node name="08" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer4/Pants_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("49_gwcjf")
 texture_normal = SubResource("AtlasTexture_qie0q")
 texture_pressed = SubResource("AtlasTexture_6u8t5")
 
-[node name="09" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Pants_Grid"]
+[node name="09" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer4/Pants_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("49_gwcjf")
 texture_normal = SubResource("AtlasTexture_plx55")
 texture_pressed = SubResource("AtlasTexture_exsfb")
 
-[node name="10" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Pants_Grid"]
+[node name="10" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer4/Pants_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("49_gwcjf")
 texture_normal = SubResource("AtlasTexture_y4mii")
 texture_pressed = SubResource("AtlasTexture_p2cns")
 
-[node name="13" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Pants_Grid"]
+[node name="13" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer4/Pants_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("49_gwcjf")
 texture_normal = SubResource("AtlasTexture_mkq8i")
 texture_pressed = SubResource("AtlasTexture_272w0")
 
-[node name="14" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Pants_Grid"]
+[node name="14" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer4/Pants_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("49_gwcjf")
 texture_normal = SubResource("AtlasTexture_1ddrt")
 texture_pressed = SubResource("AtlasTexture_67tov")
 
-[node name="15" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Pants_Grid"]
+[node name="15" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer4/Pants_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("49_gwcjf")
 texture_normal = SubResource("AtlasTexture_kxxfj")
 texture_pressed = SubResource("AtlasTexture_dh8f3")
 
-[node name="16" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Pants_Grid"]
+[node name="16" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer4/Pants_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("49_gwcjf")
 texture_normal = SubResource("AtlasTexture_vfkc8")
 texture_pressed = SubResource("AtlasTexture_vwcnx")
 
-[node name="17" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Pants_Grid"]
+[node name="17" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer4/Pants_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("49_gwcjf")
 texture_normal = SubResource("AtlasTexture_ffrtq")
 texture_pressed = SubResource("AtlasTexture_4rewk")
 
-[node name="18" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Pants_Grid"]
+[node name="18" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer4/Pants_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("49_gwcjf")
 texture_normal = SubResource("AtlasTexture_xcjit")
 texture_pressed = SubResource("AtlasTexture_asmby")
 
-[node name="19" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Pants_Grid"]
+[node name="19" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer4/Pants_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("49_gwcjf")
 texture_normal = SubResource("AtlasTexture_s2px3")
 texture_pressed = SubResource("AtlasTexture_qmgg0")
 
-[node name="Pants_Color" type="Label" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer"]
+[node name="Pants_ColorRect" type="TextureRect" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "Color"
+texture = ExtResource("40_74k7b")
+stretch_mode = 3
 
-[node name="Pants_Color_Grid" type="GridContainer" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer"]
+[node name="Color" type="Label" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Pants_ColorRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -17.5
+offset_top = -11.5
+offset_right = 17.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Color"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CenterContainer5" type="CenterContainer" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Pants_Color_Grid" type="GridContainer" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer5"]
 layout_mode = 2
 theme_override_constants/h_separation = 10
 columns = 6
 
-[node name="08" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Pants_Color_Grid"]
+[node name="08" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer5/Pants_Color_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("52_ho3ca")
 texture_normal = SubResource("AtlasTexture_ujq02")
 texture_pressed = SubResource("AtlasTexture_p8ice")
 
-[node name="01" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Pants_Color_Grid"]
+[node name="01" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer5/Pants_Color_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("52_ho3ca")
 texture_normal = SubResource("AtlasTexture_b58o3")
 texture_pressed = SubResource("AtlasTexture_6vox4")
 
-[node name="02" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Pants_Color_Grid"]
+[node name="02" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer5/Pants_Color_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("52_ho3ca")
 texture_normal = SubResource("AtlasTexture_y4npi")
 texture_pressed = SubResource("AtlasTexture_j8baw")
 
-[node name="03" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Pants_Color_Grid"]
+[node name="03" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer5/Pants_Color_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("52_ho3ca")
 texture_normal = SubResource("AtlasTexture_sij4s")
 texture_pressed = SubResource("AtlasTexture_gqw13")
 
-[node name="04" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Pants_Color_Grid"]
+[node name="04" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer5/Pants_Color_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("52_ho3ca")
 texture_normal = SubResource("AtlasTexture_f0s5n")
 texture_pressed = SubResource("AtlasTexture_hjtcc")
 
-[node name="05" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Pants_Color_Grid"]
+[node name="05" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer5/Pants_Color_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("52_ho3ca")
 texture_normal = SubResource("AtlasTexture_rslur")
 texture_pressed = SubResource("AtlasTexture_y3q22")
 
-[node name="06" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Pants_Color_Grid"]
+[node name="06" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer5/Pants_Color_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("52_ho3ca")
 texture_normal = SubResource("AtlasTexture_vrc1f")
 texture_pressed = SubResource("AtlasTexture_hv0dw")
 
-[node name="07" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Pants_Color_Grid"]
+[node name="07" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer5/Pants_Color_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("52_ho3ca")
 texture_normal = SubResource("AtlasTexture_1gvjq")
 texture_pressed = SubResource("AtlasTexture_xc438")
 
-[node name="09" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Pants_Color_Grid"]
+[node name="09" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer5/Pants_Color_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("52_ho3ca")
 texture_normal = SubResource("AtlasTexture_1d1v1")
 texture_pressed = SubResource("AtlasTexture_pku8p")
 
-[node name="10" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Pants_Color_Grid"]
+[node name="10" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer5/Pants_Color_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("52_ho3ca")
 texture_normal = SubResource("AtlasTexture_ebl0l")
 texture_pressed = SubResource("AtlasTexture_50her")
 
-[node name="Shoes" type="Label" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer"]
+[node name="ShoesRect" type="TextureRect" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "Shoes"
+texture = ExtResource("40_74k7b")
+stretch_mode = 3
 
-[node name="Shoes_Grid" type="GridContainer" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer"]
+[node name="Shoes" type="Label" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/ShoesRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -17.5
+offset_top = -11.5
+offset_right = 17.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Shoes"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CenterContainer6" type="CenterContainer" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Shoes_Grid" type="GridContainer" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer6"]
 layout_mode = 2
 theme_override_constants/h_separation = 10
 columns = 5
 
-[node name="01" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Shoes_Grid"]
+[node name="01" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer6/Shoes_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("53_5cbew")
 texture_normal = SubResource("AtlasTexture_p8egb")
 texture_pressed = SubResource("AtlasTexture_08wuc")
 
-[node name="02" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Shoes_Grid"]
+[node name="02" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer6/Shoes_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("53_5cbew")
 texture_normal = SubResource("AtlasTexture_b6jk8")
 texture_pressed = SubResource("AtlasTexture_vguql")
 
-[node name="03" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Shoes_Grid"]
+[node name="03" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer6/Shoes_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("53_5cbew")
 texture_normal = SubResource("AtlasTexture_wpv0f")
 texture_pressed = SubResource("AtlasTexture_y2ej0")
 
-[node name="04" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Shoes_Grid"]
+[node name="04" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer6/Shoes_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("53_5cbew")
 texture_normal = SubResource("AtlasTexture_ddmvq")
 texture_pressed = SubResource("AtlasTexture_ewa0a")
 
-[node name="05" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Shoes_Grid"]
+[node name="05" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer6/Shoes_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("53_5cbew")
 texture_normal = SubResource("AtlasTexture_1mnv4")
 texture_pressed = SubResource("AtlasTexture_1gmc1")
 
-[node name="06" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Shoes_Grid"]
+[node name="06" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer6/Shoes_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("53_5cbew")
 texture_normal = SubResource("AtlasTexture_m3vi6")
 texture_pressed = SubResource("AtlasTexture_m6m7k")
 
-[node name="07" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Shoes_Grid"]
+[node name="07" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer6/Shoes_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("53_5cbew")
 texture_normal = SubResource("AtlasTexture_x182b")
 texture_pressed = SubResource("AtlasTexture_ngf7c")
 
-[node name="Shoes_Color" type="Label" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer"]
+[node name="Shoes_ColorRect" type="TextureRect" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "Color"
+texture = ExtResource("40_74k7b")
+stretch_mode = 3
 
-[node name="Shoes_Color_Grid" type="GridContainer" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer"]
+[node name="Color" type="Label" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Shoes_ColorRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -17.5
+offset_top = -11.5
+offset_right = 17.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Color"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CenterContainer7" type="CenterContainer" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Shoes_Color_Grid" type="GridContainer" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer7"]
 layout_mode = 2
 theme_override_constants/h_separation = 10
 columns = 6
 
-[node name="08" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Shoes_Color_Grid"]
+[node name="08" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer7/Shoes_Color_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("56_bdi5q")
 texture_normal = SubResource("AtlasTexture_ujq02")
 texture_pressed = SubResource("AtlasTexture_p8ice")
 
-[node name="01" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Shoes_Color_Grid"]
+[node name="01" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer7/Shoes_Color_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("56_bdi5q")
 texture_normal = SubResource("AtlasTexture_b58o3")
 texture_pressed = SubResource("AtlasTexture_6vox4")
 
-[node name="02" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Shoes_Color_Grid"]
+[node name="02" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer7/Shoes_Color_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("56_bdi5q")
 texture_normal = SubResource("AtlasTexture_y4npi")
 texture_pressed = SubResource("AtlasTexture_j8baw")
 
-[node name="03" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Shoes_Color_Grid"]
+[node name="03" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer7/Shoes_Color_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("56_bdi5q")
 texture_normal = SubResource("AtlasTexture_sij4s")
 texture_pressed = SubResource("AtlasTexture_gqw13")
 
-[node name="04" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Shoes_Color_Grid"]
+[node name="04" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer7/Shoes_Color_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("56_bdi5q")
 texture_normal = SubResource("AtlasTexture_f0s5n")
 texture_pressed = SubResource("AtlasTexture_hjtcc")
 
-[node name="05" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Shoes_Color_Grid"]
+[node name="05" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer7/Shoes_Color_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("56_bdi5q")
 texture_normal = SubResource("AtlasTexture_rslur")
 texture_pressed = SubResource("AtlasTexture_y3q22")
 
-[node name="06" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Shoes_Color_Grid"]
+[node name="06" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer7/Shoes_Color_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("56_bdi5q")
 texture_normal = SubResource("AtlasTexture_vrc1f")
 texture_pressed = SubResource("AtlasTexture_hv0dw")
 
-[node name="07" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Shoes_Color_Grid"]
+[node name="07" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer7/Shoes_Color_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("56_bdi5q")
 texture_normal = SubResource("AtlasTexture_1gvjq")
 texture_pressed = SubResource("AtlasTexture_xc438")
 
-[node name="09" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Shoes_Color_Grid"]
+[node name="09" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer7/Shoes_Color_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("56_bdi5q")
 texture_normal = SubResource("AtlasTexture_1d1v1")
 texture_pressed = SubResource("AtlasTexture_pku8p")
 
-[node name="10" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Shoes_Color_Grid"]
+[node name="10" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/CenterContainer7/Shoes_Color_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("56_bdi5q")
@@ -3219,202 +3531,248 @@ texture_pressed = SubResource("AtlasTexture_50her")
 [node name="Acc Container" type="ScrollContainer" parent="CreatorScreen/ColorRect2"]
 layout_mode = 0
 offset_top = 100.0
-offset_right = 720.0
-offset_bottom = 600.0
+offset_right = 722.0
+offset_bottom = 574.0
 horizontal_scroll_mode = 0
 
 [node name="MarginContainer" type="MarginContainer" parent="CreatorScreen/ColorRect2/Acc Container"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 10
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CreatorScreen/ColorRect2/Acc Container/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme_override_constants/separation = 10
 
-[node name="Accessories" type="Label" parent="CreatorScreen/ColorRect2/Acc Container/MarginContainer/VBoxContainer"]
+[node name="AccessoriesRect" type="TextureRect" parent="CreatorScreen/ColorRect2/Acc Container/MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "Eyes"
+texture = ExtResource("40_74k7b")
+stretch_mode = 3
 
-[node name="Acc_Grid" type="GridContainer" parent="CreatorScreen/ColorRect2/Acc Container/MarginContainer/VBoxContainer"]
+[node name="Accessories" type="Label" parent="CreatorScreen/ColorRect2/Acc Container/MarginContainer/VBoxContainer/AccessoriesRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -17.5
+offset_top = -11.5
+offset_right = 17.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Accessories"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CenterContainer" type="CenterContainer" parent="CreatorScreen/ColorRect2/Acc Container/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Acc_Grid" type="GridContainer" parent="CreatorScreen/ColorRect2/Acc Container/MarginContainer/VBoxContainer/CenterContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/h_separation = 10
 columns = 5
 
-[node name="01" type="TextureButton" parent="CreatorScreen/ColorRect2/Acc Container/MarginContainer/VBoxContainer/Acc_Grid"]
+[node name="01" type="TextureButton" parent="CreatorScreen/ColorRect2/Acc Container/MarginContainer/VBoxContainer/CenterContainer/Acc_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("57_uomgx")
 texture_normal = SubResource("AtlasTexture_md4he")
 texture_pressed = SubResource("AtlasTexture_22c1j")
 
-[node name="02" type="TextureButton" parent="CreatorScreen/ColorRect2/Acc Container/MarginContainer/VBoxContainer/Acc_Grid"]
+[node name="02" type="TextureButton" parent="CreatorScreen/ColorRect2/Acc Container/MarginContainer/VBoxContainer/CenterContainer/Acc_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("57_uomgx")
 texture_normal = SubResource("AtlasTexture_qmwil")
 texture_pressed = SubResource("AtlasTexture_g64m2")
 
-[node name="03" type="TextureButton" parent="CreatorScreen/ColorRect2/Acc Container/MarginContainer/VBoxContainer/Acc_Grid"]
+[node name="03" type="TextureButton" parent="CreatorScreen/ColorRect2/Acc Container/MarginContainer/VBoxContainer/CenterContainer/Acc_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("57_uomgx")
 texture_normal = SubResource("AtlasTexture_6pxqn")
 texture_pressed = SubResource("AtlasTexture_txh1j")
 
-[node name="04" type="TextureButton" parent="CreatorScreen/ColorRect2/Acc Container/MarginContainer/VBoxContainer/Acc_Grid"]
+[node name="04" type="TextureButton" parent="CreatorScreen/ColorRect2/Acc Container/MarginContainer/VBoxContainer/CenterContainer/Acc_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("57_uomgx")
 texture_normal = SubResource("AtlasTexture_h62k3")
 texture_pressed = SubResource("AtlasTexture_haqkj")
 
-[node name="05" type="TextureButton" parent="CreatorScreen/ColorRect2/Acc Container/MarginContainer/VBoxContainer/Acc_Grid"]
+[node name="05" type="TextureButton" parent="CreatorScreen/ColorRect2/Acc Container/MarginContainer/VBoxContainer/CenterContainer/Acc_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("57_uomgx")
 texture_normal = SubResource("AtlasTexture_b7716")
 texture_pressed = SubResource("AtlasTexture_ts5mf")
 
-[node name="06" type="TextureButton" parent="CreatorScreen/ColorRect2/Acc Container/MarginContainer/VBoxContainer/Acc_Grid"]
+[node name="06" type="TextureButton" parent="CreatorScreen/ColorRect2/Acc Container/MarginContainer/VBoxContainer/CenterContainer/Acc_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("57_uomgx")
 texture_normal = SubResource("AtlasTexture_brydh")
 texture_pressed = SubResource("AtlasTexture_nc1gh")
 
-[node name="07" type="TextureButton" parent="CreatorScreen/ColorRect2/Acc Container/MarginContainer/VBoxContainer/Acc_Grid"]
+[node name="07" type="TextureButton" parent="CreatorScreen/ColorRect2/Acc Container/MarginContainer/VBoxContainer/CenterContainer/Acc_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("57_uomgx")
 texture_normal = SubResource("AtlasTexture_r2fkp")
 texture_pressed = SubResource("AtlasTexture_pvxfk")
 
-[node name="08" type="TextureButton" parent="CreatorScreen/ColorRect2/Acc Container/MarginContainer/VBoxContainer/Acc_Grid"]
+[node name="08" type="TextureButton" parent="CreatorScreen/ColorRect2/Acc Container/MarginContainer/VBoxContainer/CenterContainer/Acc_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("57_uomgx")
 texture_normal = SubResource("AtlasTexture_o23bl")
 texture_pressed = SubResource("AtlasTexture_lqno2")
 
-[node name="09" type="TextureButton" parent="CreatorScreen/ColorRect2/Acc Container/MarginContainer/VBoxContainer/Acc_Grid"]
+[node name="09" type="TextureButton" parent="CreatorScreen/ColorRect2/Acc Container/MarginContainer/VBoxContainer/CenterContainer/Acc_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("57_uomgx")
 texture_normal = SubResource("AtlasTexture_pk1bl")
 texture_pressed = SubResource("AtlasTexture_ctyss")
 
-[node name="10" type="TextureButton" parent="CreatorScreen/ColorRect2/Acc Container/MarginContainer/VBoxContainer/Acc_Grid"]
+[node name="10" type="TextureButton" parent="CreatorScreen/ColorRect2/Acc Container/MarginContainer/VBoxContainer/CenterContainer/Acc_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("57_uomgx")
 texture_normal = SubResource("AtlasTexture_mscaw")
 texture_pressed = SubResource("AtlasTexture_pl74o")
 
-[node name="11" type="TextureButton" parent="CreatorScreen/ColorRect2/Acc Container/MarginContainer/VBoxContainer/Acc_Grid"]
+[node name="11" type="TextureButton" parent="CreatorScreen/ColorRect2/Acc Container/MarginContainer/VBoxContainer/CenterContainer/Acc_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("57_uomgx")
 texture_normal = SubResource("AtlasTexture_w57ph")
 texture_pressed = SubResource("AtlasTexture_p4ryj")
 
-[node name="12" type="TextureButton" parent="CreatorScreen/ColorRect2/Acc Container/MarginContainer/VBoxContainer/Acc_Grid"]
+[node name="12" type="TextureButton" parent="CreatorScreen/ColorRect2/Acc Container/MarginContainer/VBoxContainer/CenterContainer/Acc_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("57_uomgx")
 texture_normal = SubResource("AtlasTexture_vywuu")
 texture_pressed = SubResource("AtlasTexture_vfdqn")
 
-[node name="13" type="TextureButton" parent="CreatorScreen/ColorRect2/Acc Container/MarginContainer/VBoxContainer/Acc_Grid"]
+[node name="13" type="TextureButton" parent="CreatorScreen/ColorRect2/Acc Container/MarginContainer/VBoxContainer/CenterContainer/Acc_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("57_uomgx")
 texture_normal = SubResource("AtlasTexture_fib7u")
 texture_pressed = SubResource("AtlasTexture_e5fbl")
 
-[node name="14" type="TextureButton" parent="CreatorScreen/ColorRect2/Acc Container/MarginContainer/VBoxContainer/Acc_Grid"]
+[node name="14" type="TextureButton" parent="CreatorScreen/ColorRect2/Acc Container/MarginContainer/VBoxContainer/CenterContainer/Acc_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("57_uomgx")
 texture_normal = SubResource("AtlasTexture_ppf3m")
 texture_pressed = SubResource("AtlasTexture_jlb6w")
 
-[node name="Color" type="Label" parent="CreatorScreen/ColorRect2/Acc Container/MarginContainer/VBoxContainer"]
+[node name="Accessories_ColorRect" type="TextureRect" parent="CreatorScreen/ColorRect2/Acc Container/MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "Nose"
+texture = ExtResource("40_74k7b")
+stretch_mode = 3
 
-[node name="Color_Grid" type="GridContainer" parent="CreatorScreen/ColorRect2/Acc Container/MarginContainer/VBoxContainer"]
+[node name="Color" type="Label" parent="CreatorScreen/ColorRect2/Acc Container/MarginContainer/VBoxContainer/Accessories_ColorRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -17.5
+offset_top = -11.5
+offset_right = 17.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Color"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CenterContainer2" type="CenterContainer" parent="CreatorScreen/ColorRect2/Acc Container/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Color_Grid" type="GridContainer" parent="CreatorScreen/ColorRect2/Acc Container/MarginContainer/VBoxContainer/CenterContainer2"]
 layout_mode = 2
 theme_override_constants/h_separation = 10
 columns = 6
 
-[node name="08" type="TextureButton" parent="CreatorScreen/ColorRect2/Acc Container/MarginContainer/VBoxContainer/Color_Grid"]
+[node name="08" type="TextureButton" parent="CreatorScreen/ColorRect2/Acc Container/MarginContainer/VBoxContainer/CenterContainer2/Color_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("60_1jyo3")
 texture_normal = SubResource("AtlasTexture_ujq02")
 texture_pressed = SubResource("AtlasTexture_p8ice")
 
-[node name="01" type="TextureButton" parent="CreatorScreen/ColorRect2/Acc Container/MarginContainer/VBoxContainer/Color_Grid"]
+[node name="01" type="TextureButton" parent="CreatorScreen/ColorRect2/Acc Container/MarginContainer/VBoxContainer/CenterContainer2/Color_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("60_1jyo3")
 texture_normal = SubResource("AtlasTexture_b58o3")
 texture_pressed = SubResource("AtlasTexture_6vox4")
 
-[node name="02" type="TextureButton" parent="CreatorScreen/ColorRect2/Acc Container/MarginContainer/VBoxContainer/Color_Grid"]
+[node name="02" type="TextureButton" parent="CreatorScreen/ColorRect2/Acc Container/MarginContainer/VBoxContainer/CenterContainer2/Color_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("60_1jyo3")
 texture_normal = SubResource("AtlasTexture_y4npi")
 texture_pressed = SubResource("AtlasTexture_j8baw")
 
-[node name="03" type="TextureButton" parent="CreatorScreen/ColorRect2/Acc Container/MarginContainer/VBoxContainer/Color_Grid"]
+[node name="03" type="TextureButton" parent="CreatorScreen/ColorRect2/Acc Container/MarginContainer/VBoxContainer/CenterContainer2/Color_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("60_1jyo3")
 texture_normal = SubResource("AtlasTexture_sij4s")
 texture_pressed = SubResource("AtlasTexture_gqw13")
 
-[node name="04" type="TextureButton" parent="CreatorScreen/ColorRect2/Acc Container/MarginContainer/VBoxContainer/Color_Grid"]
+[node name="04" type="TextureButton" parent="CreatorScreen/ColorRect2/Acc Container/MarginContainer/VBoxContainer/CenterContainer2/Color_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("60_1jyo3")
 texture_normal = SubResource("AtlasTexture_f0s5n")
 texture_pressed = SubResource("AtlasTexture_hjtcc")
 
-[node name="05" type="TextureButton" parent="CreatorScreen/ColorRect2/Acc Container/MarginContainer/VBoxContainer/Color_Grid"]
+[node name="05" type="TextureButton" parent="CreatorScreen/ColorRect2/Acc Container/MarginContainer/VBoxContainer/CenterContainer2/Color_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("60_1jyo3")
 texture_normal = SubResource("AtlasTexture_rslur")
 texture_pressed = SubResource("AtlasTexture_y3q22")
 
-[node name="06" type="TextureButton" parent="CreatorScreen/ColorRect2/Acc Container/MarginContainer/VBoxContainer/Color_Grid"]
+[node name="06" type="TextureButton" parent="CreatorScreen/ColorRect2/Acc Container/MarginContainer/VBoxContainer/CenterContainer2/Color_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("60_1jyo3")
 texture_normal = SubResource("AtlasTexture_vrc1f")
 texture_pressed = SubResource("AtlasTexture_hv0dw")
 
-[node name="07" type="TextureButton" parent="CreatorScreen/ColorRect2/Acc Container/MarginContainer/VBoxContainer/Color_Grid"]
+[node name="07" type="TextureButton" parent="CreatorScreen/ColorRect2/Acc Container/MarginContainer/VBoxContainer/CenterContainer2/Color_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("60_1jyo3")
 texture_normal = SubResource("AtlasTexture_1gvjq")
 texture_pressed = SubResource("AtlasTexture_xc438")
 
-[node name="09" type="TextureButton" parent="CreatorScreen/ColorRect2/Acc Container/MarginContainer/VBoxContainer/Color_Grid"]
+[node name="09" type="TextureButton" parent="CreatorScreen/ColorRect2/Acc Container/MarginContainer/VBoxContainer/CenterContainer2/Color_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("60_1jyo3")
 texture_normal = SubResource("AtlasTexture_1d1v1")
 texture_pressed = SubResource("AtlasTexture_pku8p")
 
-[node name="10" type="TextureButton" parent="CreatorScreen/ColorRect2/Acc Container/MarginContainer/VBoxContainer/Color_Grid"]
+[node name="10" type="TextureButton" parent="CreatorScreen/ColorRect2/Acc Container/MarginContainer/VBoxContainer/CenterContainer2/Color_Grid"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("60_1jyo3")
@@ -3428,26 +3786,29 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -360.0
-offset_top = -80.0
-offset_right = 360.0
+offset_left = -362.0
+offset_top = -92.0
+offset_right = 362.0
 grow_horizontal = 2
 grow_vertical = 0
 
-[node name="Back" type="Button" parent="CreatorScreen/ColorRect2/Constant Buttons"]
+[node name="Back" type="TextureButton" parent="CreatorScreen/ColorRect2/Constant Buttons"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Back"
+texture_normal = ExtResource("65_a7d8y")
+texture_pressed = ExtResource("66_6ohr1")
 
-[node name="Confirm" type="Button" parent="CreatorScreen/ColorRect2/Constant Buttons"]
+[node name="Confirm" type="TextureButton" parent="CreatorScreen/ColorRect2/Constant Buttons"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Confirm"
+texture_normal = ExtResource("65_sx75m")
+texture_pressed = ExtResource("66_fxvv0")
 
-[node name="Randomize" type="Button" parent="CreatorScreen/ColorRect2/Constant Buttons"]
+[node name="Randomize" type="TextureButton" parent="CreatorScreen/ColorRect2/Constant Buttons"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Randomize"
+texture_normal = ExtResource("69_o2bqf")
+texture_pressed = ExtResource("70_1l637")
 
 [node name="ColorRect" type="ColorRect" parent="CreatorScreen"]
 visible = false
