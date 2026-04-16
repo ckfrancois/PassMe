@@ -187,12 +187,18 @@ const styles = StyleSheet.create({
     left: 20,
   },
   nextButton: {
-    backgroundColor: "rgba(0, 0, 0, 0.6)",
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 20,
-    borderWidth: 1,
-    borderColor: "white",
+    minHeight: 52,
+    borderRadius: 12,
+    borderWidth: 4,
+    justifyContent: "center",
+    paddingHorizontal: 18,
+    shadowColor: "#10220E",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.18,
+    shadowRadius: 6,
+    elevation: 4,
+    backgroundColor: "#D06B00",
+    borderColor: "#824200",
   },
   buttonText: {
     color: "white",
@@ -229,6 +235,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderWidth: 3,
-    borderColor: "rgba(255, 255, 255, 0.3)",
+    backgroundColor: "#D06B00",
+    borderColor: "#824200",
+  
   },
+  
 });

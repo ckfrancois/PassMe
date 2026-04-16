@@ -362,6 +362,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     marginTop: 10,
+    borderWidth: 4,
+    borderColor: "#013220"
   },
   saveBtnText: { color: "#fff", fontSize: 18, fontWeight: "700" },
   cancelBtn: {
@@ -370,6 +372,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     marginTop: 2,
+    
   },
   cancelBtnText: { color: "#666", fontSize: 14, fontWeight: "500" },
   inputAccessory: {
