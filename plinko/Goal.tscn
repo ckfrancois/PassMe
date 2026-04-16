@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://cc6l22ajfrrg1"]
+
+[ext_resource type="Script" uid="uid://b40chyshwvtly" path="res://goal.gd" id="1_py4ba"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sep42"]
+size = Vector2(80, 120)
+
+[node name="Goal" type="Area2D" node_paths=PackedStringArray("col_shape")]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_py4ba")
+col_shape = NodePath("CollisionShape2D")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_sep42")
+
+[node name="Label" type="Label" parent="."]
+offset_left = -40.0
+offset_top = -32.0
+offset_right = 40.0
+offset_bottom = -9.0
+text = "1"
+horizontal_alignment = 1

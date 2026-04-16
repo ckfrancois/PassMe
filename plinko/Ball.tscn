@@ -1,10 +1,13 @@
-[gd_scene load_steps=4 format=3 uid="uid://cuw5t2mw8ot5u"]
+[gd_scene load_steps=5 format=3 uid="uid://cuw5t2mw8ot5u"]
 
 [ext_resource type="Texture2D" uid="uid://cakgfqju6wyhy" path="res://Assets/Dot.png" id="1_gk6bx"]
 [ext_resource type="Script" uid="uid://dsjwpgxuboil3" path="res://ball.gd" id="1_lww6v"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_1pwoe"]
 radius = 319.99997
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_lww6v"]
+radius = 28.0
 
 [node name="Ball" type="RigidBody2D"]
 script = ExtResource("1_lww6v")
@@ -17,3 +20,10 @@ texture = ExtResource("1_gk6bx")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 scale = Vector2(0.1, 0.1)
 shape = SubResource("CircleShape2D_1pwoe")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_lww6v")

@@ -1,49 +1,30 @@
-[gd_scene load_steps=7 format=3 uid="uid://cg2hn3xej5lxy"]
+[gd_scene load_steps=9 format=3 uid="uid://cg2hn3xej5lxy"]
 
 [ext_resource type="Script" uid="uid://dubsa67y6wx5y" path="res://board.gd" id="1_jqgjh"]
-[ext_resource type="PackedScene" uid="uid://bsjx361a74de2" path="res://peg.tscn" id="1_psm7c"]
 [ext_resource type="PackedScene" uid="uid://cuw5t2mw8ot5u" path="res://Ball.tscn" id="2_8l818"]
 [ext_resource type="Texture2D" uid="uid://damwlvmdh0gpa" path="res://Assets/360_F_754818708_Tao9CX43IHrXgHNJKcqvH3uzfzkKRB9y.jpg" id="3_8l818"]
+[ext_resource type="Script" uid="uid://du86w00ggyqcr" path="res://goals.gd" id="5_vf5bc"]
+[ext_resource type="Script" uid="uid://dqal5ktirev15" path="res://peg_spawner.gd" id="6_mgc1s"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_psm7c"]
 friction = 0.83
-bounce = 0.96
+bounce = 0.85
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jqgjh"]
 size = Vector2(24, 1926)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vf5bc"]
+size = Vector2(654, 20)
 
 [node name="Board" type="Node2D" node_paths=PackedStringArray("ball")]
 script = ExtResource("1_jqgjh")
 ball = NodePath("Ball")
 spawn_point = Vector2(540, 243)
 
-[node name="pegs" type="Node2D" parent="."]
-modulate = Color(0.14089966, 0.94921875, 0.2639048, 1)
-scale = Vector2(0.9890393, 0.9825464)
-
-[node name="Peg" parent="pegs" instance=ExtResource("1_psm7c")]
-position = Vector2(349.8344, 523.1305)
-
-[node name="Peg2" parent="pegs" instance=ExtResource("1_psm7c")]
-position = Vector2(522.72955, 521.09503)
-
-[node name="Peg3" parent="pegs" instance=ExtResource("1_psm7c")]
-position = Vector2(437.79858, 641.1911)
-
-[node name="Peg4" parent="pegs" instance=ExtResource("1_psm7c")]
-position = Vector2(535.8736, 731.7721)
-
-[node name="Peg5" parent="pegs" instance=ExtResource("1_psm7c")]
-position = Vector2(350.84552, 733.8076)
-
-[node name="Peg6" parent="pegs" instance=ExtResource("1_psm7c")]
-position = Vector2(859.4198, 962.80444)
-
-[node name="Peg7" parent="pegs" instance=ExtResource("1_psm7c")]
-position = Vector2(142.56259, 1209.1031)
-
-[node name="Peg8" parent="pegs" instance=ExtResource("1_psm7c")]
-position = Vector2(841.22034, 1242.6893)
+[node name="PegSpawner" type="Node2D" parent="." node_paths=PackedStringArray("border_left", "border_right")]
+script = ExtResource("6_mgc1s")
+border_left = NodePath("../border")
+border_right = NodePath("../border2")
 
 [node name="Ball" parent="." instance=ExtResource("2_8l818")]
 position = Vector2(540, 243)
@@ -53,6 +34,7 @@ gravity_scale = 0.9
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = -1
+visible = false
 rotation = 1.5707964
 scale = Vector2(2, 2)
 transform = Transform2D(-8.742278e-08, 2, -2, -8.742278e-08, 0, 0)
@@ -72,13 +54,32 @@ offset_bottom = 7.456238
 texture = ExtResource("3_8l818")
 
 [node name="border" type="StaticBody2D" parent="."]
+position = Vector2(-12, 961)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="border"]
-position = Vector2(-12, 947)
 shape = SubResource("RectangleShape2D_jqgjh")
 
 [node name="border2" type="StaticBody2D" parent="."]
+position = Vector2(1092, 952)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="border2"]
-position = Vector2(1096, 947)
 shape = SubResource("RectangleShape2D_jqgjh")
+
+[node name="Goals" type="Node2D" parent="." node_paths=PackedStringArray("border1", "border2")]
+script = ExtResource("5_vf5bc")
+border1 = NodePath("../border")
+border2 = NodePath("../border2")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(955, 1840.9999)
+rotation = -0.2617994
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("RectangleShape2D_vf5bc")
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="."]
+position = Vector2(159.00002, 1840.9999)
+rotation = 0.2617994
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2"]
+shape = SubResource("RectangleShape2D_vf5bc")
