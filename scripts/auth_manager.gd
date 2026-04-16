@@ -7,6 +7,25 @@ var user_uid:String = ""
 
 #func _ready() -> void:
 	#var json = { "name": "", 
+	#"fields": { 
+		#"outfit": { "stringValue": "02" }, 
+		#"shoes": { "stringValue": "05" }, 
+		#"outfit_color": { "stringValue": "(0.2157, 0.5608, 0.1725, 1.0)" }, 
+		#"nose": { "stringValue": "05" }, 
+		#"hair": { "stringValue": "03.1" }, 
+		#"body_color": { "stringValue": "(0.9765, 0.898, 0.8706, 1.0)" }, 
+		#"accessory": { "stringValue": "none" }, 
+		#"legs": { "stringValue": "01" }, 
+		#"eyebrow": { "stringValue": "05" }, 
+		#"eye": { "stringValue": "02" }, 
+		#"mouth": { "stringValue": "05" }, 
+		#"hair_color": { "stringValue": "(0.3765, 0.1882, 0.1647, 1.0)" }, 
+		#"legs_color": { "stringValue": "(0.8667, 0.4314, 0.0, 1.0)" }, 
+		#"accessory_color": { "stringValue": "(0.8667, 0.4314, 0.0, 1.0)" }, 
+		#"shoe_color": { "stringValue": "(0.8667, 0.4314, 0.0, 1.0)" } }, 
+		#"createTime": "2026-04-15T19:22:06.284297Z", 
+		#"updateTime": "2026-04-16T05:32:59.304658Z" }
+	#var json = { "name": "", 
 	#"fields": 
 		#{ "shoe_color": { "stringValue": "(0.8667, 0.4314, 0.0, 1.0)" }, 
 			#"outfit": { "stringValue": "01" }, 
@@ -128,7 +147,7 @@ func update_all_on_accessory(accessory:Node2D):
 
 # Load the hair data from database
 func update_all_on_hair(hair:Node2D):
-	hair.current_hair_index = int(Global.selected_hair)-1
+	hair.current_hair_index = Global.hairO_collection.keys().find(Global.selected_hair)
 	hair.current_eyebrow_index = int(Global.selected_eyebrow)-1
 	hair.current_color_index = find_closest_index(Global.selected_hair_color, Global.hair_colors)
 	
