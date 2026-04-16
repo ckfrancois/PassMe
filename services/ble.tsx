@@ -12,20 +12,15 @@ import {
   Text,
   TouchableOpacity,
   useColorScheme,
-  View
+  View,
 } from "react-native";
 import { BleManager, Device } from "react-native-ble-plx";
 
-import {
-  arrayUnion,
-  doc,
-  getDoc,
-  setDoc,
-} from "firebase/firestore";
 import { check, PERMISSIONS, request, RESULTS } from "react-native-permissions";
 
 import { useAuth } from "@/hooks/use-auth";
-import { firestore } from "@/lib/firebase";
+// import { firestore } from "@/lib/firebase";
+import firestore from "@react-native-firebase/firestore";
 
 const APP_SERVICE_UUID = "0000ABCD-0000-1000-8000-00805F9B34FB";
 const USERNAME_CHARACTERISTIC_UUID = "0000DCBA-0000-1000-8000-00805F9B34FB";
@@ -53,15 +48,11 @@ const BleNearbyUsers: React.FC = () => {
   const [username, setUsername] = useState("");
   const [nearbyUsers, setNearbyUsers] = useState<string[]>([]);
   const [statusMessage, setStatusMessage] = useState("");
-  
-  
+
   const connectingDevices = useRef<Set<string>>(new Set());
 
   // ─── Lifecycle & Data Fetching ─────────────────────────────────────────────
 
-  
-
- 
   // ─── Save passed user to Firestore ─────────────────────────────────────────
 
   const savePassedUser = async (foundUser: string) => {
@@ -71,21 +62,21 @@ const BleNearbyUsers: React.FC = () => {
         return;
       }
 
-      const userRef = doc(firestore, "Users", currentUser.uid);
-
-      await setDoc(
-        userRef,
-        {
-          usersPassed: arrayUnion(foundUser),
-          email: currentUser.email,
-          displayName: currentUser.displayName,
-        },
-        { merge: true },
-      );
+      await firestore()
+        .collection("Users")
+        .doc(currentUser.uid)
+        .set(
+          {
+            usersPassed: firestore.FieldValue.arrayUnion(foundUser),
+            email: currentUser.email,
+            displayName: currentUser.displayName,
+          },
+          { merge: true },
+        );
 
       console.log("Saved passed user to Firestore:", foundUser);
     } catch (err) {
-      console.error(" Failed to save to Firestore:", err);
+      console.error("Failed to save to Firestore:", err);
     }
   };
 
@@ -141,10 +132,15 @@ const BleNearbyUsers: React.FC = () => {
     connectingDevices.current.add(deviceId);
 
     try {
-      const connected = await device.connect({ timeout: 20000, requestMTU: 512 });
-      if (Platform.OS === "android") await connected.requestConnectionPriority(0);
+      const connected = await device.connect({
+        timeout: 20000,
+        requestMTU: 512,
+      });
+      if (Platform.OS === "android")
+        await connected.requestConnectionPriority(0);
       await new Promise((res) => setTimeout(res, 500));
-      const discovered = await connected.discoverAllServicesAndCharacteristics();
+      const discovered =
+        await connected.discoverAllServicesAndCharacteristics();
 
       const characteristic = await discovered.readCharacteristicForService(
         APP_SERVICE_UUID,
@@ -153,7 +149,9 @@ const BleNearbyUsers: React.FC = () => {
 
       if (!characteristic.value) return;
 
-      const decoded = Buffer.from(characteristic.value, "base64").toString("utf-8");
+      const decoded = Buffer.from(characteristic.value, "base64").toString(
+        "utf-8",
+      );
 
       if (decoded.startsWith("PM:")) {
         const foundUser = decoded.slice(3);
@@ -161,8 +159,9 @@ const BleNearbyUsers: React.FC = () => {
         console.log(Platform.OS + ": 🔵 Found user:", foundUser);
 
         // Get data from Firestore to display the displayName instead of UID, and to verify the user exists
-        const docRef = doc(firestore, "Users", foundUser);
-        const foundData = (await getDoc(docRef)).data();
+        const foundData = (
+          await firestore().collection("Users").doc(foundUser).get()
+        ).data();
 
         console.log("Firestore lookup for", foundUser, "result:", foundData);
         const displayName =
@@ -256,21 +255,8 @@ const BleNearbyUsers: React.FC = () => {
         )}
         {currentUser !== null && (
           <Text style={{ color: textColor, width: "100%" }}>
-            You're signed in as{" "}
-            {currentUser?.displayName || "Unknown User"}
-            .
+            You're signed in as {currentUser?.displayName || "Unknown User"}.
           </Text>
-        ) : (
-          <View style={{ width: "100%", alignItems: "center", marginBottom: 10 }}>
-            <Text style={{ color: textColor, marginBottom: 10 }}>
-              You're signed in as {getAuth().currentUser?.displayName || "User"}.
-            </Text>
-            
-           
-            { (
-              <Text style={{ color: textColor }}>Character data not found.</Text>
-            )}
-          </View>
         )}
 
         <TouchableOpacity
@@ -317,7 +303,7 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     gap: 12,
     marginBottom: 12,
-    justifyContent: "center"
+    justifyContent: "center",
   },
   button: {
     width: "47%",

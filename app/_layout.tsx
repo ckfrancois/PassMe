@@ -1,17 +1,18 @@
-import {
-  DarkTheme,
-  DefaultTheme,
-  ThemeProvider,
-} from "@react-navigation/native";
+import { AuthProvider } from "@/providers/auth-provider";
 import {
   Fredoka_400Regular,
   Fredoka_500Medium,
   Fredoka_600SemiBold,
   Fredoka_700Bold,
 } from "@expo-google-fonts/fredoka";
+import {
+  DarkTheme,
+  DefaultTheme,
+  ThemeProvider,
+} from "@react-navigation/native";
 import { useFonts } from "expo-font";
-import * as SplashScreen from "expo-splash-screen";
 import { Stack } from "expo-router";
+import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
 import "react-native-reanimated";

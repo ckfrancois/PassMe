@@ -1,7 +1,7 @@
 import { MaterialIcons } from "@expo/vector-icons";
+import auth from "@react-native-firebase/auth";
+import firestore from "@react-native-firebase/firestore";
 import { useFocusEffect, useRouter } from "expo-router"; // Added useFocusEffect
-import { getAuth, updateProfile } from "firebase/auth";
-import { doc, getDoc, getFirestore, updateDoc } from "firebase/firestore";
 import { useCallback, useState } from "react"; // Swapped useEffect for useCallback
 import {
   ActivityIndicator,
@@ -12,7 +12,7 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  View
+  View,
 } from "react-native";
 import Passling from "../../components/passling";
 
@@ -20,12 +20,12 @@ import Passling from "../../components/passling";
 // Helpers
 // ---------------------------------------------------------------------------
 const normalizeToRgba = (colorString: string, t: number) => {
-  if (!colorString) return 'rgba(255,255,255,1)';
-  const values = colorString.replace(/[()]/g, '').split(',');
+  if (!colorString) return "rgba(255,255,255,1)";
+  const values = colorString.replace(/[()]/g, "").split(",");
   const r = Math.round(parseFloat(values[0]) * 255);
   const g = Math.round(parseFloat(values[1]) * 255);
   const b = Math.round(parseFloat(values[2]) * 255);
-  const a = values[3] ? values[3].trim() : '1.0';
+  const a = values[3] ? values[3].trim() : "1.0";
   const i = (r + g + b) / 3;
   const r2 = Math.round(r + (i - r) * t);
   const g2 = Math.round(g + (i - g) * t);
@@ -43,7 +43,12 @@ interface EditableFieldProps {
   placeholder: string;
 }
 
-function EditableField({ value, onChangeText, multiline = false, placeholder }: EditableFieldProps) {
+function EditableField({
+  value,
+  onChangeText,
+  multiline = false,
+  placeholder,
+}: EditableFieldProps) {
   return (
     <View style={[styles.fieldBox, multiline && styles.fieldBoxMulti]}>
       <TextInput
@@ -62,13 +67,11 @@ function EditableField({ value, onChangeText, multiline = false, placeholder }: 
 
 export default function EditProfileScreen() {
   const router = useRouter();
-  const auth = getAuth();
-  const db = getFirestore();
-  const user = auth.currentUser;
+  const user = auth().currentUser;
 
   const [username, setUsername] = useState(user?.displayName || "");
-  const [greeting, setGreeting] = useState(""); 
-  const [bio, setBio] = useState(""); 
+  const [greeting, setGreeting] = useState("");
+  const [bio, setBio] = useState("");
   const [loading, setLoading] = useState(false);
   const [passlingData, setPasslingData] = useState<any>(null);
   const [loadingPassling, setLoadingPassling] = useState(true);
@@ -80,27 +83,23 @@ export default function EditProfileScreen() {
     useCallback(() => {
       const loadInitialData = async () => {
         if (!user) return;
-
-        // ONLY show spinner if we have NO data yet (stops the flicker)
-        if (!passlingData) {
-          setLoadingPassling(true);
-        }
+        if (!passlingData) setLoadingPassling(true);
 
         try {
-          // 1. Fetch Passling Data
-          const passRef = doc(db, "Passlings", user.uid);
-          const passSnap = await getDoc(passRef);
-          if (passSnap.exists()) {
-            setPasslingData(passSnap.data());
-          }
+          const passSnap = await firestore()
+            .collection("Passlings")
+            .doc(user.uid)
+            .get();
+          if (passSnap.exists) setPasslingData(passSnap.data()); // ✅ .exists not .exists()
 
-          // 2. Fetch User Text Data
-          const userRef = doc(db, "Users", user.uid);
-          const userSnap = await getDoc(userRef);
-          if (userSnap.exists()) {
+          const userSnap = await firestore()
+            .collection("Users")
+            .doc(user.uid)
+            .get();
+          if (userSnap.exists) {
             const uData = userSnap.data();
-            setGreeting(uData.greeting || "");
-            setBio(uData.bio || "");
+            setGreeting(uData?.greeting || "");
+            setBio(uData?.bio || "");
           }
         } catch (err) {
           console.error("Load error:", err);
@@ -110,7 +109,7 @@ export default function EditProfileScreen() {
       };
 
       loadInitialData();
-    }, [user, passlingData]) // Monitors passlingData to decide if spinner is needed
+    }, [user, passlingData]), // Monitors passlingData to decide if spinner is needed
   );
 
   const handleSave = async () => {
@@ -122,17 +121,16 @@ export default function EditProfileScreen() {
     setLoading(true);
     try {
       if (user) {
-        await updateProfile(user, { displayName: username });
-        const userRef = doc(db, "Users", user.uid);
-        await updateDoc(userRef, { 
+        await user.updateProfile({ displayName: username });
+
+        await firestore().collection("Users").doc(user.uid).update({
           displayName: username,
-          greeting: greeting, 
-          bio: bio 
+          greeting,
+          bio,
         });
       }
-
-      Alert.alert("Success", "Profile updated successfully!", [
-        { text: "OK", onPress: () => router.push("/(tabs)/MyProfile") }
+      Alert.alert("Success", "Profile updated!", [
+        { text: "OK", onPress: () => router.push("/(tabs)/MyProfile") },
       ]);
     } catch (error: any) {
       Alert.alert("Update Failed", error.message);
@@ -141,30 +139,48 @@ export default function EditProfileScreen() {
     }
   };
 
-  const bgColor = passlingData ? normalizeToRgba(passlingData.outfit_color, 0.3) : "#f0b4e2";
-  const squareColor = passlingData ? normalizeToRgba(passlingData.outfit_color, 0.5) : "#f3c4e8";
+  const bgColor = passlingData
+    ? normalizeToRgba(passlingData.outfit_color, 0.3)
+    : "#f0b4e2";
+  const squareColor = passlingData
+    ? normalizeToRgba(passlingData.outfit_color, 0.5)
+    : "#f3c4e8";
 
   return (
     <View style={{ flex: 1, backgroundColor: bgColor }}>
       <View style={styles.patternContainer} pointerEvents="none">
         {Array.from({ length: 450 }).map((_, i) => (
-          <View key={i} style={[styles.square, { backgroundColor: squareColor }]} />
+          <View
+            key={i}
+            style={[styles.square, { backgroundColor: squareColor }]}
+          />
         ))}
       </View>
 
       <SafeAreaView style={styles.safe}>
-        <ScrollView contentContainerStyle={styles.scrollContent} bounces={false}>
+        <ScrollView
+          contentContainerStyle={styles.scrollContent}
+          bounces={false}
+        >
           <View style={styles.header}>
             <View style={[styles.avatarWrap, { backgroundColor: "#FFFFFF" }]}>
               {/* Conditional Spinner: Only shows on true initial load */}
               {loadingPassling && !passlingData ? (
                 <ActivityIndicator color={ORANGE} style={{ marginTop: 70 }} />
               ) : passlingData ? (
-                <View style={{ transform: [{ translateX: -72 }, { translateY: -20 }] }}>
+                <View
+                  style={{
+                    transform: [{ translateX: -72 }, { translateY: -20 }],
+                  }}
+                >
                   <Passling data={passlingData} size={340} />
                 </View>
               ) : (
-                <Text style={{ fontSize: 10, textAlign: 'center', marginTop: 70 }}>No Passling Found</Text>
+                <Text
+                  style={{ fontSize: 10, textAlign: "center", marginTop: 70 }}
+                >
+                  No Passling Found
+                </Text>
               )}
             </View>
           </View>
@@ -173,24 +189,47 @@ export default function EditProfileScreen() {
             <View style={styles.body_outline} />
             <View style={styles.body}>
               <Text style={styles.label}>Username:</Text>
-              <EditableField value={username} onChangeText={setUsername} placeholder="Enter username" />
+              <EditableField
+                value={username}
+                onChangeText={setUsername}
+                placeholder="Enter username"
+              />
 
               <Text style={styles.label}>Greeting:</Text>
-              <EditableField value={greeting} onChangeText={setGreeting} placeholder="How do you say hello?" />
+              <EditableField
+                value={greeting}
+                onChangeText={setGreeting}
+                placeholder="How do you say hello?"
+              />
 
               <Text style={styles.label}>Bio:</Text>
-              <EditableField value={bio} onChangeText={setBio} multiline placeholder="Tell us about yourself..." />
+              <EditableField
+                value={bio}
+                onChangeText={setBio}
+                multiline
+                placeholder="Tell us about yourself..."
+              />
 
-              <TouchableOpacity 
-                style={[styles.saveBtn, loading && { opacity: 0.7 }]} 
+              <TouchableOpacity
+                style={[styles.saveBtn, loading && { opacity: 0.7 }]}
                 onPress={handleSave}
                 disabled={loading}
               >
-                <MaterialIcons name="check" size={20} color="#fff" style={{ marginRight: 8 }} />
-                <Text style={styles.saveBtnText}>{loading ? "Saving..." : "Save Changes"}</Text>
+                <MaterialIcons
+                  name="check"
+                  size={20}
+                  color="#fff"
+                  style={{ marginRight: 8 }}
+                />
+                <Text style={styles.saveBtnText}>
+                  {loading ? "Saving..." : "Save Changes"}
+                </Text>
               </TouchableOpacity>
 
-              <TouchableOpacity style={styles.cancelBtn} onPress={() => router.back()}>
+              <TouchableOpacity
+                style={styles.cancelBtn}
+                onPress={() => router.back()}
+              >
                 <Text style={styles.cancelBtnText}>Cancel</Text>
               </TouchableOpacity>
             </View>
@@ -233,7 +272,9 @@ const styles = StyleSheet.create({
   bodyContainer: { position: "relative", marginTop: -60, zIndex: 2 },
   body_outline: {
     position: "absolute",
-    top: -18, left: -10, right: -10,
+    top: -18,
+    left: -10,
+    right: -10,
     zIndex: 1,
     backgroundColor: BLACK,
     borderTopLeftRadius: 1000,
@@ -253,8 +294,11 @@ const styles = StyleSheet.create({
   },
   label: {
     transform: [{ scaleX: 0.66 }],
-    fontSize: 14, fontWeight: "600", color: "#444",
-    marginBottom: 6, marginTop: 4,
+    fontSize: 14,
+    fontWeight: "600",
+    color: "#444",
+    marginBottom: 6,
+    marginTop: 4,
   },
   fieldBox: {
     transform: [{ scaleX: 0.66 }],
@@ -262,7 +306,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     borderRadius: 16,
     borderWidth: 2,
-    borderColor: "#443cd0", 
+    borderColor: "#443cd0",
     paddingHorizontal: 14,
     paddingVertical: 10,
     marginBottom: 16,
@@ -290,11 +334,17 @@ const styles = StyleSheet.create({
   },
   cancelBtnText: { color: "#666", fontSize: 14, fontWeight: "500" },
   patternContainer: {
-    position: "absolute", width: "100%", height: "100%",
-    flexDirection: "column", flexWrap: 'wrap', zIndex: 0,
+    position: "absolute",
+    width: "100%",
+    height: "100%",
+    flexDirection: "column",
+    flexWrap: "wrap",
+    zIndex: 0,
   },
   square: {
-    width: 70, height: 70,
-    borderRadius: 20, margin: 10,
+    width: 70,
+    height: 70,
+    borderRadius: 20,
+    margin: 10,
   },
 });

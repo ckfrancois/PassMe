@@ -3,11 +3,10 @@ import {
   RTNGodotView,
   runOnGodotThread,
 } from "@borndotcom/react-native-godot";
-import { Ionicons } from "@expo/vector-icons";
 import { getAuth } from "@react-native-firebase/auth";
 import * as FileSystem from "expo-file-system/legacy";
 import { useEffect, useState } from "react";
-import { Platform, StyleSheet, TouchableOpacity, View } from "react-native";
+import { Platform, StyleSheet, View } from "react-native";
 
 const ACTION_JUMP = "ui_accept";
 const ACTION_MOVE_LEFT = "ui_left";
@@ -130,7 +129,7 @@ export default function GodotScreen() {
     <View style={styles.container}>
       <RTNGodotView style={styles.gameView} />
 
-      <View style={styles.topControls}>
+      {/* <View style={styles.topControls}>
         <TouchableOpacity
           style={styles.playPauseButton}
           onPress={handlePlayPause}
@@ -142,9 +141,9 @@ export default function GodotScreen() {
             color="white"
           />
         </TouchableOpacity>
-      </View>
+      </View> */}
 
-      <View style={styles.leftControls}>
+      {/* <View style={styles.leftControls}>
         <TouchableOpacity
           style={styles.button}
           onPressIn={() => pressAction(ACTION_MOVE_LEFT)}
@@ -172,7 +171,7 @@ export default function GodotScreen() {
         >
           <Ionicons name="arrow-up" size={36} color="white" />
         </TouchableOpacity>
-      </View>
+      </View> */}
     </View>
   );
 }

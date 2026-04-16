@@ -1,11 +1,7 @@
+import { useAuth } from "@/hooks/use-auth";
 import { Feather, MaterialIcons } from "@expo/vector-icons";
+import firestore from "@react-native-firebase/firestore";
 import { useFocusEffect, useRouter } from "expo-router";
-import { getAuth } from "firebase/auth";
-import {
-  doc,
-  getDoc,
-  getFirestore
-} from "firebase/firestore";
 import { useCallback, useState } from "react";
 import {
   ActivityIndicator,
@@ -15,7 +11,7 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  View
+  View,
 } from "react-native";
 import { Float } from "react-native/Libraries/Types/CodegenTypes";
 import Passling from "../../components/passling";
@@ -23,17 +19,17 @@ import Passling from "../../components/passling";
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
-const normalizeToRgba = (colorString:string, t:Float) => {
-  if (!colorString) return 'rgba(255,255,255,1)';
-  const values = colorString.replace(/[()]/g, '').split(',');
+const normalizeToRgba = (colorString: string, t: Float) => {
+  if (!colorString) return "rgba(255,255,255,1)";
+  const values = colorString.replace(/[()]/g, "").split(",");
   const r = Math.round(parseFloat(values[0]) * 255);
   const g = Math.round(parseFloat(values[1]) * 255);
   const b = Math.round(parseFloat(values[2]) * 255);
-  const a = values[3] ? values[3].trim() : '1.0';
-  const i = (r+g+b)/3
-  const r2 = r + (i-r) * t
-  const g2 = g + (i-g) * t
-  const b2 = b + (i-b) * t
+  const a = values[3] ? values[3].trim() : "1.0";
+  const i = (r + g + b) / 3;
+  const r2 = r + (i - r) * t;
+  const g2 = g + (i - g) * t;
+  const b2 = b + (i - b) * t;
   return `rgba(${r2}, ${g2}, ${b2}, ${a})`;
 };
 
@@ -68,10 +64,11 @@ function ReadOnlyField({ value, multiline = false }: ReadOnlyFieldProps) {
 // ---------------------------------------------------------------------------
 export default function ProfileScreen() {
   const router = useRouter();
-  const auth = getAuth();
-  const db = getFirestore();
+  const { currentUser } = useAuth();
 
-  const [displayName, setDisplayName] = useState(auth.currentUser?.displayName || "Unknown User");
+  const [displayName, setDisplayName] = useState(
+    currentUser?.displayName || "Unknown User",
+  );
   const [greeting, setGreeting] = useState("Hello there!");
   const [bio, setBio] = useState("This is my bio.");
   const [passlingData, setPasslingData] = useState<any>(null);
@@ -80,18 +77,18 @@ export default function ProfileScreen() {
   useFocusEffect(
     useCallback(() => {
       const refreshAll = async () => {
-        const user = auth.currentUser;
+        const user = currentUser;
         if (!user) return;
-  
+
         try {
           // ONLY show spinner if we don't have data yet
           if (!passlingData) {
             setLoadingPassling(true);
           }
-  
+
           await user.reload();
-          setDisplayName(auth.currentUser?.displayName || "Unknown User");
-          
+          setDisplayName(currentUser?.displayName || "Unknown User");
+
           const data = await fetchPasslingData();
           setPasslingData(data);
         } catch (error) {
@@ -101,19 +98,19 @@ export default function ProfileScreen() {
           setLoadingPassling(false);
         }
       };
-  
+
       refreshAll();
-    }, [passlingData]) // Add passlingData as a dependency to check its existence
+    }, [passlingData]), // Add passlingData as a dependency to check its existence
   );
 
   useFocusEffect(
     useCallback(() => {
       const refreshAll = async () => {
-        const user = auth.currentUser;
+        const user = currentUser;
         if (!user) return;
         try {
           await user.reload();
-          setDisplayName(auth.currentUser?.displayName || "Unknown User");
+          setDisplayName(currentUser?.displayName || "Unknown User");
           setLoadingPassling(true);
           const data = await fetchPasslingData();
           setPasslingData(data);
@@ -124,21 +121,23 @@ export default function ProfileScreen() {
         }
       };
       refreshAll();
-    }, [])
+    }, []),
   );
 
   const fetchPasslingData = async () => {
-    const user = getAuth().currentUser;
+    const user = currentUser;
     if (!user) return null;
-    console.log("SEARCHING FOR UID:", `|${user.uid}|`);
     try {
-      const userRef = doc(db, "Passlings", user.uid);
-      const userSnap = await getDoc(userRef);
-      if (userSnap.exists()) {
-        console.log("✅ Document Found!");
+      const userSnap = await firestore()
+        .collection("Passlings")
+        .doc(user.uid)
+        .get();
+
+      if (userSnap.exists) {
+        // ✅ .exists (not .exists())
         return userSnap.data();
       } else {
-        console.log("❌ Document DOES NOT exist at path: Passlings/" + user.uid);
+        console.log("❌ No passling found for", user.uid);
         return null;
       }
     } catch (err) {
@@ -148,18 +147,24 @@ export default function ProfileScreen() {
   };
 
   // Derive background color from passling outfit, fallback to pink
-  const bgColor = passlingData ? normalizeToRgba(passlingData.outfit_color, 0.3) : "#f0b4e2";
+  const bgColor = passlingData
+    ? normalizeToRgba(passlingData.outfit_color, 0.3)
+    : "#f0b4e2";
 
   // Derive square color as a slightly transparent version of bgColor
-  const squareColor =  passlingData ? normalizeToRgba(passlingData.outfit_color, 0.5) : "#f0b4e2";
-  
+  const squareColor = passlingData
+    ? normalizeToRgba(passlingData.outfit_color, 0.5)
+    : "#f0b4e2";
 
   return (
     <View style={{ flex: 1, backgroundColor: bgColor }}>
       {/* Background Pattern */}
       <View style={styles.patternContainer} pointerEvents="none">
         {Array.from({ length: 450 }).map((_, i) => (
-          <View key={i} style={[styles.square, { backgroundColor: squareColor }]} />
+          <View
+            key={i}
+            style={[styles.square, { backgroundColor: squareColor }]}
+          />
         ))}
       </View>
 
@@ -167,23 +172,31 @@ export default function ProfileScreen() {
         <View style={[styles.screen, styles.scrollContent]}>
           {/* Header */}
           <View style={styles.header}>
-            <TouchableOpacity style={styles.backBtn} onPress={() => router.back()}>
+            <TouchableOpacity
+              style={styles.backBtn}
+              onPress={() => router.back()}
+            >
               <Feather name="chevron-left" size={22} color="#555" />
             </TouchableOpacity>
 
             <View style={[styles.avatarWrap, { backgroundColor: "#FFFFFF" }]}>
-  {loadingPassling && !passlingData ? ( // Only show spinner if totally empty
-    <ActivityIndicator color={"#443cd0"} /> // Changed color so it's visible on white
-  ) : passlingData ? (
-    <View style={{ transform: [{ translateX: -72 }, { translateY: -20 }] }}>
-      <Passling data={passlingData} size={340} />
-    </View>
-  ) : (
-    <View style={{ alignItems: 'center' }}>
-      <Text style={{ color: "#555" }}>Character data not found.</Text>
-    </View>
-  )}
-
+              {loadingPassling && !passlingData ? ( // Only show spinner if totally empty
+                <ActivityIndicator color={"#443cd0"} /> // Changed color so it's visible on white
+              ) : passlingData ? (
+                <View
+                  style={{
+                    transform: [{ translateX: -72 }, { translateY: -20 }],
+                  }}
+                >
+                  <Passling data={passlingData} size={340} />
+                </View>
+              ) : (
+                <View style={{ alignItems: "center" }}>
+                  <Text style={{ color: "#555" }}>
+                    Character data not found.
+                  </Text>
+                </View>
+              )}
             </View>
           </View>
 
@@ -206,17 +219,32 @@ export default function ProfileScreen() {
                 style={styles.editBtn}
                 onPress={() => router.push("/(tabs)/ProfileTab")}
               >
-                <MaterialIcons name="edit" size={18} color="#fff" style={{ marginRight: 8 }} />
+                <MaterialIcons
+                  name="edit"
+                  size={18}
+                  color="#fff"
+                  style={{ marginRight: 8 }}
+                />
                 <Text style={styles.editBtnText}>Edit Details</Text>
               </TouchableOpacity>
 
               <TouchableOpacity style={styles.primaryBtn}>
-                <MaterialIcons name="people" size={18} color="#fff" style={{ marginRight: 8 }} />
+                <MaterialIcons
+                  name="people"
+                  size={18}
+                  color="#fff"
+                  style={{ marginRight: 8 }}
+                />
                 <Text style={styles.primaryBtnText}>Your Passlings</Text>
               </TouchableOpacity>
 
               <TouchableOpacity style={styles.secondaryBtn}>
-                <MaterialIcons name="settings" size={18} color="#555" style={{ marginRight: 8 }} />
+                <MaterialIcons
+                  name="settings"
+                  size={18}
+                  color="#555"
+                  style={{ marginRight: 8 }}
+                />
                 <Text style={styles.secondaryBtnText}>Settings</Text>
               </TouchableOpacity>
             </View>
@@ -272,7 +300,9 @@ const styles = StyleSheet.create({
   bodyContainer: { position: "relative", marginTop: -60, zIndex: 2 },
   body_outline: {
     position: "absolute",
-    top: -18, left: -10, right: -10,
+    top: -18,
+    left: -10,
+    right: -10,
     zIndex: 1,
     backgroundColor: BLACK,
     borderTopLeftRadius: 1000,
@@ -301,8 +331,11 @@ const styles = StyleSheet.create({
   username: { fontSize: 22, fontWeight: "700", color: "#222" },
   label: {
     transform: [{ scaleX: 0.66 }],
-    fontSize: 14, fontWeight: "600", color: "#444",
-    marginBottom: 6, marginTop: 4,
+    fontSize: 14,
+    fontWeight: "600",
+    color: "#444",
+    marginBottom: 6,
+    marginTop: 4,
   },
   fieldBox: {
     transform: [{ scaleX: 0.66 }],
@@ -357,12 +390,16 @@ const styles = StyleSheet.create({
   editBtnText: { color: "#fff", fontSize: 16, fontWeight: "600" },
   patternContainer: {
     position: "absolute",
-    width: "100%", height: "100%",
-    flexDirection: "column", flexWrap: 'wrap',
+    width: "100%",
+    height: "100%",
+    flexDirection: "column",
+    flexWrap: "wrap",
     zIndex: 0,
   },
   square: {
-    width: 70, height: 70,
-    borderRadius: 20, margin: 10,
+    width: 70,
+    height: 70,
+    borderRadius: 20,
+    margin: 10,
   },
 });
