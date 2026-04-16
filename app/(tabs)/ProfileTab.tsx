@@ -2,17 +2,22 @@ import { AnimatedBackground } from "@/components/auth/animated-background";
 import { MaterialIcons } from "@expo/vector-icons";
 import auth from "@react-native-firebase/auth";
 import firestore from "@react-native-firebase/firestore";
-import { useFocusEffect, useRouter } from "expo-router"; // Added useFocusEffect
-import { useCallback, useState } from "react"; // Swapped useEffect for useCallback
+import { useFocusEffect, useRouter } from "expo-router";
+import { useCallback, useRef, useState } from "react";
 import {
   ActivityIndicator,
   Alert,
+  InputAccessoryView,
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
   SafeAreaView,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
-  View
+  TouchableWithoutFeedback,
+  View,
 } from "react-native";
 import Passling from "../../components/passling";
 
@@ -41,6 +46,7 @@ interface EditableFieldProps {
   onChangeText: (text: string) => void;
   multiline?: boolean;
   placeholder: string;
+  inputAccessoryViewID?: string;
 }
 
 function EditableField({
@@ -48,6 +54,7 @@ function EditableField({
   onChangeText,
   multiline = false,
   placeholder,
+  inputAccessoryViewID,
 }: EditableFieldProps) {
   return (
     <View style={[styles.fieldBox, multiline && styles.fieldBoxMulti]}>
@@ -60,10 +67,18 @@ function EditableField({
         numberOfLines={multiline ? 4 : 1}
         placeholder={placeholder}
         placeholderTextColor="#aaa"
+        returnKeyType={multiline ? undefined : "done"}
+        onSubmitEditing={multiline ? undefined : Keyboard.dismiss}
+        inputAccessoryViewID={inputAccessoryViewID}
       />
     </View>
   );
 }
+
+// ---------------------------------------------------------------------------
+// Main Screen
+// ---------------------------------------------------------------------------
+const BIO_INPUT_ID = "bioInputAccessory";
 
 export default function EditProfileScreen() {
   const router = useRouter();
@@ -76,21 +91,22 @@ export default function EditProfileScreen() {
   const [passlingData, setPasslingData] = useState<any>(null);
   const [loadingPassling, setLoadingPassling] = useState(true);
 
-  // ---------------------------------------------------------------------------
-  // SMART REFRESH LOGIC
-  // ---------------------------------------------------------------------------
+  const hasLoaded = useRef(false);
+
   useFocusEffect(
     useCallback(() => {
+      if (hasLoaded.current) return;
+
       const loadInitialData = async () => {
         if (!user) return;
-        if (!passlingData) setLoadingPassling(true);
+        setLoadingPassling(true);
 
         try {
           const passSnap = await firestore()
             .collection("Passlings")
             .doc(user.uid)
             .get();
-          if (passSnap.exists) setPasslingData(passSnap.data()); // ✅ .exists not .exists()
+          if (passSnap.exists) setPasslingData(passSnap.data());
 
           const userSnap = await firestore()
             .collection("Users")
@@ -105,11 +121,12 @@ export default function EditProfileScreen() {
           console.error("Load error:", err);
         } finally {
           setLoadingPassling(false);
+          hasLoaded.current = true;
         }
       };
 
       loadInitialData();
-    }, [user, passlingData]), // Monitors passlingData to decide if spinner is needed
+    }, [user]),
   );
 
   const handleSave = async () => {
@@ -122,12 +139,10 @@ export default function EditProfileScreen() {
     try {
       if (user) {
         await user.updateProfile({ displayName: username });
-
-        await firestore().collection("Users").doc(user.uid).update({
-          displayName: username,
-          greeting,
-          bio,
-        });
+        await firestore().collection("Users").doc(user.uid).set(
+          { displayName: username, greeting, bio },
+          { merge: true },
+        );
       }
       Alert.alert("Success", "Profile updated!", [
         { text: "OK", onPress: () => router.push("/(tabs)/MyProfile") },
@@ -158,88 +173,107 @@ export default function EditProfileScreen() {
       </View>
 
       <SafeAreaView style={styles.safe}>
-      <AnimatedBackground backgroundColor= {bgColor} patternColor={squareColor} />
-          <View style={styles.header}>
-            <View style={[styles.avatarWrap, { backgroundColor: "#FFFFFF" }]}>
-              {/* Conditional Spinner: Only shows on true initial load */}
-              {loadingPassling && !passlingData ? (
-                <ActivityIndicator color={ORANGE} style={{ marginTop: 70 }} />
-              ) : passlingData ? (
-                <View
-                  style={{
-                    transform: [{ translateX: -72 }, { translateY: -20 }],
-                  }}
-                >
-                  <Passling data={passlingData} size={340} />
+        <AnimatedBackground backgroundColor={bgColor} patternColor={squareColor} />
+
+        <KeyboardAvoidingView
+          style={{ flex: 1 }}
+          behavior={Platform.OS === "ios" ? "padding" : undefined}
+          keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 0}
+        >
+          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <View style={styles.container}>
+              {/* Header / Avatar */}
+              <View style={styles.header}>
+                <View style={[styles.avatarWrap, { backgroundColor: "#FFFFFF" }]}>
+                  {loadingPassling && !passlingData ? (
+                    <ActivityIndicator color={ORANGE} style={{ marginTop: 70 }} />
+                  ) : passlingData ? (
+                    <View
+                      style={{
+                        transform: [{ translateX: -72 }, { translateY: -20 }],
+                      }}
+                    >
+                      <Passling data={passlingData} size={340} />
+                    </View>
+                  ) : (
+                    <Text
+                      style={{ fontSize: 10, textAlign: "center", marginTop: 70 }}
+                    >
+                      No Passling Found
+                    </Text>
+                  )}
                 </View>
-              ) : (
-                <Text
-                  style={{ fontSize: 10, textAlign: "center", marginTop: 70 }}
-                >
-                  No Passling Found
-                </Text>
-              )}
+              </View>
+
+              {/* Body */}
+              <View style={styles.bodyContainer}>
+                <View style={styles.body_outline} />
+                <View style={styles.body}>
+                  <Text style={styles.label}>Username:</Text>
+                  <EditableField
+                    value={username}
+                    onChangeText={setUsername}
+                    placeholder="Enter username"
+                  />
+
+                  <Text style={styles.label}>Greeting:</Text>
+                  <EditableField
+                    value={greeting}
+                    onChangeText={setGreeting}
+                    placeholder="How do you say hello?"
+                  />
+
+                  <Text style={styles.label}>Bio:</Text>
+                  <EditableField
+                    value={bio}
+                    onChangeText={setBio}
+                    multiline
+                    placeholder="Tell us about yourself..."
+                    inputAccessoryViewID={BIO_INPUT_ID}
+                  />
+
+                  <TouchableOpacity
+                    style={[styles.saveBtn, loading && { opacity: 0.7 }]}
+                    onPress={handleSave}
+                    disabled={loading}
+                  >
+                    <MaterialIcons
+                      name="check"
+                      size={20}
+                      color="#fff"
+                      style={{ marginRight: 8 }}
+                    />
+                    <Text style={styles.saveBtnText}>
+                      {loading ? "Saving..." : "Save Changes"}
+                    </Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    style={styles.cancelBtn}
+                    onPress={() => router.back()}
+                  >
+                    <Text style={styles.cancelBtnText}>Cancel</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
             </View>
-          </View>
+          </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
 
-          <View style={styles.bodyContainer}>
-            <View style={styles.body_outline} />
-            <View style={styles.body}>
-              <Text style={styles.label}>Username:</Text>
-              <EditableField
-                value={username}
-                onChangeText={setUsername}
-                placeholder="Enter username"
-              />
-
-              <Text style={styles.label}>Greeting:</Text>
-              <EditableField
-                value={greeting}
-                onChangeText={setGreeting}
-                placeholder="How do you say hello?"
-              />
-
-              <Text style={styles.label}>Bio:</Text>
-              <EditableField
-                value={bio}
-                onChangeText={setBio}
-                multiline
-                placeholder="Tell us about yourself..."
-              />
-
-              <TouchableOpacity
-                style={[styles.saveBtn, loading && { opacity: 0.7 }]}
-                onPress={handleSave}
-                disabled={loading}
-              >
-                <MaterialIcons
-                  name="check"
-                  size={20}
-                  color="#fff"
-                  style={{ marginRight: 8 }}
-                />
-                <Text style={styles.saveBtnText}>
-                  {loading ? "Saving..." : "Save Changes"}
-                </Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={styles.cancelBtn}
-                onPress={() => router.back()}
-              >
-                <Text style={styles.cancelBtnText}>Cancel</Text>
+        {Platform.OS === "ios" && (
+          <InputAccessoryView nativeID={BIO_INPUT_ID}>
+            <View style={styles.inputAccessory}>
+              <TouchableOpacity onPress={Keyboard.dismiss}>
+                <Text style={styles.inputAccessoryDone}>Done</Text>
               </TouchableOpacity>
             </View>
-          </View>
-        
+          </InputAccessoryView>
+        )}
       </SafeAreaView>
     </View>
   );
 }
 
-// ---------------------------------------------------------------------------
-// Styles
-// ---------------------------------------------------------------------------
 const CREAM = "#F5F0E8";
 const GREEN = "#2D6A4F";
 const ORANGE = "#C4611A";
@@ -248,11 +282,12 @@ const AVATAR_SIZE = 170;
 
 const styles = StyleSheet.create({
   safe: { flex: 1 },
-  scrollContent: { flexGrow: 1 },
+  container: { flex: 1 },
   header: {
     height: 180,
     alignItems: "center",
     justifyContent: "center",
+    zIndex: 10,
   },
   avatarWrap: {
     width: AVATAR_SIZE,
@@ -264,9 +299,14 @@ const styles = StyleSheet.create({
     bottom: -AVATAR_SIZE / 8,
     alignSelf: "center",
     zIndex: 10,
-    overflow: "hidden", // Crucial for the Passling component preview
+    overflow: "hidden",
   },
-  bodyContainer: { position: "relative", marginTop: -60, zIndex: 2 },
+  bodyContainer: { 
+    position: "relative", 
+    marginTop: -60, 
+    zIndex: 5,
+    flex: 1,
+  },
   body_outline: {
     position: "absolute",
     top: -18,
@@ -277,7 +317,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 1000,
     borderTopRightRadius: 1000,
     transform: [{ scaleX: 1.55 }, { scaleY: 0.95 }],
-    height: 220,
+    height: 300, // Increased height to prevent "see-through" gaps
   },
   body: {
     zIndex: 2,
@@ -285,9 +325,11 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 1000,
     borderTopRightRadius: 1000,
     transform: [{ scaleX: 1.5 }],
-    paddingTop: 100,
+    paddingTop: 80,
     paddingHorizontal: 40,
-    paddingBottom: 140,
+    paddingBottom: 40,
+    flex: 1,
+    height: 1000, // Forced height to ensure the background never shows during layout shifts
   },
   label: {
     transform: [{ scaleX: 0.66 }],
@@ -306,30 +348,43 @@ const styles = StyleSheet.create({
     borderColor: "#443cd0",
     paddingHorizontal: 14,
     paddingVertical: 10,
-    marginBottom: 16,
+    marginBottom: 12,
   },
   fieldBoxMulti: { alignItems: "flex-start", paddingVertical: 12 },
   fieldInput: { flex: 1, fontSize: 15, color: "#333" },
-  fieldInputMulti: { minHeight: 80, textAlignVertical: "top" },
+  fieldInputMulti: { minHeight: 60, textAlignVertical: "top" },
   saveBtn: {
     transform: [{ scaleX: 0.66 }],
     flexDirection: "row",
     backgroundColor: GREEN,
     borderRadius: 18,
-    paddingVertical: 18,
+    paddingVertical: 16,
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 20,
+    marginTop: 10,
   },
   saveBtnText: { color: "#fff", fontSize: 18, fontWeight: "700" },
   cancelBtn: {
     transform: [{ scaleX: 0.66 }],
-    paddingVertical: 15,
+    paddingVertical: 10,
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 5,
+    marginTop: 2,
   },
   cancelBtnText: { color: "#666", fontSize: 14, fontWeight: "500" },
+  inputAccessory: {
+    backgroundColor: "#f1f1f1",
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    alignItems: "flex-end",
+    borderTopWidth: 1,
+    borderTopColor: "#ddd",
+  },
+  inputAccessoryDone: {
+    color: "#443cd0",
+    fontWeight: "600",
+    fontSize: 16,
+  },
   patternContainer: {
     position: "absolute",
     width: "100%",

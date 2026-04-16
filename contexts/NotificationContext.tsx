@@ -9,10 +9,11 @@ type Notification = {
   passlingData: any | null;  // ← added
   translateY: Animated.Value;
   opacity: Animated.Value;
+  greeting: string;
 };
 
 type NotificationContextType = {
-  showNotification: (username: string, passlingData?: any) => void;  // ← added param
+  showNotification: (username: string, passlingData?: any, greeting?: string) => void;  // ← added param
 };
 
 const NotificationContext = createContext<NotificationContextType>({
@@ -22,12 +23,12 @@ const NotificationContext = createContext<NotificationContextType>({
 export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [notifications, setNotifications] = useState<Notification[]>([]);
 
-  const showNotification = useCallback((username: string, passlingData: any = null) => {  // ← added param
+  const showNotification = useCallback((username: string, passlingData: any = null, greeting: string) => {  // ← added param
     const id = Date.now().toString();
     const translateY = new Animated.Value(-80);
     const opacity = new Animated.Value(0);
 
-    const newNotif: Notification = { id, username, passlingData, translateY, opacity };  // ← stored
+    const newNotif: Notification = { id, username, passlingData, translateY, opacity, greeting };  // ← stored
     setNotifications((prev) => [...prev, newNotif]);
 
     Animated.parallel([
@@ -79,21 +80,20 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
           >
             {/* Passling avatar clipped to a circle, same approach as ProfileScreen */}
             <View style={styles.passlingWrap}>
-  <View>
-    {notif.passlingData ? (
-      <View style={styles.passlingClip}>
-        <Passling data={notif.passlingData} size={120} />
-      </View>
-    ) : (
-      <Text style={styles.emoji}>👋</Text>
-    )}
+            {notif.passlingData && typeof notif.passlingData === "object" ? (
+  <View style={styles.passlingClip}>
+    <Passling data={notif.passlingData} size={120} />
   </View>
+) : (
+  <Text style={styles.emoji}>👋</Text>
+)}
 </View>
-
 
             <View>
               <Text style={styles.notifUsername}>{notif.username}</Text>
               <Text style={styles.notifSubtext}>just passed you!</Text>
+              <Text style={styles.notifSubtext}>{notif.greeting}</Text>
+              
             </View>
           </Animated.View>
         ))}

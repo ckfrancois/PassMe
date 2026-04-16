@@ -69,6 +69,7 @@ export default function ProfileScreen() {
   const [displayName, setDisplayName] = useState(
     currentUser?.displayName || "Unknown User",
   );
+  
   const [greeting, setGreeting] = useState("Hello there!");
   const [bio, setBio] = useState("This is my bio.");
   const [passlingData, setPasslingData] = useState<any>(null);
@@ -79,30 +80,40 @@ export default function ProfileScreen() {
       const refreshAll = async () => {
         const user = currentUser;
         if (!user) return;
-
+  
         try {
-          // ONLY show spinner if we don't have data yet
-          if (!passlingData) {
-            setLoadingPassling(true);
-          }
-
+          if (!passlingData) setLoadingPassling(true);
+  
           await user.reload();
           setDisplayName(currentUser?.displayName || "Unknown User");
-
-          const data = await fetchPasslingData();
-          setPasslingData(data);
+  
+          // Fetch Passling data
+          const passSnap = await firestore()
+            .collection("Passlings")
+            .doc(user.uid)
+            .get();
+          if (passSnap.exists) setPasslingData(passSnap.data());
+  
+          // Fetch greeting + bio from Users collection
+          const userSnap = await firestore()
+            .collection("Users")
+            .doc(user.uid)
+            .get();
+          if (userSnap.exists) {
+            const uData = userSnap.data();
+            setGreeting(uData?.greeting || "");
+            setBio(uData?.bio || "");
+          }
         } catch (error) {
           console.error("Failed to refresh:", error);
         } finally {
-          // Always turn off loading at the end
           setLoadingPassling(false);
         }
       };
-
+  
       refreshAll();
-    }, [passlingData]), // Add passlingData as a dependency to check its existence
+    }, [currentUser]), // ✅ single dep, no passlingData loop
   );
-
   useFocusEffect(
     useCallback(() => {
       const refreshAll = async () => {
