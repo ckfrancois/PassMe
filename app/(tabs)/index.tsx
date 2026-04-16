@@ -1,188 +1,115 @@
-import {
-  GoogleAuthProvider,
-  getAuth,
-  onAuthStateChanged,
-  signInWithCredential,
-} from "@react-native-firebase/auth";
-import {
-  GoogleSignin,
-  GoogleSigninButton,
-} from "@react-native-google-signin/google-signin";
 import { router } from "expo-router";
-import { getApps, initializeApp } from "firebase/app";
+import { useState } from "react";
+import { ActivityIndicator, StyleSheet, View } from "react-native";
+
 import {
-  GoogleAuthProvider as WebGoogleAuthProvider,
-  getAuth as getWebAuth,
-  signInWithCredential as webSignInWithCredential,
-} from "firebase/auth";
-import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
-import { useEffect, useState } from "react";
-import {
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  useColorScheme,
-} from "react-native";
+  BirthDateScreen,
+  SignedInHome,
+  UsernameScreen,
+  WelcomeScreen,
+} from "@/components/auth/auth-screens";
+import { AnimatedBackground } from "@/components/auth/animated-background";
+import { useAuth } from "@/hooks/use-auth";
 
-GoogleSignin.configure({
-  webClientId: process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID,
-});
+type OnboardingStep = "birthDate" | "username" | "complete";
 
-const firebaseConfig = {
-  apiKey: process.env.EXPO_PUBLIC_FIREBASE_API_KEY,
-  authDomain: process.env.EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.EXPO_PUBLIC_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.EXPO_PUBLIC_FIREBASE_APP_ID,
-};
+export default function HomeScreen() {
+  const {
+    currentUser,
+    initializing,
+    isAuthenticated,
+    loading,
+    signInWithGoogle,
+    signOut,
+  } = useAuth();
+  const [activeStep, setActiveStep] = useState<OnboardingStep>("birthDate");
+  const [simulatedUsername, setSimulatedUsername] = useState<string | null>(null);
+  const [testingFromHome, setTestingFromHome] = useState(false);
 
-if (!getApps().length) {
-  initializeApp(firebaseConfig);
-}
-
-const db = getFirestore();
-
-export default function SignInScreen() {
-  const colorScheme = useColorScheme();
-  const textColor = colorScheme === "dark" ? "#FFFFFF" : "#000000";
-
-  const [loginMessage, setLoginMessage] = useState("");
-
-  const auth = getAuth();
-  console.log("🔵 Auth initialized:", !!auth);
-  console.log("🔵 Current user:", auth.currentUser?.displayName);
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) router.replace("/(tabs)/BLETab");
-    });
-    return unsubscribe;
-  }, []);
-
-  const createUserIfNotExists = async (user: any) => {
-    try {
-      const userRef = doc(db, "Users", user.uid);
-      const userSnap = await getDoc(userRef);
-
-      if (!userSnap.exists()) {
-        await setDoc(userRef, {
-          uid: user.uid,
-          email: user.email,
-          displayName: user.displayName,
-          usersPassed: [],
-          usersPassedCount: 0,
-          favoriteColor: "",
-          passCoins: 0,
-          createdAt: new Date().toISOString(),
-        });
-        console.log("✅ Created new user document in Firestore");
-      } else {
-        console.log("ℹ️ User document already exists");
-      }
-    } catch (err) {
-      console.error("❌ Firestore error:", err);
-    }
-  };
-
-  async function onGoogleButtonPress() {
-    try {
-      console.log("🔵 Starting sign in...");
-      await GoogleSignin.hasPlayServices({
-        showPlayServicesUpdateDialog: true,
-      });
-
-      console.log("🔵 Has play services, signing in...");
-      const signInResult = await GoogleSignin.signIn();
-      console.log("🔵 Sign in result:", JSON.stringify(signInResult));
-
-      const idToken =
-        signInResult?.data?.idToken || (signInResult as any)?.idToken;
-      console.log("🔵 ID token exists:", !!idToken);
-
-      if (!idToken) throw new Error("No ID token found");
-
-      const googleCredential = GoogleAuthProvider.credential(idToken);
-      const userCredential = await signInWithCredential(auth, googleCredential);
-      console.log("🔵 Firebase user:", userCredential.user.uid);
-
-      const webCredential = WebGoogleAuthProvider.credential(idToken);
-      await webSignInWithCredential(getWebAuth(), webCredential);
-      console.log("🔵 Web auth done");
-
-      await createUserIfNotExists(userCredential.user);
-
-      setLoginMessage(`Welcome, ${userCredential.user.displayName}!`);
-    } catch (error: any) {
-      console.error("❌ Code:", error.code);
-      console.error("❌ Message:", error.message);
-    }
+  if (initializing) {
+    return (
+      <View style={styles.loadingScreen}>
+        <AnimatedBackground />
+        <ActivityIndicator color="#FFFFFF" size="large" />
+      </View>
+    );
   }
 
-  const completeLogout = async () => {
-    try {
-      // 1. Sign out from Google (to clear the account selector state)
-      await GoogleSignin.signOut();
+  if (!isAuthenticated) {
+    return <WelcomeScreen loading={loading} onGooglePress={signInWithGoogle} />;
+  }
 
-      // 2. Sign out from Firebase
-      await getAuth().signOut();
+  if (activeStep === "birthDate") {
+    return (
+      <BirthDateScreen
+        defaultValue=""
+        loading={loading}
+        onBack={() => {
+          if (testingFromHome) {
+            setActiveStep("complete");
+            setTestingFromHome(false);
+            return;
+          }
 
-      console.log("Complete logout successful");
-    } catch (error) {
-      console.error("Error during complete logout:", error);
-    }
-  };
+          signOut();
+        }}
+        onSubmit={async () => {
+          setActiveStep("username");
+        }}
+      />
+    );
+  }
+
+  if (activeStep === "username") {
+    return (
+      <UsernameScreen
+        defaultValue=""
+        loading={loading}
+        onBack={() => {
+          if (testingFromHome) {
+            setActiveStep("complete");
+            setTestingFromHome(false);
+            return;
+          }
+
+          setActiveStep("birthDate");
+        }}
+        onSubmit={async (username) => {
+          setSimulatedUsername(username);
+          setActiveStep("complete");
+          setTestingFromHome(false);
+        }}
+      />
+    );
+  }
 
   return (
-    <View style={styles.container}>
-      <Text style={[styles.title, { color: textColor }]}>
-        Welcome to PassMe
-      </Text>
-      <Text style={[styles.loginMessage, { color: textColor }]}>
-        {"Hello, " +
-          (auth.currentUser?.displayName ||
-            "Guest. Please sign in to continue.") +
-          "!"}
-      </Text>
-      <GoogleSigninButton
-        size={GoogleSigninButton.Size.Wide}
-        color={GoogleSigninButton.Color.Dark}
-        onPress={onGoogleButtonPress}
-        disabled={false}
-      />
-      <TouchableOpacity
-        style={[styles.button, getAuth().currentUser && styles.buttonActive]}
-        onPress={completeLogout}
-      >
-        <Text style={styles.buttonText}>Logout</Text>
-      </TouchableOpacity>
-    </View>
+    <SignedInHome
+      displayName={
+        simulatedUsername ||
+        currentUser?.displayName ||
+        "friend"
+      }
+      onGoToBle={() => router.navigate("/(tabs)/BLETab")}
+      onGoToExplore={() => router.navigate("/(tabs)/explore")}
+      onOpenBirthDateTest={() => {
+        setTestingFromHome(true);
+        setActiveStep("birthDate");
+      }}
+      onOpenUsernameTest={() => {
+        setTestingFromHome(true);
+        setActiveStep("username");
+      }}
+      onSignOut={signOut}
+    />
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  loadingScreen: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    gap: 24,
-  },
-  title: { fontSize: 28, fontWeight: "bold" },
-  loginMessage: { fontSize: 16, textAlign: "center" },
-  button: {
-    backgroundColor: "#4285F4",
-    paddingVertical: 12,
-    paddingHorizontal: 24,
-    borderRadius: 4,
-  },
-  buttonActive: {
-    backgroundColor: "#0F9D58",
-  },
-  buttonText: {
-    color: "#FFFFFF",
-    fontSize: 16,
-    fontWeight: "bold",
-    textAlign: "center",
+    backgroundColor: "#B9E4FF",
   },
 });

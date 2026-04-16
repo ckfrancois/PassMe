@@ -30,25 +30,29 @@ export default function TabLayout() {
         options={{
           title: "Explore",
           tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="paperplane.fill" color={color} />
+            <IconSymbol size={28} name="safari.fill" color={color} />
           ),
         }}
       />
       <Tabs.Screen
         name="BLETab"
         options={{
-          title: "ble",
+          title: "BLE",
           tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="paperplane.fill" color={color} />
+            <IconSymbol
+              size={28}
+              name="dot.radiowaves.left.and.right"
+              color={color}
+            />
           ),
         }}
       />
       <Tabs.Screen
         name="godot"
         options={{
-          title: "gd",
+          title: "Godot",
           tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="paperplane.fill" color={color} />
+            <IconSymbol size={28} name="gamecontroller.fill" color={color} />
           ),
         }}
       />

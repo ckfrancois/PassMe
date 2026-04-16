@@ -16,36 +16,21 @@ import {
 } from "react-native";
 import { BleManager, Device } from "react-native-ble-plx";
 
-import { getAuth } from "@react-native-firebase/auth";
-import { getApps, initializeApp } from "firebase/app";
 import {
   arrayUnion,
   doc,
   getDoc,
-  getFirestore,
   setDoc,
 } from "firebase/firestore";
 import { check, PERMISSIONS, request, RESULTS } from "react-native-permissions";
+
+import { useAuth } from "@/hooks/use-auth";
+import { firestore } from "@/lib/firebase";
 
 const APP_SERVICE_UUID = "0000ABCD-0000-1000-8000-00805F9B34FB";
 const USERNAME_CHARACTERISTIC_UUID = "0000DCBA-0000-1000-8000-00805F9B34FB";
 
 const bleManager = new BleManager();
-
-const firebaseConfig = {
-  apiKey: process.env.EXPO_PUBLIC_FIREBASE_API_KEY,
-  authDomain: process.env.EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.EXPO_PUBLIC_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.EXPO_PUBLIC_FIREBASE_APP_ID,
-};
-
-if (!getApps().length) {
-  initializeApp(firebaseConfig);
-}
-
-const db = getFirestore();
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
@@ -60,6 +45,7 @@ const stringToHex = (str: string): string =>
 const BleNearbyUsers: React.FC = () => {
   const colorScheme = useColorScheme();
   const textColor = colorScheme === "dark" ? "#FFFFFF" : "#000000";
+  const { currentUser } = useAuth();
 
   const lastSeen = useRef<Map<string, number>>(new Map());
 
@@ -80,10 +66,12 @@ const BleNearbyUsers: React.FC = () => {
 
   const savePassedUser = async (foundUser: string) => {
     try {
-      const currentUser = getAuth().currentUser;
-      if (!currentUser) return;
+      if (!currentUser) {
+        console.warn("No logged in user, skipping Firestore save");
+        return;
+      }
 
-      const userRef = doc(db, "Users", currentUser.uid);
+      const userRef = doc(firestore, "Users", currentUser.uid);
 
       await setDoc(
         userRef,
@@ -168,10 +156,17 @@ const BleNearbyUsers: React.FC = () => {
       const decoded = Buffer.from(characteristic.value, "base64").toString("utf-8");
 
       if (decoded.startsWith("PM:")) {
-        const foundUserID = decoded.slice(3);
-        const docRef = doc(db, "Users", foundUserID);
+        const foundUser = decoded.slice(3);
+        const foundUserID = foundUser; // Assuming the UID is being broadcasted for uniqueness
+        console.log(Platform.OS + ": 🔵 Found user:", foundUser);
+
+        // Get data from Firestore to display the displayName instead of UID, and to verify the user exists
+        const docRef = doc(firestore, "Users", foundUser);
         const foundData = (await getDoc(docRef)).data();
-        const displayName = foundData?.displayName || foundUserID;
+
+        console.log("Firestore lookup for", foundUser, "result:", foundData);
+        const displayName =
+          foundData?.username || foundData?.displayName || foundUser;
 
         setNearbyUsers((prev) =>
           prev.includes(displayName) ? prev : [...prev, displayName],
@@ -208,7 +203,8 @@ const BleNearbyUsers: React.FC = () => {
     stopBLE();
     setNearbyUsers([]);
 
-    const localName = `PM:${getAuth().currentUser?.uid || "Unknown"}`;
+    const localName = `PM:${currentUser?.uid || "Unknown"}`;
+    console.log("📡 Advertising as:", localName, "on", Platform.OS);
     setScanning(true);
     setStatusMessage("📡 Starting...");
 
@@ -252,9 +248,17 @@ const BleNearbyUsers: React.FC = () => {
       <Text style={[styles.status, { color: textColor }]}>{statusMessage}</Text>
 
       <View style={styles.buttonGrid}>
-        {getAuth().currentUser === null ? (
+        {currentUser === null && (
           <Text style={{ color: textColor, width: "100%" }}>
-            You need to sign in to use the BLE features.
+            You need to sign in to use the BLE features. Please go to the Home
+            tab and sign in with Google.
+          </Text>
+        )}
+        {currentUser !== null && (
+          <Text style={{ color: textColor, width: "100%" }}>
+            You're signed in as{" "}
+            {currentUser?.displayName || "Unknown User"}
+            .
           </Text>
         ) : (
           <View style={{ width: "100%", alignItems: "center", marginBottom: 10 }}>
@@ -270,7 +274,7 @@ const BleNearbyUsers: React.FC = () => {
         )}
 
         <TouchableOpacity
-          style={[styles.button, getAuth().currentUser && styles.buttonActive]}
+          style={[styles.button, currentUser && styles.buttonActive]}
           onPress={() => startBLE(username)}
         >
           <Text style={styles.buttonText}>Start BLE</Text>

@@ -1,0 +1,82 @@
+import { StyleSheet } from "react-native";
+
+export const authScreenStyles = StyleSheet.create({
+  question: {
+    color: "#FFFFFF",
+    fontFamily: "Fredoka_600SemiBold",
+    fontSize: 36,
+    textAlign: "center",
+    textShadowColor: "#275327",
+    textShadowOffset: { width: 0, height: 2 },
+    textShadowRadius: 0,
+    marginTop: 72,
+  },
+  backButton: {
+    width: 40,
+    height: 40,
+    borderRadius: 10,
+    borderWidth: 4,
+    borderColor: "#824200",
+    backgroundColor: "#D06B00",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  backButtonText: {
+    color: "#5D2800",
+    fontFamily: "Fredoka_700Bold",
+    fontSize: 26,
+    lineHeight: 28,
+    marginTop: -2,
+  },
+  smallText: {
+    color: "#E5F7E5",
+    fontFamily: "Fredoka_500Medium",
+    fontSize: 16,
+    textAlign: "center",
+  },
+  footerLink: {
+    color: "#114E12",
+    fontFamily: "Fredoka_600SemiBold",
+    fontSize: 14,
+    textDecorationLine: "underline",
+  },
+  termsText: {
+    color: "#E5F7E5",
+    fontFamily: "Fredoka_400Regular",
+    fontSize: 12,
+    lineHeight: 18,
+    textAlign: "center",
+  },
+  termsLink: {
+    color: "#114E12",
+    textDecorationLine: "underline",
+  },
+  homeCard: {
+    borderRadius: 20,
+    borderWidth: 4,
+    borderColor: "#0B6A10",
+    backgroundColor: "rgba(255,255,255,0.88)",
+    padding: 18,
+    gap: 8,
+  },
+  homeTitle: {
+    color: "#161616",
+    fontFamily: "Fredoka_600SemiBold",
+    fontSize: 22,
+    textAlign: "center",
+  },
+  homeBody: {
+    color: "#30442B",
+    fontFamily: "Fredoka_400Regular",
+    fontSize: 15,
+    lineHeight: 20,
+    textAlign: "center",
+  },
+  signOutText: {
+    color: "#114E12",
+    fontFamily: "Fredoka_600SemiBold",
+    fontSize: 16,
+    textAlign: "center",
+    textDecorationLine: "underline",
+  },
+});

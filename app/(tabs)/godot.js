@@ -4,6 +4,7 @@ import {
   runOnGodotThread,
 } from "@borndotcom/react-native-godot";
 import { Ionicons } from "@expo/vector-icons";
+import { getAuth } from "@react-native-firebase/auth";
 import * as FileSystem from "expo-file-system/legacy";
 import { useEffect, useState } from "react";
 import { Platform, StyleSheet, TouchableOpacity, View } from "react-native";
@@ -79,8 +80,40 @@ export default function GodotScreen() {
   const [isPaused, setIsPaused] = useState(false);
 
   useEffect(() => {
-    initGodot();
-    return () => {};
+    let mounted = true;
+
+    const start = async () => {
+      initGodot();
+
+      // Get token and user UID from Firebase Auth
+      const token = await getAuth().currentUser.getIdToken(true);
+      const user_uid = getAuth().currentUser.uid;
+
+      // Force a Godot Thread to ensure the API is ready and we can interact with Godot nodes
+      RTNGodot.runOnGodotThread(() => {
+        "worklet";
+
+        // Access the root node and find the AuthManager to set the token
+        const Godot = RTNGodot.API();
+        const engine = Godot.Engine;
+        const sceneTree = engine.get_main_loop();
+        const root = sceneTree.get_root();
+
+        // Retrieve the AuthManager node
+        const auth = root.find_child("AuthManager", true, false);
+
+        // Set token to Auth Token in the AuthManager
+        auth.set_project_id(process.env.EXPO_PUBLIC_FIREBASE_PROJECT_ID);
+        auth.set_uid(user_uid);
+        auth.set_token(token);
+      });
+    };
+
+    start();
+
+    return () => {
+      mounted = false;
+    };
   }, []);
 
   const handlePlayPause = () => {
