@@ -11,7 +11,7 @@
     "ios": {
       "googleServicesFile": "./GoogleService-Info.plist",
       "supportsTablet": true,
-      "bundleIdentifier": "com.bodacious.passme",
+      "bundleIdentifier": "com.chrisgw.passme",
       "infoPlist": {
         "UIBackgroundModes": [
           "bluetooth-central",
@@ -45,7 +45,7 @@
         "android.permission.BLUETOOTH_SCAN",
         "android.permission.NEARBY_WIFI_DEVICES"
       ],
-      "package": "com.bodacious.passme"
+      "package": "com.chrisgw.passme"
     },
     "web": {
       "output": "static",

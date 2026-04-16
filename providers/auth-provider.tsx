@@ -63,7 +63,8 @@ export function AuthProvider({ children }: PropsWithChildren) {
 
       const signInResult = await GoogleSignin.signIn();
       const idToken =
-        signInResult?.data?.idToken || (signInResult as { idToken?: string }).idToken;
+        signInResult?.data?.idToken ||
+        (signInResult as { idToken?: string }).idToken;
 
       if (!idToken) {
         throw new Error("Google sign-in did not return an ID token.");
