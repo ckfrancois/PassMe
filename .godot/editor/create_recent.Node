@@ -1,8 +1,9 @@
+Label
+TextureRect
 TextureButton
 Node
 GridContainer
 MarginContainer
-Label
 VBoxContainer
 ScrollContainer
 Button
@@ -11,4 +12,3 @@ ColorRect
 Sprite2D
 CanvasLayer
 Node2D
-CollisionShape2D

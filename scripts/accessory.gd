@@ -2,6 +2,8 @@ extends Node2D
 
 @onready var accessoryC_sprite = $Color
 @onready var accessoryO_sprite = $Outline
+@export var acc_buttons: ButtonGroup
+@export var acc_color_buttons: ButtonGroup
 
 # Keys
 var accessory_keys = []
@@ -11,6 +13,8 @@ var current_accessory_index = 0
 func _ready():
 	set_sprite_keys()
 	update_accessory()
+	acc_buttons.pressed.connect(_on_acc_group_pressed)
+	acc_color_buttons.pressed.connect(_on_acc_color_group_pressed)
 
 func set_sprite_keys():
 	accessory_keys = Global.accessoryO_collection.keys()
@@ -42,4 +46,14 @@ func _on_collection_button_pressed() -> void:
 
 func _on_color_button_pressed() -> void:
 	current_color_index = (current_color_index + 1) % Global.colors.size()
+	update_accessory()
+
+func _on_acc_group_pressed(button: BaseButton):
+	var button_pressed = acc_buttons.get_pressed_button()
+	current_accessory_index = int(button_pressed.name) - 1
+	update_accessory()
+
+func _on_acc_color_group_pressed(button: BaseButton):
+	var button_pressed = acc_color_buttons.get_pressed_button()
+	current_color_index = int(button_pressed.name) - 1
 	update_accessory()
