@@ -94,6 +94,7 @@ export default function HomeScreen() {
         setTestingFromHome(true);
         setActiveStep("birthDate");
       }}
+      onGoToPasslingEditor={() => router.push({ pathname: "/godot", params: { flow: "creation" } })}
       onOpenUsernameTest={() => {
         setTestingFromHome(true);
         setActiveStep("username");

@@ -1,5 +1,7 @@
+import auth from "@react-native-firebase/auth";
+import firestore from "@react-native-firebase/firestore";
 import { useState } from "react";
-import { Pressable, Text } from "react-native";
+import { Alert, Pressable, Text } from "react-native";
 
 import { AuthButton } from "@/components/auth/auth-button";
 import { AuthField } from "@/components/auth/auth-field";
@@ -11,7 +13,7 @@ type BirthDateScreenProps = {
   defaultValue?: string | null;
   loading: boolean;
   onBack: () => void;
-  onSubmit: (birthDate: string) => void;
+  onSubmit?: (birthDate: string) => void; // optional now
 };
 
 export function BirthDateScreen({
@@ -21,6 +23,34 @@ export function BirthDateScreen({
   onSubmit,
 }: BirthDateScreenProps) {
   const [birthDate, setBirthDate] = useState(defaultValue ?? "");
+  const [saving, setSaving] = useState(false);
+
+  const normalized = birthDate.trim();
+
+  const handleSave = async () => {
+    if (!normalized) return;
+
+    setSaving(true);
+    try {
+      const user = auth().currentUser;
+      if (!user) throw new Error("No user found");
+
+      // 🔹 Creates field if it doesn't exist (merge: true)
+      await firestore().collection("Users").doc(user.uid).set(
+        {
+          birthDate: normalized,
+        },
+        { merge: true }
+      );
+
+      // optional navigation callback
+      onSubmit?.(normalized);
+    } catch (err: any) {
+      Alert.alert("Error", err.message);
+    } finally {
+      setSaving(false);
+    }
+  };
 
   return (
     <AuthShell
@@ -33,6 +63,7 @@ export function BirthDateScreen({
       }
     >
       <Text style={authScreenStyles.question}>When were you born?</Text>
+
       <AuthField
         autoCapitalize="words"
         autoCorrect={false}
@@ -41,11 +72,12 @@ export function BirthDateScreen({
         returnKeyType="done"
         value={birthDate}
       />
+
       <AuthButton
-        disabled={loading || !birthDate.trim()}
+        disabled={loading || saving || !normalized}
         icon="chevron-right"
-        label={loading ? "Saving..." : "Next"}
-        onPress={() => onSubmit(birthDate.trim())}
+        label={saving ? "Saving..." : "Next"}
+        onPress={handleSave}
       />
     </AuthShell>
   );

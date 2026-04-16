@@ -85,7 +85,7 @@ export default function ProfileScreen() {
           if (!passlingData) setLoadingPassling(true);
   
           await user.reload();
-          setDisplayName(currentUser?.displayName || "Unknown User");
+          
   
           // Fetch Passling data
           const passSnap = await firestore()
@@ -101,6 +101,7 @@ export default function ProfileScreen() {
             .get();
           if (userSnap.exists) {
             const uData = userSnap.data();
+            setDisplayName(uData?.displayName || "Unknown User");
             setGreeting(uData?.greeting || "");
             setBio(uData?.bio || "");
           }

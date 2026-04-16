@@ -50,7 +50,13 @@ export const NearbyUserProvider = ({ children }) => {
 
         const passlingData = passlingSnap.exists ? passlingSnap.data() : null;
 
+        const passlingColor = passlingSnap.exists ? passlingSnap.data().outfit_color : null;
+
         const displayName = userData?.username || userData?.displayName || uid;
+
+        const greeting =
+         userData?.greeting || "just passed you!";
+        
 
         setUsers((prev) => {
           if (prev.find((u) => u.uid === uid)) return prev;
@@ -65,8 +71,8 @@ export const NearbyUserProvider = ({ children }) => {
             },
           ];
         });
-
-        showNotification(displayName, passlingData);
+        console.log(passlingColor)
+        showNotification(displayName, passlingData, greeting, passlingColor );
 
         await savePassedUser(uid);
 

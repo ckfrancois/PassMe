@@ -10,25 +10,40 @@ type Notification = {
   translateY: Animated.Value;
   opacity: Animated.Value;
   greeting: string;
+  color: string;
 };
 
 type NotificationContextType = {
-  showNotification: (username: string, passlingData?: any, greeting?: string) => void;  // ← added param
+  showNotification: (username: string, passlingData?: any, greeting?: string, color?: string) => void;  // ← added param
 };
 
 const NotificationContext = createContext<NotificationContextType>({
   showNotification: () => {},
 });
 
+const normalizeToRgba = (colorString: string, t: Float) => {
+    if (!colorString) return "rgba(255,255,255,1)";
+    const values = colorString.replace(/[()]/g, "").split(",");
+    const r = Math.round(parseFloat(values[0]) * 255);
+    const g = Math.round(parseFloat(values[1]) * 255);
+    const b = Math.round(parseFloat(values[2]) * 255);
+    const a = values[3] ? values[3].trim() : "1.0";
+    const i = (r + g + b) / 3;
+    const r2 = r + (i - r) * t;
+    const g2 = g + (i - g) * t;
+    const b2 = b + (i - b) * t;
+    return `rgba(${r2}, ${g2}, ${b2}, ${a})`;
+  };
+
 export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [notifications, setNotifications] = useState<Notification[]>([]);
 
-  const showNotification = useCallback((username: string, passlingData: any = null, greeting: string) => {  // ← added param
+  const showNotification = useCallback((username: string, passlingData: any = null, greeting: string, color: string) => {  // ← added param
     const id = Date.now().toString();
     const translateY = new Animated.Value(-80);
     const opacity = new Animated.Value(0);
 
-    const newNotif: Notification = { id, username, passlingData, translateY, opacity, greeting };  // ← stored
+    const newNotif: Notification = { id, username, passlingData, translateY, opacity, greeting, color };  // ← stored
     setNotifications((prev) => [...prev, newNotif]);
 
     Animated.parallel([
@@ -75,6 +90,8 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
               {
                 transform: [{ translateY: notif.translateY }],
                 opacity: notif.opacity,
+                backgroundColor: normalizeToRgba(notif.color, 0.3),
+                borderLeftColor: normalizeToRgba(notif.color, 0.5),
               },
             ]}
           >
@@ -92,7 +109,7 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
             <View>
               <Text style={styles.notifUsername}>{notif.username}</Text>
               <Text style={styles.notifSubtext}>just passed you!</Text>
-              <Text style={styles.notifSubtext}>{notif.greeting}</Text>
+              <Text style={styles.notifGreeting}>{notif.greeting}</Text>
               
             </View>
           </Animated.View>
@@ -155,6 +172,11 @@ const styles = StyleSheet.create({
   },
   notifSubtext: {
     color: "#A8D4FF",
+    fontSize: 13,
+    marginTop: 2,
+  },
+  notifGreeting: {
+    color: "#FFFFFF",
     fontSize: 13,
     marginTop: 2,
   },

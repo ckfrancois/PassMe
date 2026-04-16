@@ -158,7 +158,8 @@ const BleNearbyUsers: React.FC = () => {
         const foundData = (
           await firestore().collection("Users").doc(foundUser).get()
         ).data();
-
+       
+     
         // Fetch passling data from the Passlings collection
         const passlingSnap = await firestore()
           .collection("Passlings")
@@ -169,13 +170,16 @@ const BleNearbyUsers: React.FC = () => {
         console.log("Firestore lookup for", foundUser, "result:", foundData);
         const displayName =
           foundData?.username || foundData?.displayName || foundUser;
+          const greeting =
+         foundData?.greeting || "just passed you!"; // 👈 NEW
+
 
         setNearbyUsers((prev) =>
           prev.includes(displayName) ? prev : [...prev, displayName],
         );
 
         // Pass passlingData as second argument to showNotification
-        showNotification(displayName, passlingData);
+        showNotification(displayName, passlingData, greeting);
 
         if (!nearbyUsers.includes(foundUserID)) {
           await savePassedUser(foundUserID);
