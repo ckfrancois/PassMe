@@ -140,7 +140,7 @@ export default function GodotScreen() {
     if (flow === "creation") {
       router.push("/initialEdit");
     } else {
-      router.push("/MyProfile");
+      router.back()
     }
   };
 
