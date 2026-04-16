@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import {
   StyleSheet,
   useWindowDimensions,
@@ -59,14 +59,16 @@ export function AnimatedBackground({
   const progress = useSharedValue(0);
   const cells = useMemo(() => buildGrid(width, height), [height, width]);
 
-  progress.value = withRepeat(
-    withTiming(1, {
-      duration: 12000,
-      easing: Easing.linear,
-    }),
-    -1,
-    false,
-  );
+  useEffect(() => {
+    progress.value = withRepeat(
+      withTiming(1, {
+        duration: 12000,
+        easing: Easing.linear,
+      }),
+      -1,
+      false,
+    );
+  }, []);
 
   const animatedGridStyle = useAnimatedStyle(() => ({
     transform: [
@@ -78,7 +80,12 @@ export function AnimatedBackground({
 
   return (
     <View
-      style={[StyleSheet.absoluteFillObject, styles.container, { backgroundColor }, style]}
+      style={[
+        StyleSheet.absoluteFillObject,
+        styles.container,
+        { backgroundColor },
+        style,
+      ]}
     >
       <Animated.View style={[styles.gridLayer, animatedGridStyle]}>
         {cells.map((cell, index) => (

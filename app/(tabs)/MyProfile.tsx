@@ -1,3 +1,4 @@
+import { AnimatedBackground } from "@/components/auth/animated-background";
 import { useAuth } from "@/hooks/use-auth";
 import { Feather, MaterialIcons } from "@expo/vector-icons";
 import firestore from "@react-native-firebase/firestore";
@@ -15,7 +16,6 @@ import {
 } from "react-native";
 import { Float } from "react-native/Libraries/Types/CodegenTypes";
 import Passling from "../../components/passling";
-
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
@@ -169,6 +169,7 @@ export default function ProfileScreen() {
       </View>
 
       <SafeAreaView style={styles.safe}>
+      <AnimatedBackground backgroundColor= {bgColor} patternColor={squareColor} />
         <View style={[styles.screen, styles.scrollContent]}>
           {/* Header */}
           <View style={styles.header}>

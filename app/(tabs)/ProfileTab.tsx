@@ -1,3 +1,4 @@
+import { AnimatedBackground } from "@/components/auth/animated-background";
 import { MaterialIcons } from "@expo/vector-icons";
 import auth from "@react-native-firebase/auth";
 import firestore from "@react-native-firebase/firestore";
@@ -7,12 +8,11 @@ import {
   ActivityIndicator,
   Alert,
   SafeAreaView,
-  ScrollView,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
-  View,
+  View
 } from "react-native";
 import Passling from "../../components/passling";
 
@@ -158,10 +158,7 @@ export default function EditProfileScreen() {
       </View>
 
       <SafeAreaView style={styles.safe}>
-        <ScrollView
-          contentContainerStyle={styles.scrollContent}
-          bounces={false}
-        >
+      <AnimatedBackground backgroundColor= {bgColor} patternColor={squareColor} />
           <View style={styles.header}>
             <View style={[styles.avatarWrap, { backgroundColor: "#FFFFFF" }]}>
               {/* Conditional Spinner: Only shows on true initial load */}
@@ -234,7 +231,7 @@ export default function EditProfileScreen() {
               </TouchableOpacity>
             </View>
           </View>
-        </ScrollView>
+        
       </SafeAreaView>
     </View>
   );

@@ -11,7 +11,7 @@
     "ios": {
       "googleServicesFile": "./GoogleService-Info.plist",
       "supportsTablet": true,
-      "bundleIdentifier": "com.chrisgw.passme",
+      "bundleIdentifier": "com.logangeorgi.passme",
       "infoPlist": {
         "UIBackgroundModes": [
           "bluetooth-central",
@@ -45,7 +45,7 @@
         "android.permission.BLUETOOTH_SCAN",
         "android.permission.NEARBY_WIFI_DEVICES"
       ],
-      "package": "com.chrisgw.passme"
+      "package": "com.logangeorgi.passme"
     },
     "web": {
       "output": "static",
