@@ -220,3 +220,13 @@ The Passlings in your town can be used across multiple fun minigames aswell!
 > <img width="731" height="566" alt="Example of successful build for iOS" src="https://github.com/user-attachments/assets/32bdf485-69e7-47ab-bfc1-7c23edf4a2e4" />
 </details>
 
+---
+# Credits
+### Some Amazing Github Repos we used to build this app!
+[Bluetooth Low Energy](https://github.com/dotintent/react-native-ble-plx)
+
+[Secondary Bluetooth Low Energy](https://github.com/munimtechnologies/munim-bluetooth)
+
+[Godot in React Native](https://github.com/borndotcom/react-native-godot)
+
+[Android Godot Patch](https://github.com/akshayjadhav4/react-native-godot-demo/tree/main)
