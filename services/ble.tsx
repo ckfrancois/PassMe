@@ -1,4 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
+import { Buffer } from "buffer";
+import {
+  setServices,
+  startAdvertising,
+  stopAdvertising,
+} from "munim-bluetooth";
+import React, { useRef, useState } from "react";
 import {
   PermissionsAndroid,
   Platform,
@@ -6,17 +12,9 @@ import {
   Text,
   TouchableOpacity,
   useColorScheme,
-  View,
+  View
 } from "react-native";
-
-import { Buffer } from "buffer";
-import { BleError, BleManager, Device } from "react-native-ble-plx";
-
-import {
-  setServices,
-  startAdvertising,
-  stopAdvertising,
-} from "munim-bluetooth";
+import { BleManager, Device } from "react-native-ble-plx";
 
 import {
   arrayUnion,
@@ -55,9 +53,15 @@ const BleNearbyUsers: React.FC = () => {
   const [username, setUsername] = useState("");
   const [nearbyUsers, setNearbyUsers] = useState<string[]>([]);
   const [statusMessage, setStatusMessage] = useState("");
-
+  
+  
   const connectingDevices = useRef<Set<string>>(new Set());
 
+  // ─── Lifecycle & Data Fetching ─────────────────────────────────────────────
+
+  
+
+ 
   // ─── Save passed user to Firestore ─────────────────────────────────────────
 
   const savePassedUser = async (foundUser: string) => {
@@ -69,7 +73,6 @@ const BleNearbyUsers: React.FC = () => {
 
       const userRef = doc(firestore, "Users", currentUser.uid);
 
-      // Use arrayUnion so we never add duplicates and don't overwrite
       await setDoc(
         userRef,
         {
@@ -127,58 +130,30 @@ const BleNearbyUsers: React.FC = () => {
 
   const handleDiscoveredDevice = async (device: Device) => {
     const deviceId = device.id;
-
     const now = Date.now();
     const last = lastSeen.current.get(deviceId) || 0;
 
     if (now - last < 10000) return;
-
     lastSeen.current.set(deviceId, now);
 
-    if (Platform.OS === "android" && (device.rssi ?? -100) < -85) {
-      console.log("⏭️ Signal too weak, skipping:", deviceId, device.rssi);
-      return;
-    }
-
+    if (Platform.OS === "android" && (device.rssi ?? -100) < -85) return;
     if (connectingDevices.current.has(deviceId)) return;
     connectingDevices.current.add(deviceId);
 
-    console.log(Platform.OS + ": 🔍 Discovered:", {
-      id: deviceId,
-      name: device.name ?? "unnamed",
-      rssi: device.rssi,
-    });
-
     try {
-      const connected = await device.connect({
-        timeout: 20000,
-        requestMTU: 512,
-      });
-      console.log(Platform.OS + ": 🔗 Connected to:", deviceId);
-
-      if (Platform.OS === "android") {
-        await connected.requestConnectionPriority(0);
-      }
-
+      const connected = await device.connect({ timeout: 20000, requestMTU: 512 });
+      if (Platform.OS === "android") await connected.requestConnectionPriority(0);
       await new Promise((res) => setTimeout(res, 500));
-
-      const discovered =
-        await connected.discoverAllServicesAndCharacteristics();
+      const discovered = await connected.discoverAllServicesAndCharacteristics();
 
       const characteristic = await discovered.readCharacteristicForService(
         APP_SERVICE_UUID,
         USERNAME_CHARACTERISTIC_UUID,
       );
 
-      if (!characteristic.value) {
-        console.warn(Platform.OS + ": ⚠️ Empty value from:", deviceId);
-        return;
-      }
+      if (!characteristic.value) return;
 
-      const decoded = Buffer.from(characteristic.value, "base64").toString(
-        "utf-8",
-      );
-      console.log(Platform.OS + ": 📖 Decoded:", decoded, "from:", deviceId);
+      const decoded = Buffer.from(characteristic.value, "base64").toString("utf-8");
 
       if (decoded.startsWith("PM:")) {
         const foundUser = decoded.slice(3);
@@ -197,31 +172,15 @@ const BleNearbyUsers: React.FC = () => {
           prev.includes(displayName) ? prev : [...prev, displayName],
         );
 
-        // Save to Firestore if not already in the list
-        // Save the ID since it is unique and won't change, while displayName can be non-unique and can change
         if (!nearbyUsers.includes(foundUserID)) {
           await savePassedUser(foundUserID);
         }
-      } else {
-        console.log(
-          Platform.OS + ": ⏭️ Not a PassMe device:",
-          deviceId,
-          "value:",
-          decoded,
-        );
       }
     } catch (err) {
-      const bleErr = err as BleError;
-      console.log(
-        Platform.OS + ": ⏭️ Skipping",
-        deviceId,
-        "—",
-        bleErr?.message ?? String(err),
-      );
+      console.log(Platform.OS + ": ⏭️ Skipping discovery error.");
     } finally {
       try {
         await bleManager.cancelDeviceConnection(deviceId);
-        console.log(Platform.OS + ": 🔌 Disconnected from:", deviceId);
       } catch {}
       connectingDevices.current.delete(deviceId);
     }
@@ -263,15 +222,10 @@ const BleNearbyUsers: React.FC = () => {
         },
       ]);
 
-      await startAdvertising({
-        serviceUUIDs: [APP_SERVICE_UUID],
-      });
-
-      console.log("✅ Advertising started");
+      await startAdvertising({ serviceUUIDs: [APP_SERVICE_UUID] });
       setStatusMessage(`✅ Advertising as "${localName}"`);
     } catch (err) {
-      console.error("❌ Failed to start advertising:", err);
-      setStatusMessage("❌ Failed to start advertising. Please try again.");
+      setStatusMessage("❌ Advertising failed.");
       setScanning(false);
       return;
     }
@@ -280,33 +234,17 @@ const BleNearbyUsers: React.FC = () => {
       Platform.OS === "android" ? null : [APP_SERVICE_UUID],
       { allowDuplicates: true },
       (error, device) => {
-        if (error) {
-          console.error("❌ Scan error:", error);
-          setStatusMessage("❌ Scan error: " + error.message);
-          return;
-        }
-        if (device) {
-          handleDiscoveredDevice(device);
-        }
+        if (error) return;
+        if (device) handleDiscoveredDevice(device);
       },
     );
-
-    console.log("🔍 Scan started");
   };
-
-  useEffect(() => {
-    return () => {
-      stopBLE();
-      bleManager.destroy();
-    };
-  }, []);
 
   // ─── Render ────────────────────────────────────────────────────────────────
 
   return (
     <View style={styles.container}>
       <Text style={[styles.title, { color: textColor }]}>BLE Nearby</Text>
-
       <Text style={[styles.status, { color: textColor }]}>{statusMessage}</Text>
 
       <View style={styles.buttonGrid}>
@@ -322,11 +260,22 @@ const BleNearbyUsers: React.FC = () => {
             {currentUser?.displayName || "Unknown User"}
             .
           </Text>
+        ) : (
+          <View style={{ width: "100%", alignItems: "center", marginBottom: 10 }}>
+            <Text style={{ color: textColor, marginBottom: 10 }}>
+              You're signed in as {getAuth().currentUser?.displayName || "User"}.
+            </Text>
+            
+           
+            { (
+              <Text style={{ color: textColor }}>Character data not found.</Text>
+            )}
+          </View>
         )}
+
         <TouchableOpacity
           style={[styles.button, currentUser && styles.buttonActive]}
           onPress={() => startBLE(username)}
-          disabled={false}
         >
           <Text style={styles.buttonText}>Start BLE</Text>
         </TouchableOpacity>
@@ -363,18 +312,12 @@ const styles = StyleSheet.create({
   container: { flex: 1, padding: 20, marginTop: 50 },
   title: { fontSize: 24, fontWeight: "bold", marginBottom: 12 },
   status: { fontSize: 14, color: "#666", marginBottom: 16 },
-  input: {
-    borderWidth: 1,
-    borderRadius: 8,
-    padding: 10,
-    fontSize: 16,
-    marginBottom: 8,
-  },
   buttonGrid: {
     flexDirection: "row",
     flexWrap: "wrap",
     gap: 12,
     marginBottom: 12,
+    justifyContent: "center"
   },
   button: {
     width: "47%",
