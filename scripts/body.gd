@@ -33,6 +33,8 @@ extends Node2D
 @export var body_buttons: ButtonGroup
 @export var outfit_buttons: ButtonGroup
 @export var outfit_color_buttons: ButtonGroup
+@export var leg_buttons: ButtonGroup
+@export var leg_color_buttons: ButtonGroup
 
 # Keys
 var eye_keys = []
@@ -73,6 +75,8 @@ func _ready():
 	body_buttons.pressed.connect(_on_body_group_pressed)
 	outfit_buttons.pressed.connect(_on_outfit_group_pressed)
 	outfit_color_buttons.pressed.connect(_on_outfit_color_group_pressed)
+	leg_buttons.pressed.connect(_on_leg_group_pressed)
+	leg_color_buttons.pressed.connect(_on_leg_color_group_pressed)
 	#print(str("Buttons in Group array include: ", eyes_buttons.get_buttons()))
 
 func set_sprite_keys():
@@ -242,12 +246,41 @@ func _on_body_group_pressed(button: BaseButton):
 
 func _on_outfit_group_pressed(button: BaseButton):
 	var button_pressed = outfit_buttons.get_pressed_button()
-	var name = button_pressed.name.replace("_",".")
-	current_outfit_index = int(name) - 1
+	current_outfit_index = int(button_pressed.name) - 1
+	# Prevent overall bottoms from being worn on other outfits
+	if(current_outfit_index != 5 && current_outfit_index != 4 && current_outfit_index != 3):
+		if(current_leg_index == 5):
+			current_leg_index = 10
+			update_leg_sprite()
+		if(current_leg_index == 11):
+			current_leg_index = 12
+			update_leg_sprite()
+	else:
+		if(current_leg_index == 10):
+			current_leg_index = 5
+			update_leg_sprite()
+		if(current_leg_index == 12):
+			current_leg_index = 11
+			update_leg_sprite()
 	update_outfit_sprite()
 
 func _on_outfit_color_group_pressed(button: BaseButton):
 	var button_pressed = outfit_color_buttons.get_pressed_button()
-	var name = button_pressed.name.replace("_",".")
-	current_outfit_color_index = int(name) - 1
+	current_outfit_color_index = int(button_pressed.name) - 1
 	update_outfit_sprite()
+
+func _on_leg_group_pressed(button: BaseButton):
+	var button_pressed = leg_buttons.get_pressed_button()
+	current_leg_index = int(button_pressed.name) - 1
+	# Automatically convert to overall bottoms when wearing overall outfits
+	if(current_outfit_index == 5 || current_outfit_index == 4 || current_outfit_index == 3):
+		if (current_leg_index == 10):
+			current_leg_index = 5
+		if (current_leg_index == 12):
+			current_leg_index = 11
+	update_leg_sprite()
+
+func _on_leg_color_group_pressed(button: BaseButton):
+	var button_pressed = leg_color_buttons.get_pressed_button()
+	current_leg_color_index = int(button_pressed.name) - 1
+	update_leg_sprite()

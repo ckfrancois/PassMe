@@ -4,3 +4,4 @@ res://scenes/Main.tscn
 res://scenes/player.tscn
 res://Scripts/global.gd
 res://Scripts/body.gd
+res://Scripts/auth_manager.gd
