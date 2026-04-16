@@ -2,13 +2,13 @@ import { router } from "expo-router";
 import { useState } from "react";
 import { ActivityIndicator, StyleSheet, View } from "react-native";
 
+import { AnimatedBackground } from "@/components/auth/animated-background";
 import {
   BirthDateScreen,
   SignedInHome,
   UsernameScreen,
   WelcomeScreen,
 } from "@/components/auth/auth-screens";
-import { AnimatedBackground } from "@/components/auth/animated-background";
 import { useAuth } from "@/hooks/use-auth";
 
 type OnboardingStep = "birthDate" | "username" | "complete";
@@ -23,7 +23,9 @@ export default function HomeScreen() {
     signOut,
   } = useAuth();
   const [activeStep, setActiveStep] = useState<OnboardingStep>("birthDate");
-  const [simulatedUsername, setSimulatedUsername] = useState<string | null>(null);
+  const [simulatedUsername, setSimulatedUsername] = useState<string | null>(
+    null,
+  );
   const [testingFromHome, setTestingFromHome] = useState(false);
 
   if (initializing) {
@@ -85,11 +87,7 @@ export default function HomeScreen() {
 
   return (
     <SignedInHome
-      displayName={
-        simulatedUsername ||
-        currentUser?.displayName ||
-        "friend"
-      }
+      displayName={simulatedUsername || currentUser?.displayName || "friend"}
       onGoToBle={() => router.navigate("/(tabs)/BLETab")}
       onGoToExplore={() => router.navigate("/(tabs)/explore")}
       onOpenBirthDateTest={() => {
