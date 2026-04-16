@@ -6,7 +6,7 @@ import {
 import { getAuth } from "@react-native-firebase/auth";
 import { useFocusEffect } from "@react-navigation/native";
 import * as FileSystem from "expo-file-system/legacy";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Platform, StyleSheet, View } from "react-native";
 
 const ACTION_JUMP = "ui_accept";
@@ -93,8 +93,11 @@ export default function GodotScreen() {
       const start = async () => {
         initGodot();
 
-        const token = await getAuth().currentUser.getIdToken(true);
-        const user_uid = getAuth().currentUser.uid;
+        const user = getAuth().currentUser;
+        if (!user) return;
+
+        const token = await user.getIdToken(true);
+        const user_uid = user.uid;
 
         RTNGodot.runOnGodotThread(() => {
           "worklet";
