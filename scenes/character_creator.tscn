@@ -1,8 +1,9 @@
-[gd_scene load_steps=259 format=3 uid="uid://bs6dxdah3hck7"]
+[gd_scene load_steps=260 format=3 uid="uid://bs6dxdah3hck7"]
 
 [ext_resource type="Texture2D" uid="uid://cvn2ixbfbhrs4" path="res://assets/character_sprite/body/base/color/Base_RightArmT.png" id="1_dk5wx"]
+[ext_resource type="Script" uid="uid://d12pkhd0g2cuo" path="res://scripts/firebase_connector.gd" id="1_tvh0r"]
 [ext_resource type="Texture2D" uid="uid://bij6cdicryl66" path="res://assets/character_sprite/body/base/outline/Base_RightArm.png" id="2_8ugf3"]
-[ext_resource type="Script" uid="uid://btfdpa0etodth" path="res://Scripts/body.gd" id="2_y4ojd"]
+[ext_resource type="Script" uid="uid://btfdpa0etodth" path="res://scripts/body.gd" id="2_y4ojd"]
 [ext_resource type="Texture2D" uid="uid://v6n6xv8j41dm" path="res://assets/character_sprite/body/base/color/Base_LegT.png" id="3_s8202"]
 [ext_resource type="Texture2D" uid="uid://b18ajkn6gxvxg" path="res://assets/character_sprite/body/base/outline/Base_Leg.png" id="4_in210"]
 [ext_resource type="Texture2D" uid="uid://dl5ts5xkruodc" path="res://assets/character_sprite/body/base/color/Base_TorsoT.png" id="5_p0l4m"]
@@ -18,14 +19,14 @@
 [ext_resource type="Texture2D" uid="uid://bhxnbsmmg505x" path="res://assets/character_sprite/hair/color/Hair1C.png" id="15_hx0hx"]
 [ext_resource type="Texture2D" uid="uid://b23jsh3clcpmw" path="res://assets/character_sprite/hair/outline/Hair1.png" id="16_axsho"]
 [ext_resource type="Texture2D" uid="uid://bbyg0a63kh3u0" path="res://assets/character_sprite/hair/eyebrows/Eyebrows1.png" id="17_xfpfe"]
-[ext_resource type="Script" uid="uid://fuprbdt6dba1" path="res://Scripts/hair.gd" id="17_xhj85"]
+[ext_resource type="Script" uid="uid://fuprbdt6dba1" path="res://scripts/hair.gd" id="17_xhj85"]
 [ext_resource type="ButtonGroup" uid="uid://cjpjlu1vovlca" path="res://resources/button_group_eyes.tres" id="21_p0l4m"]
-[ext_resource type="Script" uid="uid://gb3f5enhydrv" path="res://Scripts/accessory.gd" id="21_rqrh5"]
+[ext_resource type="Script" uid="uid://gb3f5enhydrv" path="res://scripts/accessory.gd" id="21_rqrh5"]
 [ext_resource type="Texture2D" uid="uid://bri20db5avlcg" path="res://assets/sprite_sheets/Eyes.png" id="23_rqrh5"]
 [ext_resource type="Texture2D" uid="uid://c4i40273lcpu2" path="res://assets/sprite_sheets/EyesD.png" id="23_xhj85"]
 [ext_resource type="ButtonGroup" uid="uid://wsp0c5d4k7gl" path="res://resources/button_group_nose.tres" id="24_rqrh5"]
 [ext_resource type="Texture2D" uid="uid://wwq7blh3y53v" path="res://assets/sprite_sheets/Nose.png" id="25_ix263"]
-[ext_resource type="Script" uid="uid://sfo6fyso20xg" path="res://Scripts/creator_ui.gd" id="25_xfpfe"]
+[ext_resource type="Script" uid="uid://sfo6fyso20xg" path="res://scripts/creator_ui.gd" id="25_xfpfe"]
 [ext_resource type="Texture2D" uid="uid://c13v01ixj34tw" path="res://assets/sprite_sheets/NoseD.png" id="26_n1i1y"]
 [ext_resource type="ButtonGroup" uid="uid://dthojyfwiieag" path="res://resources/button_group_mouth.tres" id="27_n1i1y"]
 [ext_resource type="Texture2D" uid="uid://sato64me4g5x" path="res://assets/sprite_sheets/Mouth.png" id="28_1uaso"]
@@ -902,6 +903,10 @@ atlas = ExtResource("44_tvh0r")
 region = Rect2(700, 0, 100, 0)
 
 [node name="CharacterCreator" type="Node2D"]
+
+[node name="Node" type="Node" parent="." node_paths=PackedStringArray("confirm_button")]
+script = ExtResource("1_tvh0r")
+confirm_button = NodePath("../CreatorScreen/ColorRect2/Constant Buttons/Confirm")
 
 [node name="Skeleton" type="Node2D" parent="."]
 position = Vector2(266, 363)
