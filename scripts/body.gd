@@ -35,6 +35,8 @@ extends Node2D
 @export var outfit_color_buttons: ButtonGroup
 @export var leg_buttons: ButtonGroup
 @export var leg_color_buttons: ButtonGroup
+@export var shoe_buttons: ButtonGroup
+@export var shoe_color_buttons: ButtonGroup
 
 # Keys
 var eye_keys = []
@@ -77,6 +79,8 @@ func _ready():
 	outfit_color_buttons.pressed.connect(_on_outfit_color_group_pressed)
 	leg_buttons.pressed.connect(_on_leg_group_pressed)
 	leg_color_buttons.pressed.connect(_on_leg_color_group_pressed)
+	shoe_buttons.pressed.connect(_on_shoe_group_pressed)
+	shoe_color_buttons.pressed.connect(_on_shoe_color_group_pressed)
 	#print(str("Buttons in Group array include: ", eyes_buttons.get_buttons()))
 
 func set_sprite_keys():
@@ -284,3 +288,13 @@ func _on_leg_color_group_pressed(button: BaseButton):
 	var button_pressed = leg_color_buttons.get_pressed_button()
 	current_leg_color_index = int(button_pressed.name) - 1
 	update_leg_sprite()
+
+func _on_shoe_group_pressed(button: BaseButton):
+	var button_pressed = shoe_buttons.get_pressed_button()
+	current_shoe_index = int(button_pressed.name) - 1
+	update_shoe_sprite()
+
+func _on_shoe_color_group_pressed(button: BaseButton):
+	var button_pressed = shoe_color_buttons.get_pressed_button()
+	current_shoe_color_index = int(button_pressed.name) - 1
+	update_shoe_sprite()
