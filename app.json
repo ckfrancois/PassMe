@@ -11,7 +11,7 @@
     "ios": {
       "googleServicesFile": "./GoogleService-Info.plist",
       "supportsTablet": true,
-      "bundleIdentifier": "com.logangeorgi.passme",
+      "bundleIdentifier": "com.chrisgw.passme",
       "infoPlist": {
         "UIBackgroundModes": [
           "bluetooth-central",
@@ -33,7 +33,7 @@
         "backgroundImage": "./assets/images/android-icon-background.png",
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
-    
+
       "predictiveBackGestureEnabled": false,
       "permissions": [
         "android.permission.BLUETOOTH",
@@ -45,7 +45,7 @@
         "android.permission.BLUETOOTH_SCAN",
         "android.permission.NEARBY_WIFI_DEVICES"
       ],
-      "package": "com.logangeorgi.passme"
+      "package": "com.chrisgw.passme"
     },
     "web": {
       "output": "static",

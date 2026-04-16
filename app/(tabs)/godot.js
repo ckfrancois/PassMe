@@ -4,8 +4,9 @@ import {
   runOnGodotThread,
 } from "@borndotcom/react-native-godot";
 import { getAuth } from "@react-native-firebase/auth";
+import { useFocusEffect } from "@react-navigation/native";
 import * as FileSystem from "expo-file-system/legacy";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Platform, StyleSheet, View } from "react-native";
 
 const ACTION_JUMP = "ui_accept";
@@ -16,9 +17,17 @@ const ACTION_MOVE_RIGHT = "ui_right";
 const platform = Platform.OS;
 const bundleDirectory = FileSystem.bundleDirectory;
 
+function destroyGodot() {
+  runOnGodotThread(() => {
+    "worklet";
+    RTNGodot.destroyInstance();
+  });
+}
+
 function initGodot() {
   runOnGodotThread(() => {
     "worklet";
+    RTNGodot.destroyInstance();
     console.log("Initializing Godot");
 
     if (platform === "android") {
@@ -78,42 +87,38 @@ function releaseAction(action) {
 export default function GodotScreen() {
   const [isPaused, setIsPaused] = useState(false);
 
-  useEffect(() => {
-    let mounted = true;
+  useFocusEffect(
+    useCallback(() => {
+      // Tab is focused — start Godot
+      const start = async () => {
+        initGodot();
 
-    const start = async () => {
-      initGodot();
+        const token = await getAuth().currentUser.getIdToken(true);
+        const user_uid = getAuth().currentUser.uid;
 
-      // Get token and user UID from Firebase Auth
-      const token = await getAuth().currentUser.getIdToken(true);
-      const user_uid = getAuth().currentUser.uid;
+        RTNGodot.runOnGodotThread(() => {
+          "worklet";
+          const Godot = RTNGodot.API();
+          const engine = Godot.Engine;
+          const sceneTree = engine.get_main_loop();
+          const root = sceneTree.get_root();
 
-      // Force a Godot Thread to ensure the API is ready and we can interact with Godot nodes
-      RTNGodot.runOnGodotThread(() => {
-        "worklet";
+          const auth = root.find_child("AuthManager", true, false);
+          auth.set_project_id(process.env.EXPO_PUBLIC_FIREBASE_PROJECT_ID);
+          auth.set_uid(user_uid);
+          auth.set_token(token);
+        });
+      };
 
-        // Access the root node and find the AuthManager to set the token
-        const Godot = RTNGodot.API();
-        const engine = Godot.Engine;
-        const sceneTree = engine.get_main_loop();
-        const root = sceneTree.get_root();
+      start();
 
-        // Retrieve the AuthManager node
-        const auth = root.find_child("AuthManager", true, false);
-
-        // Set token to Auth Token in the AuthManager
-        auth.set_project_id(process.env.EXPO_PUBLIC_FIREBASE_PROJECT_ID);
-        auth.set_uid(user_uid);
-        auth.set_token(token);
-      });
-    };
-
-    start();
-
-    return () => {
-      mounted = false;
-    };
-  }, []);
+      // Tab is blurred — stop Godot
+      return () => {
+        console.log("Destroying Godot instance");
+        destroyGodot();
+      };
+    }, []),
+  );
 
   const handlePlayPause = () => {
     if (isPaused) {

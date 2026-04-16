@@ -52,3 +52,5 @@ plugin/build/withGodotFiles.js
 plugin/build/withGodotFiles.d.ts
 plugin/build/index.js
 plugin/build/index.d.ts
+plugin/build/withPckFile2.d.ts
+plugin/build/withPckFile2.js
