@@ -1,17 +1,16 @@
-[gd_scene format=3 uid="uid://bsjx361a74de2"]
+[gd_scene load_steps=3 format=3 uid="uid://bsjx361a74de2"]
 
 [ext_resource type="Texture2D" uid="uid://cakgfqju6wyhy" path="res://Assets/Dot.png" id="1_y34qd"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_1pwoe"]
-radius = 733.3333
+radius = 766.6666
 
-[node name="Peg" type="StaticBody2D" unique_id=672193691]
+[node name="Peg" type="StaticBody2D"]
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1445822298]
+[node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.07, 0.07)
 texture = ExtResource("1_y34qd")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1881598801]
-visible = false
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 scale = Vector2(0.03, 0.03)
 shape = SubResource("CircleShape2D_1pwoe")

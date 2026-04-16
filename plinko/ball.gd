@@ -1,6 +1,8 @@
 extends RigidBody2D
+class_name Ball
 
 var stopped = false
+signal out_of_bounds(ball:Ball)
 
 func _ready():
 	gravity_scale = 0
@@ -13,6 +15,12 @@ func _input(event):
 		gravity_scale = 1
  
 func _physics_process(delta: float) -> void:
+	if position.y >= Global.out_of_bounds_y:
+		print("Seeya")
+		out_of_bounds.emit(self)
+		queue_free()
+		return
+	
 	if stopped:
 		return
 	

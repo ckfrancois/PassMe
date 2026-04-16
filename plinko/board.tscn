@@ -1,9 +1,9 @@
-[gd_scene format=3 uid="uid://cg2hn3xej5lxy"]
+[gd_scene load_steps=7 format=3 uid="uid://cg2hn3xej5lxy"]
 
+[ext_resource type="Script" uid="uid://dubsa67y6wx5y" path="res://board.gd" id="1_jqgjh"]
 [ext_resource type="PackedScene" uid="uid://bsjx361a74de2" path="res://peg.tscn" id="1_psm7c"]
 [ext_resource type="PackedScene" uid="uid://cuw5t2mw8ot5u" path="res://Ball.tscn" id="2_8l818"]
 [ext_resource type="Texture2D" uid="uid://damwlvmdh0gpa" path="res://Assets/360_F_754818708_Tao9CX43IHrXgHNJKcqvH3uzfzkKRB9y.jpg" id="3_8l818"]
-[ext_resource type="Script" uid="uid://dsjwpgxuboil3" path="res://ball.gd" id="3_jqgjh"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_psm7c"]
 friction = 0.83
@@ -12,56 +12,58 @@ bounce = 0.96
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jqgjh"]
 size = Vector2(24, 1926)
 
-[node name="Board" type="Node2D" unique_id=1404565607]
+[node name="Board" type="Node2D" node_paths=PackedStringArray("ball")]
+script = ExtResource("1_jqgjh")
+ball = NodePath("Ball")
+spawn_point = Vector2(540, 243)
 
-[node name="pegs" type="Node2D" parent="." unique_id=1771283358]
+[node name="pegs" type="Node2D" parent="."]
 modulate = Color(0.14089966, 0.94921875, 0.2639048, 1)
 scale = Vector2(0.9890393, 0.9825464)
 
-[node name="Peg" parent="pegs" unique_id=672193691 instance=ExtResource("1_psm7c")]
-position = Vector2(181.9948, 523.1305)
+[node name="Peg" parent="pegs" instance=ExtResource("1_psm7c")]
+position = Vector2(349.8344, 523.1305)
 
-[node name="Peg2" parent="pegs" unique_id=416736464 instance=ExtResource("1_psm7c")]
-position = Vector2(880.6525, 556.71674)
+[node name="Peg2" parent="pegs" instance=ExtResource("1_psm7c")]
+position = Vector2(522.72955, 521.09503)
 
-[node name="Peg3" parent="pegs" unique_id=930244532 instance=ExtResource("1_psm7c")]
-position = Vector2(163.79532, 803.0155)
+[node name="Peg3" parent="pegs" instance=ExtResource("1_psm7c")]
+position = Vector2(437.79858, 641.1911)
 
-[node name="Peg4" parent="pegs" unique_id=1755989894 instance=ExtResource("1_psm7c")]
-position = Vector2(862.45306, 836.6017)
+[node name="Peg4" parent="pegs" instance=ExtResource("1_psm7c")]
+position = Vector2(535.8736, 731.7721)
 
-[node name="Peg5" parent="pegs" unique_id=2141884274 instance=ExtResource("1_psm7c")]
-position = Vector2(160.76207, 929.21814)
+[node name="Peg5" parent="pegs" instance=ExtResource("1_psm7c")]
+position = Vector2(350.84552, 733.8076)
 
-[node name="Peg6" parent="pegs" unique_id=261742196 instance=ExtResource("1_psm7c")]
+[node name="Peg6" parent="pegs" instance=ExtResource("1_psm7c")]
 position = Vector2(859.4198, 962.80444)
 
-[node name="Peg7" parent="pegs" unique_id=1432318722 instance=ExtResource("1_psm7c")]
+[node name="Peg7" parent="pegs" instance=ExtResource("1_psm7c")]
 position = Vector2(142.56259, 1209.1031)
 
-[node name="Peg8" parent="pegs" unique_id=1747400484 instance=ExtResource("1_psm7c")]
+[node name="Peg8" parent="pegs" instance=ExtResource("1_psm7c")]
 position = Vector2(841.22034, 1242.6893)
 
-[node name="Ball" parent="." unique_id=1124877568 instance=ExtResource("2_8l818")]
+[node name="Ball" parent="." instance=ExtResource("2_8l818")]
 position = Vector2(540, 243)
 input_pickable = true
 physics_material_override = SubResource("PhysicsMaterial_psm7c")
-script = ExtResource("3_jqgjh")
+gravity_scale = 0.9
 
-[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1199669426]
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = -1
-visible = false
 rotation = 1.5707964
 scale = Vector2(2, 2)
 transform = Transform2D(-8.742278e-08, 2, -2, -8.742278e-08, 0, 0)
 
-[node name="Control" type="Control" parent="CanvasLayer" unique_id=77562509]
+[node name="Control" type="Control" parent="CanvasLayer"]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Control" unique_id=672764508]
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Control"]
 layout_mode = 0
 offset_left = -6.500018
 offset_top = -548.11505
@@ -69,14 +71,14 @@ offset_right = 955.2349
 offset_bottom = 7.456238
 texture = ExtResource("3_8l818")
 
-[node name="border" type="StaticBody2D" parent="." unique_id=1037892543]
+[node name="border" type="StaticBody2D" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="border" unique_id=383451714]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="border"]
 position = Vector2(-12, 947)
 shape = SubResource("RectangleShape2D_jqgjh")
 
-[node name="border2" type="StaticBody2D" parent="." unique_id=608020933]
+[node name="border2" type="StaticBody2D" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="border2" unique_id=924609577]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="border2"]
 position = Vector2(1096, 947)
 shape = SubResource("RectangleShape2D_jqgjh")

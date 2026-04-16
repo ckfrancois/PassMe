@@ -12,8 +12,12 @@ config_version=5
 
 config/name="plinko"
 run/main_scene="uid://cg2hn3xej5lxy"
-config/features=PackedStringArray("4.6", "Forward Plus")
+config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
+
+[autoload]
+
+Global="*res://global.gd"
 
 [display]
 
