@@ -1481,9 +1481,10 @@ region = Rect2(1500, 0, 125, 0)
 
 [node name="CharacterCreator" type="Node2D"]
 
-[node name="Node" type="Node" parent="." node_paths=PackedStringArray("confirm_button")]
+[node name="Node" type="Node" parent="." node_paths=PackedStringArray("confirm_button", "introduction_label")]
 script = ExtResource("1_aw854")
 confirm_button = NodePath("../CreatorScreen/ColorRect2/Constant Buttons/Confirm")
+introduction_label = NodePath("../CreatorScreen/TextureRect/Label")
 
 [node name="Skeleton" type="Node2D" parent="."]
 position = Vector2(266, 363)
@@ -3836,12 +3837,17 @@ texture = ExtResource("61_sm81t")
 
 [node name="Label" type="Label" parent="CreatorScreen/TextureRect"]
 layout_mode = 0
-offset_left = 97.0
-offset_top = 115.0
-offset_right = 262.0
-offset_bottom = 164.0
+offset_left = 102.0
+offset_top = 84.0
+offset_right = 319.0
+offset_bottom = 232.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 48
 text = "Hi! I'm
-________________________"
+Example Name"
+autowrap_mode = 2
+justification_flags = 171
+clip_text = true
 
 [connection signal="pressed" from="CreatorScreen/ColorRect2/HBoxContainer/Face" to="CreatorScreen/ColorRect2" method="_on_face_pressed"]
 [connection signal="pressed" from="CreatorScreen/ColorRect2/HBoxContainer/Hair" to="CreatorScreen/ColorRect2" method="_on_hair_pressed"]

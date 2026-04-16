@@ -4,11 +4,13 @@ var firebase_token:String =  ""
 var project_id:String = ""
 var user_uid:String = ""
 
+var user_display_name:String = "Unknown"
 
+#
 #func _ready() -> void:
 	#var json = { "name": "", 
 	#"fields": { 
-		#"outfit": { "stringValue": "02" }, 
+		#"outfit": { "stringValue": "10" }, 
 		#"shoes": { "stringValue": "05" }, 
 		#"outfit_color": { "stringValue": "(0.2157, 0.5608, 0.1725, 1.0)" }, 
 		#"nose": { "stringValue": "05" }, 
@@ -46,6 +48,7 @@ var user_uid:String = ""
 			#"updateTime": "2026-04-15T20:23:34.832301Z" }
 	#update_passling_based_on_previous_data(json)
 
+signal got_display_name(display_name:String)
 
 func set_uid(uid):
 	user_uid = uid
@@ -64,6 +67,7 @@ func set_token(token: String) -> void:
 	firebase_token = token
 	
 	# OPTIONAL: decode / use immediately
+	_fetch_passling_data()
 	_fetch_user_data()
 
 
@@ -79,7 +83,8 @@ func parse_color_string(color_string: String) -> Color:
 
 
 func _fetch_user_data():
-	var url = "https://firestore.googleapis.com/v1/projects/%s/databases/(default)/documents/Passlings/%s" % [project_id, user_uid]
+	print("FETCHING USER DATA ")
+	var url = "https://firestore.googleapis.com/v1/projects/%s/databases/(default)/documents/Users/%s" % [project_id, user_uid]
 
 	var headers = [
 		"Authorization: Bearer %s" % firebase_token,
@@ -89,12 +94,43 @@ func _fetch_user_data():
 	var http = HTTPRequest.new()
 	add_child(http)
 
-	http.request_completed.connect(_on_passling_get_request_completed)
+	http.request_completed.connect(_on_user_get_request_completed)
 
 	var err = http.request(url, headers, HTTPClient.METHOD_GET)
 
 	if err != OK:
 		print("HTTP error:", err)
+
+
+func _on_user_get_request_completed(result, response_code, headers, body):
+	if response_code == 200:
+		var json = JSON.parse_string(body.get_string_from_utf8())
+		print("✅ Firebase Data:", json)
+		user_display_name = json.fields.displayName.stringValue
+		got_display_name.emit(user_display_name)
+	else:
+		print("❌ Firebase Error:", response_code)
+		print(body.get_string_from_utf8())
+
+
+func _fetch_passling_data():
+	var url = "https://firestore.googleapis.com/v1/projects/%s/databases/(default)/documents/Passlings/%s" % [project_id, user_uid]
+	
+	var headers = [
+		"Authorization: Bearer %s" % firebase_token,
+		"Accept: application/json"
+	]
+	
+	var http = HTTPRequest.new()
+	add_child(http)
+	
+	http.request_completed.connect(_on_passling_get_request_completed)
+	
+	var err = http.request(url, headers, HTTPClient.METHOD_GET)
+	
+	if err != OK:
+		print("HTTP error:", err)
+
 
 
 func _on_passling_get_request_completed(result, response_code, headers, body):
