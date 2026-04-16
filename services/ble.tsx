@@ -1,3 +1,6 @@
+import { useNotification } from "@/contexts/NotificationContext";
+import { useAuth } from "@/hooks/use-auth";
+import firestore from "@react-native-firebase/firestore";
 import { Buffer } from "buffer";
 import {
   setServices,
@@ -15,19 +18,12 @@ import {
   View,
 } from "react-native";
 import { BleManager, Device } from "react-native-ble-plx";
-
 import { check, PERMISSIONS, request, RESULTS } from "react-native-permissions";
-
-import { useAuth } from "@/hooks/use-auth";
-// import { firestore } from "@/lib/firebase";
-import firestore from "@react-native-firebase/firestore";
 
 const APP_SERVICE_UUID = "0000ABCD-0000-1000-8000-00805F9B34FB";
 const USERNAME_CHARACTERISTIC_UUID = "0000DCBA-0000-1000-8000-00805F9B34FB";
 
 const bleManager = new BleManager();
-
-// ─── Helpers ─────────────────────────────────────────────────────────────────
 
 const stringToHex = (str: string): string =>
   Array.from(new TextEncoder().encode(str))
@@ -35,12 +31,11 @@ const stringToHex = (str: string): string =>
     .join("")
     .toUpperCase();
 
-// ─── Component ───────────────────────────────────────────────────────────────
-
 const BleNearbyUsers: React.FC = () => {
   const colorScheme = useColorScheme();
   const textColor = colorScheme === "dark" ? "#FFFFFF" : "#000000";
   const { currentUser } = useAuth();
+  const { showNotification } = useNotification();
 
   const lastSeen = useRef<Map<string, number>>(new Map());
 
@@ -50,10 +45,6 @@ const BleNearbyUsers: React.FC = () => {
   const [statusMessage, setStatusMessage] = useState("");
 
   const connectingDevices = useRef<Set<string>>(new Set());
-
-  // ─── Lifecycle & Data Fetching ─────────────────────────────────────────────
-
-  // ─── Save passed user to Firestore ─────────────────────────────────────────
 
   const savePassedUser = async (foundUser: string) => {
     try {
@@ -79,8 +70,6 @@ const BleNearbyUsers: React.FC = () => {
       console.error("Failed to save to Firestore:", err);
     }
   };
-
-  // ─── Permissions ───────────────────────────────────────────────────────────
 
   const requestPermissions = async (): Promise<boolean> => {
     if (Platform.OS === "ios") {
@@ -116,8 +105,6 @@ const BleNearbyUsers: React.FC = () => {
 
     return true;
   };
-
-  // ─── Device Discovery ──────────────────────────────────────────────────────
 
   const handleDiscoveredDevice = async (device: Device) => {
     const deviceId = device.id;
@@ -155,13 +142,19 @@ const BleNearbyUsers: React.FC = () => {
 
       if (decoded.startsWith("PM:")) {
         const foundUser = decoded.slice(3);
-        const foundUserID = foundUser; // Assuming the UID is being broadcasted for uniqueness
+        const foundUserID = foundUser;
         console.log(Platform.OS + ": 🔵 Found user:", foundUser);
 
-        // Get data from Firestore to display the displayName instead of UID, and to verify the user exists
         const foundData = (
           await firestore().collection("Users").doc(foundUser).get()
         ).data();
+
+        // Fetch passling data from the Passlings collection
+        const passlingSnap = await firestore()
+          .collection("Passlings")
+          .doc(foundUser)
+          .get();
+        const passlingData = passlingSnap.exists ? passlingSnap.data() : null;
 
         console.log("Firestore lookup for", foundUser, "result:", foundData);
         const displayName =
@@ -170,6 +163,9 @@ const BleNearbyUsers: React.FC = () => {
         setNearbyUsers((prev) =>
           prev.includes(displayName) ? prev : [...prev, displayName],
         );
+
+        // Pass passlingData as second argument to showNotification
+        showNotification(displayName, passlingData);
 
         if (!nearbyUsers.includes(foundUserID)) {
           await savePassedUser(foundUserID);
@@ -184,8 +180,6 @@ const BleNearbyUsers: React.FC = () => {
       connectingDevices.current.delete(deviceId);
     }
   };
-
-  // ─── BLE Control ───────────────────────────────────────────────────────────
 
   const stopBLE = () => {
     bleManager.stopDeviceScan();
@@ -238,8 +232,6 @@ const BleNearbyUsers: React.FC = () => {
       },
     );
   };
-
-  // ─── Render ────────────────────────────────────────────────────────────────
 
   return (
     <View style={styles.container}>
