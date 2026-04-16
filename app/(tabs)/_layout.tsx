@@ -35,19 +35,6 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="BLETab"
-        options={{
-          title: "BLE",
-          tabBarIcon: ({ color }) => (
-            <IconSymbol
-              size={28}
-              name="dot.radiowaves.left.and.right"
-              color={color}
-            />
-          ),
-        }}
-      />
-      <Tabs.Screen
         name="godot"
         options={{
           title: "Godot",
@@ -56,7 +43,7 @@ export default function TabLayout() {
           ),
         }}
       />
-       <Tabs.Screen
+      <Tabs.Screen
         name="ProfileTab"
         options={{
           title: "Profile",

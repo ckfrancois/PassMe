@@ -1,4 +1,6 @@
 // app/_layout.tsx
+import { BLEProvider } from "@/components/ble-provider";
+import { NearbyUserProvider } from "@/components/nearby-user-provider";
 import { NotificationProvider } from "@/contexts/NotificationContext";
 import { useColorScheme } from "@/hooks/use-color-scheme";
 import { AuthProvider } from "@/providers/auth-provider";
@@ -56,16 +58,22 @@ export default function RootLayout() {
   return (
     <NotificationProvider>
       <AuthProvider>
-        <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-          <Stack>
-            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-            <Stack.Screen
-              name="modal"
-              options={{ presentation: "modal", title: "Terms" }}
-            />
-          </Stack>
-          <StatusBar style="light" />
-        </ThemeProvider>
+        <BLEProvider>
+          <NearbyUserProvider>
+            <ThemeProvider
+              value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+            >
+              <Stack>
+                <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+                <Stack.Screen
+                  name="modal"
+                  options={{ presentation: "modal", title: "Terms" }}
+                />
+              </Stack>
+              <StatusBar style="light" />
+            </ThemeProvider>
+          </NearbyUserProvider>
+        </BLEProvider>
       </AuthProvider>
     </NotificationProvider>
   );

@@ -7,7 +7,7 @@ import {
   startAdvertising,
   stopAdvertising,
 } from "munim-bluetooth";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   PermissionsAndroid,
   Platform,
@@ -45,6 +45,16 @@ const BleNearbyUsers: React.FC = () => {
   const [statusMessage, setStatusMessage] = useState("");
 
   const connectingDevices = useRef<Set<string>>(new Set());
+
+  useEffect(() => {
+    if (currentUser) {
+      // runs whenever currentUser becomes non-null or changes
+      console.log("User logged in:", currentUser);
+    } else {
+      // runs when user logs out
+      console.log("User logged out");
+    }
+  }, [currentUser]);
 
   const savePassedUser = async (foundUser: string) => {
     try {
@@ -154,7 +164,7 @@ const BleNearbyUsers: React.FC = () => {
           .collection("Passlings")
           .doc(foundUser)
           .get();
-        const passlingData = passlingSnap.exists ? passlingSnap.data() : null;
+        const passlingData = passlingSnap.exists() ? passlingSnap.data() : null;
 
         console.log("Firestore lookup for", foundUser, "result:", foundData);
         const displayName =
