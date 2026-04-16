@@ -69,6 +69,7 @@ export default function ProfileScreen() {
   const [displayName, setDisplayName] = useState(
     currentUser?.displayName || "Unknown User",
   );
+  
   const [greeting, setGreeting] = useState("Hello there!");
   const [bio, setBio] = useState("This is my bio.");
   const [passlingData, setPasslingData] = useState<any>(null);
@@ -79,30 +80,41 @@ export default function ProfileScreen() {
       const refreshAll = async () => {
         const user = currentUser;
         if (!user) return;
-
+  
         try {
-          // ONLY show spinner if we don't have data yet
-          if (!passlingData) {
-            setLoadingPassling(true);
-          }
-
+          if (!passlingData) setLoadingPassling(true);
+  
           await user.reload();
-          setDisplayName(currentUser?.displayName || "Unknown User");
-
-          const data = await fetchPasslingData();
-          setPasslingData(data);
+          
+  
+          // Fetch Passling data
+          const passSnap = await firestore()
+            .collection("Passlings")
+            .doc(user.uid)
+            .get();
+          if (passSnap.exists) setPasslingData(passSnap.data());
+  
+          // Fetch greeting + bio from Users collection
+          const userSnap = await firestore()
+            .collection("Users")
+            .doc(user.uid)
+            .get();
+          if (userSnap.exists) {
+            const uData = userSnap.data();
+            setDisplayName(uData?.displayName || "Unknown User");
+            setGreeting(uData?.greeting || "");
+            setBio(uData?.bio || "");
+          }
         } catch (error) {
           console.error("Failed to refresh:", error);
         } finally {
-          // Always turn off loading at the end
           setLoadingPassling(false);
         }
       };
-
+  
       refreshAll();
-    }, [passlingData]), // Add passlingData as a dependency to check its existence
+    }, [currentUser]), // ✅ single dep, no passlingData loop
   );
-
   useFocusEffect(
     useCallback(() => {
       const refreshAll = async () => {
@@ -239,15 +251,7 @@ export default function ProfileScreen() {
                 <Text style={styles.primaryBtnText}>Your Passlings</Text>
               </TouchableOpacity>
 
-              <TouchableOpacity style={styles.secondaryBtn}>
-                <MaterialIcons
-                  name="settings"
-                  size={18}
-                  color="#555"
-                  style={{ marginRight: 8 }}
-                />
-                <Text style={styles.secondaryBtnText}>Settings</Text>
-              </TouchableOpacity>
+              
             </View>
           </View>
         </View>
@@ -364,29 +368,35 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginTop: 8,
     marginBottom: 12,
+    borderColor: "#824200",
+    borderWidth: 4
   },
   primaryBtnText: { color: "#fff", fontSize: 16, fontWeight: "700" },
   secondaryBtn: {
     transform: [{ scaleX: 0.66 }],
     flexDirection: "row",
-    backgroundColor: "#E0DDD6",
+    backgroundColor: "#D06B00",
     borderRadius: 18,
     paddingVertical: 16,
     paddingHorizontal: 24,
     alignItems: "center",
     justifyContent: "center",
+    borderColor: "#824200",
+    borderWidth: 4
   },
   secondaryBtnText: { color: "#444", fontSize: 16, fontWeight: "600" },
   editBtn: {
     transform: [{ scaleX: 0.66 }],
     flexDirection: "row",
-    backgroundColor: "#443cd0",
+    backgroundColor: "#4A40D3",
     borderRadius: 18,
     paddingVertical: 16,
     paddingHorizontal: 24,
     alignItems: "center",
     justifyContent: "center",
     marginBottom: 12,
+    borderColor: "#19108A",
+    borderWidth: 4
   },
   editBtnText: { color: "#fff", fontSize: 16, fontWeight: "600" },
   patternContainer: {
