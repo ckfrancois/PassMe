@@ -1,10 +1,11 @@
 import { MaterialIcons } from "@expo/vector-icons";
-import { getAuth, updateProfile } from "@react-native-firebase/auth";
-import { useRouter } from "expo-router";
-import { useState } from "react";
+import { useFocusEffect, useRouter } from "expo-router"; // Added useFocusEffect
+import { getAuth, updateProfile } from "firebase/auth";
+import { doc, getDoc, getFirestore, updateDoc } from "firebase/firestore";
+import { useCallback, useState } from "react"; // Swapped useEffect for useCallback
 import {
+  ActivityIndicator,
   Alert,
-  Image,
   SafeAreaView,
   ScrollView,
   StyleSheet,
@@ -13,6 +14,24 @@ import {
   TouchableOpacity,
   View
 } from "react-native";
+import Passling from "../../components/passling";
+
+// ---------------------------------------------------------------------------
+// Helpers
+// ---------------------------------------------------------------------------
+const normalizeToRgba = (colorString: string, t: number) => {
+  if (!colorString) return 'rgba(255,255,255,1)';
+  const values = colorString.replace(/[()]/g, '').split(',');
+  const r = Math.round(parseFloat(values[0]) * 255);
+  const g = Math.round(parseFloat(values[1]) * 255);
+  const b = Math.round(parseFloat(values[2]) * 255);
+  const a = values[3] ? values[3].trim() : '1.0';
+  const i = (r + g + b) / 3;
+  const r2 = Math.round(r + (i - r) * t);
+  const g2 = Math.round(g + (i - g) * t);
+  const b2 = Math.round(b + (i - b) * t);
+  return `rgba(${r2}, ${g2}, ${b2}, ${a})`;
+};
 
 // ---------------------------------------------------------------------------
 // Editable Field Component
@@ -41,18 +60,58 @@ function EditableField({ value, onChangeText, multiline = false, placeholder }: 
   );
 }
 
-// ---------------------------------------------------------------------------
-// EditProfileScreen
-// ---------------------------------------------------------------------------
 export default function EditProfileScreen() {
   const router = useRouter();
-  const user = getAuth().currentUser;
+  const auth = getAuth();
+  const db = getFirestore();
+  const user = auth.currentUser;
 
-  // Local State for Form
   const [username, setUsername] = useState(user?.displayName || "");
-  const [greeting, setGreeting] = useState(""); // Replace with your actual DB field logic
-  const [bio, setBio] = useState(""); // Replace with your actual DB field logic
+  const [greeting, setGreeting] = useState(""); 
+  const [bio, setBio] = useState(""); 
   const [loading, setLoading] = useState(false);
+  const [passlingData, setPasslingData] = useState<any>(null);
+  const [loadingPassling, setLoadingPassling] = useState(true);
+
+  // ---------------------------------------------------------------------------
+  // SMART REFRESH LOGIC
+  // ---------------------------------------------------------------------------
+  useFocusEffect(
+    useCallback(() => {
+      const loadInitialData = async () => {
+        if (!user) return;
+
+        // ONLY show spinner if we have NO data yet (stops the flicker)
+        if (!passlingData) {
+          setLoadingPassling(true);
+        }
+
+        try {
+          // 1. Fetch Passling Data
+          const passRef = doc(db, "Passlings", user.uid);
+          const passSnap = await getDoc(passRef);
+          if (passSnap.exists()) {
+            setPasslingData(passSnap.data());
+          }
+
+          // 2. Fetch User Text Data
+          const userRef = doc(db, "Users", user.uid);
+          const userSnap = await getDoc(userRef);
+          if (userSnap.exists()) {
+            const uData = userSnap.data();
+            setGreeting(uData.greeting || "");
+            setBio(uData.bio || "");
+          }
+        } catch (err) {
+          console.error("Load error:", err);
+        } finally {
+          setLoadingPassling(false);
+        }
+      };
+
+      loadInitialData();
+    }, [user, passlingData]) // Monitors passlingData to decide if spinner is needed
+  );
 
   const handleSave = async () => {
     if (!username.trim()) {
@@ -62,13 +121,15 @@ export default function EditProfileScreen() {
 
     setLoading(true);
     try {
-      // 1. Update Firebase Auth Profile
       if (user) {
         await updateProfile(user, { displayName: username });
+        const userRef = doc(db, "Users", user.uid);
+        await updateDoc(userRef, { 
+          displayName: username,
+          greeting: greeting, 
+          bio: bio 
+        });
       }
-
-      // 2. TODO: Update your Firestore/Database for Greeting and Bio here
-      // await updateDoc(doc(db, "users", user.uid), { greeting, bio });
 
       Alert.alert("Success", "Profile updated successfully!", [
         { text: "OK", onPress: () => router.push("/(tabs)/MyProfile") }
@@ -80,56 +141,45 @@ export default function EditProfileScreen() {
     }
   };
 
-  const avatarUri = {
-    uri: "https://media.discordapp.net/attachments/1469031532055363756/1480043671570092052/PasslingConceptNewRend1.png?ex=69dfadd5&is=69de5c55&hm=6448705b8e6328a3a0acb7e35732f0e3fab3c7383bb996e925b619d1437827fd&=&format=webp&quality=lossless&width=800&height=1200",
-  };
+  const bgColor = passlingData ? normalizeToRgba(passlingData.outfit_color, 0.3) : "#f0b4e2";
+  const squareColor = passlingData ? normalizeToRgba(passlingData.outfit_color, 0.5) : "#f3c4e8";
 
   return (
-    <View style={{ flex: 1, backgroundColor: "#f0b4e2" }}>
+    <View style={{ flex: 1, backgroundColor: bgColor }}>
       <View style={styles.patternContainer} pointerEvents="none">
         {Array.from({ length: 450 }).map((_, i) => (
-          <View key={i} style={styles.square} />
+          <View key={i} style={[styles.square, { backgroundColor: squareColor }]} />
         ))}
       </View>
 
       <SafeAreaView style={styles.safe}>
         <ScrollView contentContainerStyle={styles.scrollContent} bounces={false}>
-          {/* Header */}
           <View style={styles.header}>
-          
-
-            <View style={styles.avatarWrap}>
-              <Image source={avatarUri} style={styles.avatar} />
-              
+            <View style={[styles.avatarWrap, { backgroundColor: "#FFFFFF" }]}>
+              {/* Conditional Spinner: Only shows on true initial load */}
+              {loadingPassling && !passlingData ? (
+                <ActivityIndicator color={ORANGE} style={{ marginTop: 70 }} />
+              ) : passlingData ? (
+                <View style={{ transform: [{ translateX: -72 }, { translateY: -20 }] }}>
+                  <Passling data={passlingData} size={340} />
+                </View>
+              ) : (
+                <Text style={{ fontSize: 10, textAlign: 'center', marginTop: 70 }}>No Passling Found</Text>
+              )}
             </View>
           </View>
 
-          {/* Body */}
           <View style={styles.bodyContainer}>
             <View style={styles.body_outline} />
             <View style={styles.body}>
-              
               <Text style={styles.label}>Username:</Text>
-              <EditableField 
-                value={username} 
-                onChangeText={setUsername} 
-                placeholder="Enter username" 
-              />
+              <EditableField value={username} onChangeText={setUsername} placeholder="Enter username" />
 
               <Text style={styles.label}>Greeting:</Text>
-              <EditableField 
-                value={greeting} 
-                onChangeText={setGreeting} 
-                placeholder="How do you say hello?" 
-              />
+              <EditableField value={greeting} onChangeText={setGreeting} placeholder="How do you say hello?" />
 
               <Text style={styles.label}>Bio:</Text>
-              <EditableField 
-                value={bio} 
-                onChangeText={setBio} 
-                multiline 
-                placeholder="Tell us about yourself..." 
-              />
+              <EditableField value={bio} onChangeText={setBio} multiline placeholder="Tell us about yourself..." />
 
               <TouchableOpacity 
                 style={[styles.saveBtn, loading && { opacity: 0.7 }]} 
@@ -140,7 +190,7 @@ export default function EditProfileScreen() {
                 <Text style={styles.saveBtnText}>{loading ? "Saving..." : "Save Changes"}</Text>
               </TouchableOpacity>
 
-              <TouchableOpacity style={styles.cancelBtn} onPress={() => router.push("/(tabs)/MyProfile")}>
+              <TouchableOpacity style={styles.cancelBtn} onPress={() => router.back()}>
                 <Text style={styles.cancelBtnText}>Cancel</Text>
               </TouchableOpacity>
             </View>
@@ -152,34 +202,21 @@ export default function EditProfileScreen() {
 }
 
 // ---------------------------------------------------------------------------
-// Styles (Matches your UI logic)
+// Styles
 // ---------------------------------------------------------------------------
-const PINK = "#F4B4D3";
 const CREAM = "#F5F0E8";
-const GREEN = "#2D6A4F"; // A solid "Success" color for saving
+const GREEN = "#2D6A4F";
+const ORANGE = "#C4611A";
 const BLACK = "#000000";
 const AVATAR_SIZE = 170;
 
 const styles = StyleSheet.create({
-  // ... (Your previous styles remain the same for safe, screen, pattern, etc)
   safe: { flex: 1 },
   scrollContent: { flexGrow: 1 },
   header: {
     height: 180,
     alignItems: "center",
     justifyContent: "center",
-  },
-  backBtn: {
-    position: "absolute",
-    top: 12,
-    left: 16,
-    width: 36,
-    height: 36,
-    borderRadius: 8,
-    backgroundColor: "rgba(255,255,255,0.7)",
-    alignItems: "center",
-    justifyContent: "center",
-    zIndex: 20,
   },
   avatarWrap: {
     width: AVATAR_SIZE,
@@ -191,20 +228,7 @@ const styles = StyleSheet.create({
     bottom: -AVATAR_SIZE / 8,
     alignSelf: "center",
     zIndex: 10,
-  },
-  avatar: { width: "100%", height: "100%", borderRadius: AVATAR_SIZE / 2 },
-  avatarEditBadge: {
-    position: 'absolute',
-    bottom: 5,
-    right: 5,
-    backgroundColor: '#443cd0',
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderWidth: 3,
-    borderColor: '#fff'
+    overflow: "hidden", // Crucial for the Passling component preview
   },
   bodyContainer: { position: "relative", marginTop: -60, zIndex: 2 },
   body_outline: {
@@ -235,9 +259,9 @@ const styles = StyleSheet.create({
   fieldBox: {
     transform: [{ scaleX: 0.66 }],
     flexDirection: "row",
-    backgroundColor: "#fff", // White background for editable fields
+    backgroundColor: "#fff",
     borderRadius: 16,
-    borderWidth: 2, // Slightly thicker border for focus-feel
+    borderWidth: 2,
     borderColor: "#443cd0", 
     paddingHorizontal: 14,
     paddingVertical: 10,
@@ -246,7 +270,6 @@ const styles = StyleSheet.create({
   fieldBoxMulti: { alignItems: "flex-start", paddingVertical: 12 },
   fieldInput: { flex: 1, fontSize: 15, color: "#333" },
   fieldInputMulti: { minHeight: 80, textAlignVertical: "top" },
-  
   saveBtn: {
     transform: [{ scaleX: 0.66 }],
     flexDirection: "row",
@@ -258,7 +281,6 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   saveBtnText: { color: "#fff", fontSize: 18, fontWeight: "700" },
-  
   cancelBtn: {
     transform: [{ scaleX: 0.66 }],
     paddingVertical: 15,
@@ -267,13 +289,12 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   cancelBtnText: { color: "#666", fontSize: 14, fontWeight: "500" },
-
   patternContainer: {
     position: "absolute", width: "100%", height: "100%",
     flexDirection: "column", flexWrap: 'wrap', zIndex: 0,
   },
   square: {
-    width: 70, height: 70, backgroundColor: "#f3c4e8",
+    width: 70, height: 70,
     borderRadius: 20, margin: 10,
   },
 });

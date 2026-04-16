@@ -1,17 +1,41 @@
 import { Feather, MaterialIcons } from "@expo/vector-icons";
-import { getAuth } from "@react-native-firebase/auth";
-import { useFocusEffect, useRouter } from "expo-router"; // useFocusEffect is key
+import { useFocusEffect, useRouter } from "expo-router";
+import { getAuth } from "firebase/auth";
+import {
+  doc,
+  getDoc,
+  getFirestore
+} from "firebase/firestore";
 import { useCallback, useState } from "react";
 import {
-  Image,
+  ActivityIndicator,
   Platform,
   SafeAreaView,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
-  View,
+  View
 } from "react-native";
+import { Float } from "react-native/Libraries/Types/CodegenTypes";
+import Passling from "../../components/passling";
+
+// ---------------------------------------------------------------------------
+// Helpers
+// ---------------------------------------------------------------------------
+const normalizeToRgba = (colorString:string, t:Float) => {
+  if (!colorString) return 'rgba(255,255,255,1)';
+  const values = colorString.replace(/[()]/g, '').split(',');
+  const r = Math.round(parseFloat(values[0]) * 255);
+  const g = Math.round(parseFloat(values[1]) * 255);
+  const b = Math.round(parseFloat(values[2]) * 255);
+  const a = values[3] ? values[3].trim() : '1.0';
+  const i = (r+g+b)/3
+  const r2 = r + (i-r) * t
+  const g2 = g + (i-g) * t
+  const b2 = b + (i-b) * t
+  return `rgba(${r2}, ${g2}, ${b2}, ${a})`;
+};
 
 // ---------------------------------------------------------------------------
 // Types
@@ -45,49 +69,97 @@ function ReadOnlyField({ value, multiline = false }: ReadOnlyFieldProps) {
 export default function ProfileScreen() {
   const router = useRouter();
   const auth = getAuth();
+  const db = getFirestore();
 
-  // We use state so the UI re-renders when the data changes
   const [displayName, setDisplayName] = useState(auth.currentUser?.displayName || "Unknown User");
-  
-  // NOTE: Greeting and Bio should eventually be fetched from your Database (Firestore/Realtime DB)
-  const [greeting, setGreeting] = useState("Hello there!"); 
+  const [greeting, setGreeting] = useState("Hello there!");
   const [bio, setBio] = useState("This is my bio.");
+  const [passlingData, setPasslingData] = useState<any>(null);
+  const [loadingPassling, setLoadingPassling] = useState(true);
 
-  // This hook runs EVERY time you navigate back to this screen
   useFocusEffect(
     useCallback(() => {
-      const refreshUser = async () => {
+      const refreshAll = async () => {
         const user = auth.currentUser;
-        if (user) {
-          try {
-            // Force Firebase to fetch the latest profile data from the server
-            await user.reload();
-            // Update our local state with the fresh name
-            setDisplayName(auth.currentUser?.displayName || "Unknown User");
-            
-            // TODO: If you have a database for Bio/Greeting, fetch it here:
-            // const doc = await getDoc(doc(db, "users", user.uid));
-            // setBio(doc.data().bio);
-          } catch (error) {
-            console.error("Failed to reload user:", error);
+        if (!user) return;
+  
+        try {
+          // ONLY show spinner if we don't have data yet
+          if (!passlingData) {
+            setLoadingPassling(true);
           }
+  
+          await user.reload();
+          setDisplayName(auth.currentUser?.displayName || "Unknown User");
+          
+          const data = await fetchPasslingData();
+          setPasslingData(data);
+        } catch (error) {
+          console.error("Failed to refresh:", error);
+        } finally {
+          // Always turn off loading at the end
+          setLoadingPassling(false);
         }
       };
-
-      refreshUser();
-    }, [auth.currentUser])
+  
+      refreshAll();
+    }, [passlingData]) // Add passlingData as a dependency to check its existence
   );
 
-  const avatarUri = {
-    uri: "https://media.discordapp.net/attachments/1469031532055363756/1480043671570092052/PasslingConceptNewRend1.png?ex=69dfadd5&is=69de5c55&hm=6448705b8e6328a3a0acb7e35732f0e3fab3c7383bb996e925b619d1437827fd&=&format=webp&quality=lossless&width=800&height=1200",
+  useFocusEffect(
+    useCallback(() => {
+      const refreshAll = async () => {
+        const user = auth.currentUser;
+        if (!user) return;
+        try {
+          await user.reload();
+          setDisplayName(auth.currentUser?.displayName || "Unknown User");
+          setLoadingPassling(true);
+          const data = await fetchPasslingData();
+          setPasslingData(data);
+          setLoadingPassling(false);
+        } catch (error) {
+          console.error("Failed to refresh:", error);
+          setLoadingPassling(false);
+        }
+      };
+      refreshAll();
+    }, [])
+  );
+
+  const fetchPasslingData = async () => {
+    const user = getAuth().currentUser;
+    if (!user) return null;
+    console.log("SEARCHING FOR UID:", `|${user.uid}|`);
+    try {
+      const userRef = doc(db, "Passlings", user.uid);
+      const userSnap = await getDoc(userRef);
+      if (userSnap.exists()) {
+        console.log("✅ Document Found!");
+        return userSnap.data();
+      } else {
+        console.log("❌ Document DOES NOT exist at path: Passlings/" + user.uid);
+        return null;
+      }
+    } catch (err) {
+      console.error("Firestore Error:", err);
+      return null;
+    }
   };
 
+  // Derive background color from passling outfit, fallback to pink
+  const bgColor = passlingData ? normalizeToRgba(passlingData.outfit_color, 0.3) : "#f0b4e2";
+
+  // Derive square color as a slightly transparent version of bgColor
+  const squareColor =  passlingData ? normalizeToRgba(passlingData.outfit_color, 0.5) : "#f0b4e2";
+  
+
   return (
-    <View style={{ flex: 1, backgroundColor: "#f0b4e2" }}>
+    <View style={{ flex: 1, backgroundColor: bgColor }}>
       {/* Background Pattern */}
       <View style={styles.patternContainer} pointerEvents="none">
         {Array.from({ length: 450 }).map((_, i) => (
-          <View key={i} style={styles.square} />
+          <View key={i} style={[styles.square, { backgroundColor: squareColor }]} />
         ))}
       </View>
 
@@ -99,8 +171,19 @@ export default function ProfileScreen() {
               <Feather name="chevron-left" size={22} color="#555" />
             </TouchableOpacity>
 
-            <View style={styles.avatarWrap}>
-              <Image source={avatarUri} style={styles.avatar} />
+            <View style={[styles.avatarWrap, { backgroundColor: "#FFFFFF" }]}>
+  {loadingPassling && !passlingData ? ( // Only show spinner if totally empty
+    <ActivityIndicator color={"#443cd0"} /> // Changed color so it's visible on white
+  ) : passlingData ? (
+    <View style={{ transform: [{ translateX: -72 }, { translateY: -20 }] }}>
+      <Passling data={passlingData} size={340} />
+    </View>
+  ) : (
+    <View style={{ alignItems: 'center' }}>
+      <Text style={{ color: "#555" }}>Character data not found.</Text>
+    </View>
+  )}
+
             </View>
           </View>
 
@@ -119,15 +202,14 @@ export default function ProfileScreen() {
               <Text style={styles.label}>Bio:</Text>
               <ReadOnlyField value={bio} multiline />
 
-              {/* This button should link to your EDIT page */}
-              <TouchableOpacity 
-                style={styles.editBtn} 
+              <TouchableOpacity
+                style={styles.editBtn}
                 onPress={() => router.push("/(tabs)/ProfileTab")}
               >
                 <MaterialIcons name="edit" size={18} color="#fff" style={{ marginRight: 8 }} />
                 <Text style={styles.editBtnText}>Edit Details</Text>
               </TouchableOpacity>
-              
+
               <TouchableOpacity style={styles.primaryBtn}>
                 <MaterialIcons name="people" size={18} color="#fff" style={{ marginRight: 8 }} />
                 <Text style={styles.primaryBtnText}>Your Passlings</Text>
@@ -148,7 +230,6 @@ export default function ProfileScreen() {
 // ---------------------------------------------------------------------------
 // Styles
 // ---------------------------------------------------------------------------
-const PINK = "#F4B4D3";
 const CREAM = "#F5F0E8";
 const ORANGE = "#C4611A";
 const BLACK = "#000000";
@@ -185,6 +266,7 @@ const styles = StyleSheet.create({
     bottom: -AVATAR_SIZE / 8,
     alignSelf: "center",
     zIndex: 10,
+    overflow: "hidden",
   },
   avatar: { width: "100%", height: "100%", borderRadius: AVATAR_SIZE / 2 },
   bodyContainer: { position: "relative", marginTop: -60, zIndex: 2 },
@@ -281,7 +363,6 @@ const styles = StyleSheet.create({
   },
   square: {
     width: 70, height: 70,
-    backgroundColor: "#f3c4e8",
     borderRadius: 20, margin: 10,
   },
 });
