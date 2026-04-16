@@ -25,16 +25,7 @@ export default function TabLayout() {
           ),
         }}
       />
-      <Tabs.Screen
-        name="explore"
-        options={{
-          title: "Explore",
-          tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="safari.fill" color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen
+<Tabs.Screen
         name="godot"
         options={{
           title: "Godot",
@@ -52,6 +43,18 @@ export default function TabLayout() {
           ),
         }}
       />
+      <Tabs.Screen
+        name="game"
+        options={{
+          title: "Game",
+          tabBarIcon: ({ color }) => (
+            <IconSymbol size={28} name="gamecontroller.fill" color={color} />
+          ),
+        }}
+      />
+      {/* Hidden screens — navigable but not shown in the tab bar */}
+      <Tabs.Screen name="MyProfile" options={{ href: null }} />
+      <Tabs.Screen name="PasslingList" options={{ href: null }} />
     </Tabs>
   );
 }
