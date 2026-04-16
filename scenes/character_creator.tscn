@@ -2638,6 +2638,7 @@ theme_override_constants/h_separation = 10
 columns = 5
 
 [node name="00" type="TextureButton" parent="CreatorScreen/ColorRect2/Outfit Container/MarginContainer/VBoxContainer/Pants_Grid"]
+visible = false
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("49_gwcjf")
