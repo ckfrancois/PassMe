@@ -1,6 +1,8 @@
+ColorRect
+TextureRect
+CanvasLayer
 TextureButton
 CenterContainer
-TextureRect
 Node
 Label
 GridContainer
@@ -9,6 +11,4 @@ VBoxContainer
 ScrollContainer
 Button
 HBoxContainer
-ColorRect
 Sprite2D
-CanvasLayer

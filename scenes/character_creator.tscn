@@ -1,4 +1,4 @@
-[gd_scene load_steps=436 format=3 uid="uid://bs6dxdah3hck7"]
+[gd_scene load_steps=438 format=3 uid="uid://bs6dxdah3hck7"]
 
 [ext_resource type="Script" uid="uid://d12pkhd0g2cuo" path="res://Scripts/firebase_connector.gd" id="1_aw854"]
 [ext_resource type="Texture2D" uid="uid://cvn2ixbfbhrs4" path="res://assets/character_sprite/body/base/color/Base_RightArmT.png" id="1_dk5wx"]
@@ -72,6 +72,8 @@
 [ext_resource type="Texture2D" uid="uid://hag8b3118811" path="res://assets/text_boxes/ConfirmD.png" id="66_fxvv0"]
 [ext_resource type="Texture2D" uid="uid://isfw32343txt" path="res://assets/text_boxes/Randomize.png" id="69_o2bqf"]
 [ext_resource type="Texture2D" uid="uid://cplyira0u6fkc" path="res://assets/text_boxes/RandomizeD.png" id="70_1l637"]
+[ext_resource type="Texture2D" uid="uid://dsokkfr4etd8e" path="res://assets/text_boxes/Group 1.png" id="73_sl7hs"]
+[ext_resource type="Texture2D" uid="uid://bi23d7cy68ixw" path="res://assets/text_boxes/Mask group.png" id="74_3gnw3"]
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_07l1d"]
 
@@ -1662,6 +1664,12 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.74902, 0.321569, 0.141176, 1)
 script = ExtResource("25_xfpfe")
+
+[node name="ColorRect" type="ColorRect" parent="CreatorScreen/ColorRect2"]
+layout_mode = 1
+offset_right = 720.0
+offset_bottom = 80.0
+color = Color(0.337255, 0.627451, 0.317647, 1)
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CreatorScreen/ColorRect2"]
 layout_mode = 0
@@ -4292,6 +4300,22 @@ Example Name"
 autowrap_mode = 2
 justification_flags = 171
 clip_text = true
+
+[node name="TextureRect" type="TextureRect" parent="."]
+show_behind_parent = true
+offset_left = -18.0
+offset_top = -105.0
+offset_right = 755.0
+offset_bottom = 1576.0
+texture = ExtResource("73_sl7hs")
+
+[node name="TextureRect2" type="TextureRect" parent="."]
+show_behind_parent = true
+offset_left = -24.0
+offset_top = -325.0
+offset_right = 749.0
+offset_bottom = 1356.0
+texture = ExtResource("74_3gnw3")
 
 [connection signal="pressed" from="CreatorScreen/ColorRect2/HBoxContainer/Face" to="CreatorScreen/ColorRect2" method="_on_face_pressed"]
 [connection signal="pressed" from="CreatorScreen/ColorRect2/HBoxContainer/Hair" to="CreatorScreen/ColorRect2" method="_on_hair_pressed"]
