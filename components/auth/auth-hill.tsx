@@ -2,12 +2,14 @@ import { StyleSheet, View, type ViewStyle } from "react-native";
 
 type AuthHillProps = {
   color?: string;
+  hillStyle?: ViewStyle;
   ridgeColor?: string;
   style?: ViewStyle;
 };
 
 export function AuthHill({
   color = "#58A650",
+  hillStyle,
   ridgeColor = "#0C6A0D",
   style,
 }: AuthHillProps) {
@@ -20,6 +22,7 @@ export function AuthHill({
             backgroundColor: color,
             borderColor: ridgeColor,
           },
+          hillStyle,
         ]}
       />
     </View>
