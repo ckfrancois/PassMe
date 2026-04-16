@@ -154,32 +154,36 @@ const Passling = ({ data, size = 300 }) => {
         {data.outfit !== "none" && (
           <>
             <TintedLayer
-              source={PasslingAssets.leftArm.color[data.outfit]}
-              color={outfitColor}
-              size={size}
-            />
-            <TintedLayer
               source={PasslingAssets.rightArm.color[data.outfit]}
               color={outfitColor}
               size={size}
-            />
-            <TintedLayer
-              source={PasslingAssets.torso.color[data.outfit]}
-              color={outfitColor}
-              size={size}
-            />
-            <Image
-              source={PasslingAssets.leftArm.outline[data.outfit]}
-              style={styles.layer}
             />
             <Image
               source={PasslingAssets.rightArm.outline[data.outfit]}
               style={styles.layer}
             />
-            <Image
+           <TintedLayer
+              source={PasslingAssets.torso.color[data.outfit]}
+              color={outfitColor}
+              size={size}
+            />
+           <Image
               source={PasslingAssets.torso.outline[data.outfit]}
               style={styles.layer}
             />
+            <TintedLayer
+              source={PasslingAssets.leftArm.color[data.outfit]}
+              color={outfitColor}
+              size={size}
+            />
+        
+           
+            <Image
+              source={PasslingAssets.leftArm.outline[data.outfit]}
+              style={styles.layer}
+            />
+            
+           
           </>
         )}
 
