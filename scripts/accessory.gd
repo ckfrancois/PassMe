@@ -32,8 +32,6 @@ func update_accessory():
 			accessoryC_sprite.modulate = Global.colors[current_color_index]
 		else:
 			accessoryC_sprite.texture = null
-			
-	
 	Global.selected_accessory = current_sprite
 	Global.selected_accessory_color = Global.colors[current_color_index]	
 
@@ -57,3 +55,7 @@ func _on_acc_color_group_pressed(button: BaseButton):
 	var button_pressed = acc_color_buttons.get_pressed_button()
 	current_color_index = int(button_pressed.name) - 1
 	update_accessory()
+
+
+func _on_randomize_pressed() -> void:
+	pass # Replace with function body.

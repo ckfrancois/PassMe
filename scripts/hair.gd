@@ -21,8 +21,7 @@ var current_eyebrow_index = 0
 
 func _ready():
 	set_sprite_keys()
-	update_hair()
-	update_eyebrow()
+	_on_randomize_pressed()
 	eyebrow_buttons.pressed.connect(_on_eyebrow_group_pressed)
 	hair_buttons.pressed.connect(_on_hair_group_pressed)
 	color_buttons.pressed.connect(_on_color_group_pressed)
@@ -96,3 +95,11 @@ func _on_color_group_pressed(button: BaseButton):
 	var button_pressed = color_buttons.get_pressed_button()
 	current_color_index = int(button_pressed.name) - 1
 	update_hair()
+
+
+func _on_randomize_pressed() -> void:
+	current_hair_index = int(hair_keys.pick_random()) % hair_keys.size()
+	current_color_index = randi_range(0, Global.hair_colors.size() - 1)
+	current_eyebrow_index = int(eyebrow_keys.pick_random()) % eyebrow_keys.size()
+	update_hair()
+	update_eyebrow()

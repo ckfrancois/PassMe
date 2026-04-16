@@ -64,13 +64,7 @@ var current_shoe_color_index = 0
 
 func _ready():
 	set_sprite_keys()
-	update_body_sprite()
-	update_eye_sprite()
-	update_nose_sprite()
-	update_mouth_sprite()
-	update_outfit_sprite()
-	update_leg_sprite()
-	update_shoe_sprite()
+	_on_randomize_pressed()
 	eyes_buttons.pressed.connect(_on_eye_group_pressed)
 	nose_buttons.pressed.connect(_on_nose_group_pressed)
 	mouth_buttons.pressed.connect(_on_mouth_group_pressed)
@@ -297,4 +291,21 @@ func _on_shoe_group_pressed(button: BaseButton):
 func _on_shoe_color_group_pressed(button: BaseButton):
 	var button_pressed = shoe_color_buttons.get_pressed_button()
 	current_shoe_color_index = int(button_pressed.name) - 1
+	update_shoe_sprite()
+
+
+func _on_randomize_pressed() -> void:
+	current_body_index = randi_range(0, Global.body_colors.size() - 1)
+	current_outfit_index = int(outfit_keys.pick_random()) % outfit_keys.size()
+	current_leg_index = int(leg_keys.pick_random()) % leg_keys.size()
+	current_shoe_index = int(shoe_keys.pick_random()) % shoe_keys.size()
+	current_eye_index = int(eye_keys.pick_random()) % eye_keys.size()
+	current_mouth_index = int(mouth_keys.pick_random()) % mouth_keys.size()
+	current_nose_index = int(nose_keys.pick_random()) % nose_keys.size()
+	update_body_sprite()
+	update_eye_sprite()
+	update_nose_sprite()
+	update_mouth_sprite()
+	update_outfit_sprite()
+	update_leg_sprite()
 	update_shoe_sprite()
