@@ -1,5 +1,5 @@
-Node
 TextureButton
+Node
 GridContainer
 MarginContainer
 Label
@@ -12,4 +12,3 @@ Sprite2D
 CanvasLayer
 Node2D
 CollisionShape2D
-CharacterBody2D

@@ -3,3 +3,4 @@ res://Scripts/hair.gd
 res://scenes/Main.tscn
 res://scenes/player.tscn
 res://Scripts/global.gd
+res://Scripts/body.gd
