@@ -8,7 +8,13 @@ import { useFocusEffect } from "@react-navigation/native";
 import * as FileSystem from "expo-file-system/legacy";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useCallback, useState } from "react";
-import { Platform, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  Platform,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 // import { Ionicons } from "@expo/vector-icons"; // Uncomment if using icons
 
 const ACTION_JUMP = "ui_accept";
@@ -140,7 +146,7 @@ export default function GodotScreen() {
     if (flow === "creation") {
       router.push("/initialEdit");
     } else {
-      router.back()
+      router.back();
     }
   };
 
@@ -148,7 +154,6 @@ export default function GodotScreen() {
     <View style={styles.container}>
       <RTNGodotView style={styles.gameView} />
 
-      {/* Navigation "Next" Button from Version 2 */}
       <View style={styles.navContainer}>
         <TouchableOpacity style={styles.nextButton} onPress={handleNextPress}>
           <Text style={styles.buttonText}>Next</Text>
@@ -179,13 +184,18 @@ export default function GodotScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1 },
+  container: { flex: 1, backgroundColor: "#bf5224" },
   gameView: { flex: 1 },
   navContainer: {
     position: "absolute",
     top: 50,
     left: 20,
   },
+  gameWrapper: {
+    flex: 1,
+    position: "relative",
+  },
+
   nextButton: {
     minHeight: 52,
     borderRadius: 12,
@@ -204,10 +214,10 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "bold",
   },
-  topRightControls: { 
-    position: "absolute", 
-    top: 40, 
-    right: 30 
+  topRightControls: {
+    position: "absolute",
+    top: 40,
+    right: 30,
   },
   playPauseButton: {
     width: 60,
@@ -237,7 +247,5 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     backgroundColor: "#D06B00",
     borderColor: "#824200",
-  
   },
-  
 });

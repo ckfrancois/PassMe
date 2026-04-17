@@ -16,6 +16,6 @@
     "**/*.tsx",
     ".expo/types/**/*.ts",
     "expo-env.d.ts"
-, "app/(tabs)/godot.js"  ],
+, "app/(tabs)/godot.js", "components/nearby-user-provider.jsx", "components/ble-provider.jsx"  ],
   "extends": "expo/tsconfig.base"
 }

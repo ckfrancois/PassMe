@@ -25,7 +25,7 @@ export default function TabLayout() {
           ),
         }}
       />
-<Tabs.Screen
+      <Tabs.Screen
         name="godot"
         options={{
           title: "Godot",
