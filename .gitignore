@@ -31,7 +31,7 @@ yarn-error.*
 *.pem
 
 # local env files
-.env*.local
+**/.env
 
 # typescript
 *.tsbuildinfo
@@ -40,11 +40,15 @@ app-example
 
 # generated native folders
 /ios
+/ios_plugins
 /android
 env
-.env
 google-services.json
 GoogleService-Info.plist
+
+# Godot
+export_presets.cfg
+/.godot
 
 plugin/build/withPckFile.js
 plugin/build/withPckFile.d.ts
